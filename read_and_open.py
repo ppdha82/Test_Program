@@ -4,7 +4,8 @@ import sys
 
 filter_key="SUPPORT_MFZ"
 filter_result="MFZ_list"
-filter_inverse_key="SUPPORT_MFZ=0"
+filter_inverse_key_mfz0="\"SUPPORT_MFZ=0\""
+filter_inverse_key_bin="\"Binary file\""
 
 def init():
     # remove old result file
@@ -18,9 +19,20 @@ def init():
     return os.system(ls_result)
 
 def make():
-    filter_command="grep -nr " + filter_key + " * | grep -v " + filter_inverse_key + " | cut -d \":\" -f1 > " + filter_result
+    inv_key_command=" grep -v " + filter_inverse_key_mfz0
+    inv_key_command+=" | grep -v " + filter_inverse_key_bin
+    filter_command="grep -nr " + filter_key + " * | " + inv_key_command + " | cut -d \":\" -f1 > " + filter_result
     print(filter_command)
     os.system(filter_command)
+    remove_duplicated()
+   
+def remove_duplicated():
+    lines = open(filter_result, 'r').readlines()
+    lines_set = set(lines)
+    out  = open(filter_result, 'w')
+    for line in lines_set:
+        out.write(line)
+ 
 
 def run():
     f = open (filter_result, 'r')
