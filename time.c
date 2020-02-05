@@ -31,6 +31,7 @@ int main (void)
 	t = now.tv_sec;
 	localtime_r (&t, &tm);
 
-	printf ("[%s:%d] time = %2d:%2d:%2d\n", __FILE__, __LINE__, tm.tm_hour, tm.tm_min, tm.tm_sec);
+	printf ("[%s:%d] year %04d month %02d day %02d time %02d:%02d:%02d.%03d\n", __FILE__, __LINE__,
+	tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, now.tv_usec / 1000);
 	return 0;
 }
