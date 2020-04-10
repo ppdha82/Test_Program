@@ -18,18 +18,33 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int main (void)
 {
-	char input[20] = "192.168.0.148";
+	//char input[24] = "192.168.0.148";
+	char input[24] = "192.168.0.148.50200";
+	char buf[24];
 	char* tmp_addr;
 	int dot_cnt = 0;
+	char ipAddr[16];
+	memset(buf, 0, sizeof(buf));
+	memset(ipAddr, 0, sizeof(ipAddr));
 
+	memcpy(buf, input, sizeof(input));
+	printf("[%s:%d] input = %s(%p)\n", __FILE__, __LINE__, input, input);
 	tmp_addr = strtok (input, ".");
+	printf("[%s:%d] input = %s(%p)\n", __FILE__, __LINE__, input, input);
+
 	while (tmp_addr != NULL) {
-		dot_cnt++;
-		printf ("[%s:%d] (%d) tmp_addr = %s\n", __FILE__, __LINE__, dot_cnt, tmp_addr);
+		printf("[%s:%d] (%d) tmp_addr = %s(%p)\n", __FILE__, __LINE__, dot_cnt, tmp_addr, tmp_addr);
 		tmp_addr = strtok (NULL, ".");
+		if(dot_cnt == 3) {
+			memcpy(ipAddr, buf, tmp_addr - input - 1);
+			printf("[%s:%d] ipAddr = %s\n", __FILE__, __LINE__, ipAddr);
+			printf("[%s:%d] port = %d\n", __FILE__, __LINE__, atoi(tmp_addr));
+		}
+		dot_cnt++;
 	}
 	return 0;
 }

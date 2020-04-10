@@ -2,6 +2,7 @@
 import os
 import sys
 
+this_file="read_and_open.py"
 filter_key="SUPPORT_MFZ"
 filter_result="MFZ_list"
 filter_inverse_key_mfz0="\"SUPPORT_MFZ=0\""
@@ -18,6 +19,13 @@ def init():
     ls_result=ls_command + filter_result
     return os.system(ls_result)
 
+def remove_duplicated():
+    lines = open(filter_result, 'r').readlines()
+    lines_set = set(lines)
+    out  = open(filter_result, 'w')
+    for line in lines_set:
+        out.write(line)
+
 def make():
     inv_key_command=" grep -v " + filter_inverse_key_mfz0
     inv_key_command+=" | grep -v " + filter_inverse_key_bin
@@ -25,14 +33,6 @@ def make():
     print(filter_command)
     os.system(filter_command)
     remove_duplicated()
-   
-def remove_duplicated():
-    lines = open(filter_result, 'r').readlines()
-    lines_set = set(lines)
-    out  = open(filter_result, 'w')
-    for line in lines_set:
-        out.write(line)
- 
 
 def run():
     f = open (filter_result, 'r')

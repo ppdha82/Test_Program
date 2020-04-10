@@ -31,8 +31,11 @@ int main (int argc, char* argv[]) {
 	
 	printf("[%s:%d] file name = %s\n", __FILE__, __LINE__, argv[1]);
 	//pFile = fopen ( "myfile.bin" , "rb" );
-	pFile = fopen ( argv[1] , "rb" );
-	if (pFile==NULL) {fputs ("File error\n",stderr); exit (1);}
+	pFile = fopen (argv[1] , "rt");
+	if (pFile == NULL) {
+		fputs ("File error\n",stderr);
+		exit (1);
+	}
 
 	// obtain file size:
 	fseek (pFile , 0 , SEEK_END);
@@ -41,13 +44,20 @@ int main (int argc, char* argv[]) {
 
 	// allocate memory to contain the whole file:
 	buffer = (char*) malloc (sizeof(char)*lSize);
-	if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+	if (buffer == NULL) {
+		fputs ("Memory error",stderr);
+		exit (2);
+	}
 
 	// copy the file into the buffer:
-	result = fread (buffer,1,lSize,pFile);
-	if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
+	result = fread (buffer, 1, lSize,pFile);
+	if (result != lSize) {
+		fputs ("Reading error",stderr);
+		exit (3);
+	}
 
 	/* the whole file is now loaded in the memory buffer. */
+	printf ("[%s:%d] buffer = \n%s\n", __FILE__, __LINE__, buffer);
 
 	// terminate
 	fclose (pFile);
