@@ -20,8 +20,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main (void)
+int print_help(int argc, char** argv)
 {
+	if(argc < 3) {
+		printf("[%s:%d] too few argument\n", __FILE__, __LINE__);
+	}
+	else {
+		printf("[%s:%d] too many argument\n", __FILE__, __LINE__);
+	}
+	printf("[%s:%d] %s [ORIGINAL_STRING] [TOKEN_STRING]\n", __FILE__, __LINE__, argv[0]);
+	return 0;
+}
+
+int main (int argc, char** argv)
+{
+	if(argc != 3) {
+		return print_help(argc, argv);
+	}
+
+#if 1
+	char buf[1024];
+	int tokenCount = 0;
+	char* tmp_pos = buf;
+
+	memset(buf, 0, sizeof(buf));
+	memcpy(buf, argv[1], sizeof(buf));
+	printf("[%s:%d] buf = %s\n", __FILE__, __LINE__, buf);
+	tmp_pos = strtok(tmp_pos, argv[2]);
+	while(tmp_pos != NULL) {
+		printf("[%s:%d] (%d) tmp_pos = %s(%p)\n", __FILE__, __LINE__, tokenCount, tmp_pos, tmp_pos);
+		tmp_pos = strtok(NULL, argv[2]);
+		tokenCount++;
+	}
+	printf("[%s:%d] (%d) tmp_pos = %s; buf = %s\n", __FILE__, __LINE__, tokenCount, tmp_pos, buf);
+#else
 	//char input[24] = "192.168.0.148";
 	char input[24] = "192.168.0.148.50200";
 	char buf[24];
@@ -46,5 +78,6 @@ int main (void)
 		}
 		dot_cnt++;
 	}
+#endif
 	return 0;
 }
