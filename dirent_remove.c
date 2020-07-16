@@ -26,13 +26,23 @@
 
 enum { ARGC_MIN = 2, ARGC_MAX = 2, };
 
+typedef enum {
+	TVMC_GET_LOGS_SYSTEM,
+	TVMC_GET_LOGS_ACCESS,
+	TVMC_GET_LOGS_EVENT,
+	TVMC_GET_LOGS_MAX,
+} TVMC_LOG_TYPE_E;
+
+const char* tvmc_log_category[TVMC_GET_LOGS_MAX] = { "system", "access", "event" };
+
 void PRINT_DBG(char* file, int line, char* fmt, ...)
 {
+	printf("\033[32m[%s:%d]", file, line);
 	va_list arg;
 	va_start(arg, fmt);
 	vprintf(fmt, arg);
 	va_end(arg);
-	//printf("\033[30m[%s:%d] %s\033[0m\n", file, line, fmt);
+	printf("\033[0m\n");
 }
 
 void print_help(int argc)
@@ -169,6 +179,94 @@ find_file_out:
 	return invalid_file_count;
 }
 
+int check_tview_log_filename_rule(char *fname, const char *ext_target)
+{
+	int ret = -1;
+	if(fname == NULL || ext_target == NULL) {
+		if(fname == NULL) {
+			PRINT_DBG(__FILE__, __LINE__,"fname is NULL\n");
+		}
+		if(ext_target == NULL) {
+			PRINT_DBG(__FILE__, __LINE__,"ext_target is NULL\n");
+		}
+		goto check_log_rule_out;
+	}
+
+	// start time & end time
+	char *ptr_1st = strchr(fname, '_');
+	if(ptr_1st == NULL) {
+		PRINT_DBG(__FILE__, __LINE__,"This file is not matched with file name rule\n");
+		goto check_log_rule_out;
+	}
+
+	const int TIME_SIZE_RULE = 12;
+	int fname_size = ptr_1st - fname;
+	if(fname_size != TIME_SIZE_RULE) {
+		PRINT_DBG(__FILE__, __LINE__,"This file is not matched with file name rule(length = %d)\n", fname_size);
+		goto check_log_rule_out;
+	}
+
+	char *ptr_2nd = strchr(ptr_1st + 1, '.');
+	PRINT_DBG(__FILE__, __LINE__, "ptr_1st + 1 = %s; ptr_2nd = %s\n", ptr_1st + 1, ptr_2nd);
+	int i = 0;
+	for(i = TVMC_GET_LOGS_SYSTEM;i < TVMC_GET_LOGS_MAX;i++) {
+		if(strstr(ptr_1st + 1, tvmc_log_category[i]) != 0) {
+			PRINT_DBG(__FILE__, __LINE__, "ptr_1st + 1 = %s; category[%d] = %s\n", ptr_1st + 1, i, tvmc_log_category[i]);
+			break;
+		}
+	}
+	
+	PRINT_DBG(__FILE__, __LINE__,"i = %d\n", i);
+
+	if(i == TVMC_GET_LOGS_MAX) {
+		PRINT_DBG(__FILE__, __LINE__,"This file is not matched with naming rule\n");
+		goto check_log_rule_out;
+	}
+
+	// log file
+	if(strstr(ptr_2nd, ext_target) == NULL) {
+		PRINT_DBG(__FILE__, __LINE__,"%s is not \"%s\" file\n", ptr_2nd, ext_target);
+	}
+	ret = 0;
+
+check_log_rule_out:
+	return ret;
+}
+
+int find_tview_log_file_in_dir(const char *path, const char *target, char *filename, int size)
+{
+	struct dirent *entry;
+	int file_count = 0;
+	int invalid_file_count = 0;
+	int ret = -1;
+	DIR *dir = opendir(path);
+
+	if (dir == NULL) {
+		PRINT_DBG(__FILE__, __LINE__,"dir is NULL\n");
+		return 0;
+	}
+
+	while((entry = readdir(dir)) != NULL) {
+		char *fname = entry->d_name;
+		if(0 != check_valid_filename(fname)) {
+			continue;
+		}
+		ret = check_tview_log_filename_rule(fname, target);
+		if(ret < 0) {
+			PRINT_DBG(__FILE__, __LINE__,"invalid_file(\"%s\") = %s\n", target, fname);
+			invalid_file_count++;
+			continue;
+		}
+
+		file_count++;
+		printf("%s\n", entry->d_name);
+	}
+	PRINT_DBG(__FILE__, __LINE__,"invalid_file_count(\"%s\") = %d\n", target, invalid_file_count);
+
+find_file_out:
+	closedir(dir);
+	return file_count;
+}
 
 int getargs(int argc, char **argv)
 {
@@ -225,7 +323,7 @@ int getargs(int argc, char **argv)
                     optarg[i] = '*';
                 }
                 if (g.opt.password == NULL) {
-                    fatal(ERROR_USAGE, "Error: failed to get password");
+                    fatal(PRINT_DBGOR_USAGE, "Error: failed to get password");
                 }
                 break;
             case 'P':
@@ -260,24 +358,24 @@ int getargs(int argc, char **argv)
     argv += optind;
 
     if (0 == argc) {
-        fatal(ERROR_USAGE, "Error: no command specified");
+        fatal(PRINT_DBGOR_USAGE, "Error: no command specified");
     }
     g.opt.command = argv;
 
     if (0 == strlen(g.opt.passwd_prompt) ) {
-        fatal(ERROR_USAGE, "Error: empty prompt");
+        fatal(PRINT_DBGOR_USAGE, "Error: empty prompt");
     }
     /* Password: */
     reflag = 0;
     reflag |= g.opt.ignore_case ? REG_ICASE : 0;
     r = regcomp(&g.opt.re_prompt, g.opt.passwd_prompt, reflag);
     if (r != 0) {
-        fatal(ERROR_USAGE, "Error: invalid RE for password prompt");
+        fatal(PRINT_DBGOR_USAGE, "Error: invalid RE for password prompt");
     }
     /* (yes/no)? */
     r = regcomp(&g.opt.re_yesno, g.opt.yesno_prompt, reflag);
     if (r != 0) {
-        fatal(ERROR_USAGE, "Error: invalid RE for yes/no prompt");
+        fatal(PRINT_DBGOR_USAGE, "Error: invalid RE for yes/no prompt");
     }
 #endif
 	return 0;
@@ -291,11 +389,19 @@ int main(int argc, char** argv)
 		return -1;
 	}
 	printf("[%s:%d] directory = %s\n", __FILE__, __LINE__, argv[1]);
-	int file_count =  0;
+	int fileCount =  0;
+#if 0
 	if(argc == ARGC_MIN) {
 		int invalid_file_count = clean_invalid_mp4_file(argv[1]);
 		PRINT_DBG(__FILE__, __LINE__, "invalid_file_count = %d\n", invalid_file_count);
 	}
+#else
+	const char* PATH_LOG = "/mnt/sda1/log";
+	const char* LOG_EXT = ".log";
+
+	fileCount = find_tview_log_file_in_dir(PATH_LOG, LOG_EXT, NULL, 0);
+	PRINT_DBG(__FILE__, __LINE__, "fileCount = %d\n", fileCount);
+#endif
 
 	return 0;
 }
