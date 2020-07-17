@@ -11,24 +11,32 @@ print(load_ws.cell(1, 2).value)
 '''
 import openpyxl
 
+def gen_file():
+    row = 1
+    column = 1
+    key = 0
+    while key is not None:
+        key = sheet.cell(row, column).value
+        if key == "MODEL":
+            sValue = sheet.cell(row, column + 1).value
+            return open(sValue, 'w')
+        row += 1
+
 filename = "./FOCUS_DEFINE_MODEL.xlsx"
 book = openpyxl.load_workbook(filename)
 sheet = book['Sheet1']
 
-key = "x"
+sKey = " "
 section = 1
 index = 1
 
-print("type(key) = ", type(key))
+ini_file = gen_file()
 
-if len(key) != 0:
-    print("key has space")
-else:
-    print("key is null")
-
-while key is not None:
-    key = sheet.cell(section, index).value;
-    value = sheet.cell(section, index+1).value;
-    print("sheet.cell([row = ", section, ").value = ", key, ":", value)
+while sKey is not None:
+    sKey = sheet.cell(section, index).value
+    value = sheet.cell(section, index+1).value
+    if sKey is not None and ini_file.writable() :
+        data = str(sKey) + '=' + str(value) + '\n'
+        ini_file.write(data)
+    print("sheet.cell([row = ", section, ").value = ", sKey, ":", value)
     section += 1
-
