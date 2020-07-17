@@ -11,14 +11,13 @@ print(load_ws.cell(1, 2).value)
 '''
 import openpyxl
 
-def gen_file():
+def gen_file(column):
     row = 1
-    column = 1
     key = 0
     while key is not None:
         key = sheet.cell(row, column).value
         if key == "MODEL":
-            sValue = sheet.cell(row, column + 1).value
+            sValue = sheet.cell(row, column).value
             return open(sValue, 'w')
         row += 1
 
@@ -30,7 +29,7 @@ sKey = " "
 section = 1
 index = 1
 
-ini_file = gen_file()
+ini_file = gen_file(index + 1)
 
 while sKey is not None:
     sKey = sheet.cell(section, index).value
