@@ -10,11 +10,11 @@ print(load_ws['A1'].value)
 print(load_ws.cell(1, 2).value)
 '''
 import openpyxl
+import csv
 import os
 
 OEM_PATH = "./define/model_spec/"
 OEM_WHOLE_PATH_NAME = ""
-
 
 def getOemName(row):
 	column = 1
@@ -62,9 +62,18 @@ def gen_file(row):
 	return None
 
 
-filename = "./FOCUS_DEFINE_MODEL.xlsx"
-book = openpyxl.load_workbook(filename)
+xlsxFilename = "./FOCUS_DEFINE_MODEL.xlsx"
+csvFilename = "./FOCUS_DEFINE_MODEL.csv"
+
+book = openpyxl.load_workbook(xlsxFilename)
 sheet = book['Sheet2']
+workfile = open(csvFilename, 'r', encoding='utf-8')
+rdCsv = csv.reader(workfile)
+
+for line in rdCsv:
+	print("line = ", line)
+
+workfile.close()
 
 sKey = " "
 section = 1
