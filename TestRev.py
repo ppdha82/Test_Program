@@ -31,6 +31,12 @@ def get_list_in_dir():
 	print("cur_pwd_list = ", cur_pwd_list, "; type = ", type(cur_pwd_list))
 	return cur_pwd_list
 
+def get_list_in_target_dir(path, target):
+	''' find dir and file in sub_dir '''
+	cur_pwd_list = os.listdir(path + "/" + target)
+	print("cur_pwd_list = ", cur_pwd_list, "; type = ", type(cur_pwd_list))
+	return cur_pwd_list
+
 def seperate_file_dir(cur_pwd_list):
 	global dir_list
 	global cur_pwd
@@ -69,6 +75,13 @@ def run():
 	data = sub_dir_list.pop(0)
 	while len(sub_dir_list) > 0:
 		print("data[", index, "] = ", data)
+		ini_file_list = get_list_in_target_dir(dir_list, data)
+		print("[check] ini_file_list = ", ini_file_list)
+		if len(ini_file_list) > 0:
+			ini_index = 0
+			for ini_data in ini_file_list:
+				print("[value] ini_file_list[", ini_index, "] = ", ini_data)
+				ini_index += 1
 		data = sub_dir_list.pop(0)
 		index += 1
 
