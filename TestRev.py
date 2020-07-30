@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
 import os
+# ini 파일 read 하기 위해 ConfigParser 를 사용하려 했으나,
+# model ini 파일에 section 구분을 하지 않아 read 안되고 section 없는 ini 파일을
+# 지원하지 않는 것을 확인함
+import csv
 
 cur_pwd = ""
 dir_list = []
@@ -62,6 +66,10 @@ def run():
 		print("Exit Program")
 		return False
 
+	csvFilename = "./FOCUS_DEFINE_MODEL_TEST.csv"
+	workfile = open(csvFilename, 'w', encoding='utf-8')
+	workfile.close()
+
 	print("list = ", dir_list)
 	sub_dir_list = os.listdir(dir_list)
 
@@ -76,11 +84,23 @@ def run():
 	while len(sub_dir_list) > 0:
 		print("data[", index, "] = ", data)
 		ini_file_list = get_list_in_target_dir(dir_list, data)
+		path = dir_list + "/" + data
+		print("[check] path = ", path)
 		print("[check] ini_file_list = ", ini_file_list)
 		if len(ini_file_list) > 0:
-			ini_index = 0
+			ini_index = 1
 			for ini_data in ini_file_list:
-				print("[value] ini_file_list[", ini_index, "] = ", ini_data)
+				print("[value] ini_file_list[" + str(ini_index) + "] = " + ini_data)
+				sub_path_file = path + "/" + ini_data
+				print("sub_path_file =", sub_path_file)
+				read_file = open(sub_path_file, 'r')
+				print("read_file  >>>>>>")
+				print(read_file.read())
+				csvFilename = "../FOCUS_DEFINE_MODEL_TEST.csv"
+				workfile = open(csvFilename, 'w', encoding='utf-8')
+				wr_csv = csv.writer(workfile)
+				wr_csv.writerow([ini_index, read_file.read()])
+				workfile.close()
 				ini_index += 1
 		data = sub_dir_list.pop(0)
 		index += 1
