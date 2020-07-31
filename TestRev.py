@@ -88,28 +88,35 @@ def run():
 	index = 1
 	data = sub_dir_list.pop(0)
 	csv_index = 1
+	wr_csv = csv.writer(workfile)
+
 	while len(sub_dir_list) > 0:
 		print("data[", index, "] = ", data)
 		ini_file_list = get_list_in_target_dir(dir_list, data)
 		path = dir_list + "/" + data
+		wr_csv.writerow(["OEM", data])
 		print("[check] path = ", path)
 		print("[check] ini_file_list = ", ini_file_list)
 		if len(ini_file_list) > 0:
 			ini_index = 1
 			for ini_data in ini_file_list:
 				print("[value] ini_file_list[" + str(ini_index) + "] = " + ini_data)
+				wr_csv.writerow(["MODEL", ini_data])
 				sub_path_file = path + "/" + ini_data
 				print("sub_path_file =", sub_path_file)
 				read_file = open(sub_path_file, 'r')
-				print("current directory = " + os.getcwd())
 				print("read_file  >>>>>>")
-				read_all_line = read_file.read()
+				read_all_line = read_file.read().splitlines()
 				print(read_all_line)
-				read_file.seek(0)
-				for read_line in read_file.readlines():
+
+				for read_line in read_all_line:
 					print("read_line >>>>> " + read_line)
-					wr_csv = csv.writer(workfile)
-					wr_csv.writerow([read_line])
+					if len(read_line) <= 0:
+						break
+					slices_line = read_line.split('=')
+					slice_key = slices_line[0]
+					slice_value = slices_line[1]
+					wr_csv.writerow([slice_key, slice_value])
 					csv_index += 1
 				ini_index += 1
 		data = sub_dir_list.pop(0)
