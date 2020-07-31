@@ -12,7 +12,9 @@ sub_dir_list = []
 
 def move_to_base_dir():
 	''' change current dir to "define" '''
-	print(os.getcwd())
+	global cur_pwd
+	cur_pwd = os.getcwd()
+	print(cur_pwd)
 	os.chdir("./define")
 	print("current dir = ", os.getcwd())
 
@@ -56,7 +58,11 @@ def seperate_file_dir(cur_pwd_list):
 
 def run():
 	global sub_dir_list
+
+	csvFilename = "FOCUS_DEFINE_MODEL_TEST.csv"
+	workfile = open(os.getcwd() + "/" + csvFilename, 'w', encoding='utf-8', newline='')
 	move_to_base_dir()
+
 	sub_dir_list = get_list_in_dir()
 	print("sub_dir_list = ", sub_dir_list)
 	seperate_file_dir(sub_dir_list)
@@ -66,9 +72,9 @@ def run():
 		print("Exit Program")
 		return False
 
-	csvFilename = "./FOCUS_DEFINE_MODEL_TEST.csv"
-	workfile = open(csvFilename, 'w', encoding='utf-8')
-	workfile.close()
+#	csvFilename = "./FOCUS_DEFINE_MODEL_TEST.csv"
+#	workfile = open(csvFilename, 'w', encoding='utf-8')
+#	workfile.close()
 
 	print("list = ", dir_list)
 	sub_dir_list = os.listdir(dir_list)
@@ -81,6 +87,7 @@ def run():
 
 	index = 1
 	data = sub_dir_list.pop(0)
+	csv_index = 1
 	while len(sub_dir_list) > 0:
 		print("data[", index, "] = ", data)
 		ini_file_list = get_list_in_target_dir(dir_list, data)
@@ -94,15 +101,20 @@ def run():
 				sub_path_file = path + "/" + ini_data
 				print("sub_path_file =", sub_path_file)
 				read_file = open(sub_path_file, 'r')
+				print("current directory = " + os.getcwd())
 				print("read_file  >>>>>>")
-				print(read_file.read())
-				csvFilename = "../FOCUS_DEFINE_MODEL_TEST.csv"
-				workfile = open(csvFilename, 'w', encoding='utf-8')
-				wr_csv = csv.writer(workfile)
-				wr_csv.writerow([ini_index, read_file.read()])
-				workfile.close()
+				read_all_line = read_file.read()
+				print(read_all_line)
+				read_file.seek(0)
+				for read_line in read_file.readlines():
+					print("read_line >>>>> " + read_line)
+					wr_csv = csv.writer(workfile)
+					wr_csv.writerow([read_line])
+					csv_index += 1
 				ini_index += 1
 		data = sub_dir_list.pop(0)
 		index += 1
+
+	workfile.close()
 
 run()
