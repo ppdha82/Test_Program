@@ -14,33 +14,33 @@ def move_to_base_dir():
 	''' change current dir to "define" '''
 	global cur_pwd
 	cur_pwd = os.getcwd()
-	print(cur_pwd)
+	#print(cur_pwd)
 	os.chdir("./define")
-	print("current dir = ", os.getcwd())
+	#print("current dir = ", os.getcwd())
 
 def move_to_dir(target):
 	pwd = print(os.getcwd())
-	print("pwd+target = ", pwd + target)
+	#print("pwd+target = ", pwd + target)
 	os.chdir(pwd + target)
-	print(os.getcwd())
+	#print(os.getcwd())
 
 def move_to_main_dir():
-	print(os.getcwd())
+	#print(os.getcwd())
 	os.chdir("..")
-	print("current dir = ", os.getcwd())
+	#print("current dir = ", os.getcwd())
 
 def get_list_in_dir():
 	''' find dir and file in sub_dir '''
 	global cur_pwd
 	cur_pwd = os.getcwd()
 	cur_pwd_list = os.listdir(cur_pwd)
-	print("cur_pwd_list = ", cur_pwd_list, "; type = ", type(cur_pwd_list))
+	#print("cur_pwd_list = ", cur_pwd_list, "; type = ", type(cur_pwd_list))
 	return cur_pwd_list
 
 def get_list_in_target_dir(path, target):
 	''' find dir and file in sub_dir '''
 	cur_pwd_list = os.listdir(path + "/" + target)
-	print("cur_pwd_list = ", cur_pwd_list, "; type = ", type(cur_pwd_list))
+	#print("cur_pwd_list = ", cur_pwd_list, "; type = ", type(cur_pwd_list))
 	return cur_pwd_list
 
 def seperate_file_dir(cur_pwd_list):
@@ -54,7 +54,7 @@ def seperate_file_dir(cur_pwd_list):
 			dir_list = cur_pwd + "/" + x
 		else:
 			result = "unknown"
-		print(x, " is ", result)
+		#print(x, " is ", result)
 
 def run():
 	global sub_dir_list
@@ -64,7 +64,7 @@ def run():
 	move_to_base_dir()
 
 	sub_dir_list = get_list_in_dir()
-	print("sub_dir_list = ", sub_dir_list)
+	#print("sub_dir_list = ", sub_dir_list)
 	seperate_file_dir(sub_dir_list)
 
 	''' deal with file '''
@@ -76,30 +76,45 @@ def run():
 #	workfile = open(csvFilename, 'w', encoding='utf-8')
 #	workfile.close()
 
-	print("list = ", dir_list)
+	#print("list = ", dir_list)
 	sub_dir_list = os.listdir(dir_list)
 
-	print("sub_dir_list =", sub_dir_list)
+	'''print("sub_dir_list =", sub_dir_list)
 	index = 1
 	for a in sub_dir_list:
 		print("sub_dir_list[", index, "] = ", a)
-		index += 1
+		index += 1'''
 
+	dev_index = 0
 	index = 1
 	data = sub_dir_list.pop(0)
 	csv_index = 1
 	wr_csv = csv.writer(workfile)
 
+	header_list = ["OEM", "MODEL"]
+	value_list = [[""], [""],]
 	while len(sub_dir_list) > 0:
-		print("data[", index, "] = ", data)
+		print("data[" + str(index) + "] = ", data)
 		ini_file_list = get_list_in_target_dir(dir_list, data)
 		path = dir_list + "/" + data
-		wr_csv.writerow(["OEM", data])
+		#wr_csv.writerow(["OEM", data])
+
 		print("[check] path = ", path)
 		print("[check] ini_file_list = ", ini_file_list)
 		if len(ini_file_list) > 0:
 			ini_index = 1
 			for ini_data in ini_file_list:
+				found_value_index = 0
+				for header in header_list:
+					if "OEM" == header:
+						print("header (" + header + ") is found(key = OEM, (" + str(dev_index) + ", " + str(found_value_index) + "))")
+						if len(value_list) <= dev_index:
+							print("add list to value_list")
+							value_list.append([""])
+						value_list[dev_index][found_value_index] = data
+						break
+					found_value_index += 1
+
 				print("[value] ini_file_list[" + str(ini_index) + "] = " + ini_data)
 				wr_csv.writerow(["MODEL", ini_data])
 				sub_path_file = path + "/" + ini_data
@@ -116,12 +131,25 @@ def run():
 					slices_line = read_line.split('=')
 					slice_key = slices_line[0]
 					slice_value = slices_line[1]
-					wr_csv.writerow([slice_key, slice_value])
+					if not slice_key in header_list:
+						print("add " + slice_key + " in header_list")
+						header_list += [slice_key]
+					found_index = 0
+					for header in header_list:
+						if slice_key == header:
+							print("header (" + header + ") is found(slice_key = " + slice_key + ", " + str(found_index) + ")")
+							break
+						found_index += 1
+					#wr_csv.writerow([slice_key, slice_value])
 					csv_index += 1
 				ini_index += 1
+				dev_index += 1
 		data = sub_dir_list.pop(0)
 		index += 1
+		wr_csv.writerow(header_list)
 
 	workfile.close()
+	print("header_list = ", header_list)
+	print("value_list = ", value_list)
 
 run()
