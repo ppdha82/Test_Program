@@ -78,26 +78,26 @@ def run():
 
 	#print("list = ", dir_list)
 	sub_dir_list = os.listdir(dir_list)
-
-	'''print("sub_dir_list =", sub_dir_list)
+	'''
+	print("sub_dir_list =", sub_dir_list)
 	index = 1
 	for a in sub_dir_list:
 		print("sub_dir_list[", index, "] = ", a)
-		index += 1'''
-
+		index += 1
+	'''
 	dev_index = 0
 	index = 1
 	data = sub_dir_list.pop(0)
 	csv_index = 1
 	wr_csv = csv.writer(workfile)
 
+	# initialize key about OEM & MODEL
 	header_list = ["OEM", "MODEL"]
 	value_list = [[""], [""],]
 	while len(sub_dir_list) > 0:
 		print("data[" + str(index) + "] = ", data)
 		ini_file_list = get_list_in_target_dir(dir_list, data)
 		path = dir_list + "/" + data
-		#wr_csv.writerow(["OEM", data])
 
 		print("[check] path = ", path)
 		print("[check] ini_file_list = ", ini_file_list)
@@ -108,15 +108,28 @@ def run():
 				for header in header_list:
 					if "OEM" == header:
 						print("header (" + header + ") is found(key = OEM, (" + str(dev_index) + ", " + str(found_value_index) + "))")
+						print("len(value_list) = " + str(len(value_list)) + "; found_value_index = " + str(found_value_index))
 						if len(value_list) <= dev_index:
-							print("add list to value_list")
+							print("add list to value_list [OEM]")
 							value_list.append([""])
+						# add OEM value
 						value_list[dev_index][found_value_index] = data
 						break
 					found_value_index += 1
 
+				found_value_index = 0
+				for header in header_list:
+					if "MODEL" == header:
+						print("header (" + header + ") is found(key = MODEL, (" + str(dev_index) + ", " + str(found_value_index) + "))")
+						print("len(value_list) = " + str(len(value_list)) + "; found_value_index = " + str(found_value_index))
+						if len(value_list[dev_index]) <= found_value_index:
+							print("add list to value_list [MODEL]")
+							value_list[dev_index].append("")
+						# add MODEL value
+						value_list[dev_index][found_value_index] = ini_data
+						break
+					found_value_index += 1
 				print("[value] ini_file_list[" + str(ini_index) + "] = " + ini_data)
-				wr_csv.writerow(["MODEL", ini_data])
 				sub_path_file = path + "/" + ini_data
 				print("sub_path_file =", sub_path_file)
 				read_file = open(sub_path_file, 'r')
@@ -133,21 +146,30 @@ def run():
 					slice_value = slices_line[1]
 					if not slice_key in header_list:
 						print("add " + slice_key + " in header_list")
-						header_list += [slice_key]
+						header_list.append(slice_key)
 					found_index = 0
 					for header in header_list:
 						if slice_key == header:
+							while len(value_list[dev_index]) <= found_index:
+								value_list[dev_index].append("")
+							print("header_list = " + str(header_list))
 							print("header (" + header + ") is found(slice_key = " + slice_key + ", " + str(found_index) + ")")
+							print("len(value_list[" + str(dev_index) + "]) = " + str(len(value_list[dev_index])) + "; dev_index = " + str(dev_index), "found_index = " + str(found_index))
+							value_list[dev_index][found_index] = slice_value
+							print("value_list[" + str(dev_index) + "] = " + str(value_list[dev_index]))
 							break
 						found_index += 1
-					#wr_csv.writerow([slice_key, slice_value])
 					csv_index += 1
 				ini_index += 1
 				dev_index += 1
 		data = sub_dir_list.pop(0)
 		index += 1
-		wr_csv.writerow(header_list)
 
+	wr_csv.writerow(header_list)
+	print_index = 0
+	while len(value_list) > print_index:
+		wr_csv.writerow(value_list[print_index])
+		print_index += 1
 	workfile.close()
 	print("header_list = ", header_list)
 	print("value_list = ", value_list)
