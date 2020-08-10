@@ -9,6 +9,7 @@ import csv
 cur_pwd = ""
 dir_list = []
 sub_dir_list = []
+max_column = 0
 
 def move_to_base_dir():
 	''' change current dir to "define" '''
@@ -150,16 +151,29 @@ def run():
 					found_index = 0
 					for header in header_list:
 						if slice_key == header:
+							global max_column
 							while len(value_list[dev_index]) <= found_index:
-								value_list[dev_index].append("")
-							print("header_list = " + str(header_list))
-							print("header (" + header + ") is found(slice_key = " + slice_key + ", " + str(found_index) + ")")
+								# add to all list
+								value_list[dev_index].append("0")
+								apply_index = 0
+								while apply_index < dev_index:
+									while len(value_list[apply_index]) <= found_index:
+										value_list[apply_index].append("0")
+										if max_column <= found_index:
+											print("max_column = " + str(max_column) + "; found_index = " + str(found_index))
+											max_column = found_index
+									apply_index += 1
+							#print("header_list = " + str(header_list))
+							print("header (" + header + ") is found(slice_key = " + slice_key + ", " + str(found_index) + "/" + str(max_column) + ")")
 							print("len(value_list[" + str(dev_index) + "]) = " + str(len(value_list[dev_index])) + "; dev_index = " + str(dev_index), "found_index = " + str(found_index))
 							value_list[dev_index][found_index] = slice_value
 							print("value_list[" + str(dev_index) + "] = " + str(value_list[dev_index]))
 							break
 						found_index += 1
 					csv_index += 1
+				while len(value_list[dev_index]) <= max_column:
+					print("len(value_list[" + str(dev_index) + "] = " + str(len(value_list[dev_index])))
+					value_list[dev_index].append("0")
 				ini_index += 1
 				dev_index += 1
 		data = sub_dir_list.pop(0)
