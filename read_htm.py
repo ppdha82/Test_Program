@@ -9,25 +9,38 @@ testFilename = "test.txt"
 REMOVAL_WORD = [ "_PRC", "_FRE", "_GER", "_KOR", "_JPN", "_CHI", "_ENG"]
 ENCODING = [ "BIG5-HKSCS", "ISO-8859-1", "ISO-8859-2", "EUC-KR", "EUC-JP", "EUC-CN", "UTF-8" ]
 
+# Excel 파일 생성
 book = openpyxl.Workbook()
 sheet = book.active
 sheet.title = 'Sheet1'
+
+# Value 입력을 위한 column/row
 column = 'A'
-keyColumn = 'A'
 row = '2'
+
+# debugging 용 파일 생성 빈칸 없이 html 파일을 txt 로 쓰기
 testFile = open(testFilename, "w")
 
+# htm 파일 테스트용 임시경로
 cur_pwd = os.getcwd() + "/temp"
 cur_pwd_list = os.listdir(cur_pwd)
 print("cur_pwd_list = " + str(cur_pwd_list))
 dir = cur_pwd
+
+# postfix 삭제용 "_FRE"...
 removalWord = ""
+
+# key string 버퍼
+# Excel 에 쓰기 전에 버퍼에 저장하면서 중복 및 특정 언어에만 있는 key 탐색
 keyArray = []
 
+# htm 파일 전체 탐색 loop
 for htmFile in cur_pwd_list:
 	next_column = chr(ord(column) + 1)
 	print("htmFile = " + htmFile)
 	charset = ""
+
+	# htm 파일의 해당 국가의 설정(charset) 검색
 	with open(dir + "/" + htmFile, "rb") as input:
 		for data in input.readlines():
 			if "charset" in repr(data) and not "RES_COMMON_CHARSET" in repr(data):
@@ -48,6 +61,7 @@ for htmFile in cur_pwd_list:
 				print("charset = " + charset)
 				break
 
+	# postfix 삭제를 위해 charset를 Excel 에 쓰기
 	idx = 0
 	for key in ENCODING:
 		if key == charset:
@@ -65,6 +79,7 @@ for htmFile in cur_pwd_list:
 				#print("foundIndex = " + str(foundIndex) + "; key = " + key)
 				break
 
+	# Excel 에 key/value 쓰기
 	with open(dir + "/" + htmFile, "rb") as input:
 		for data in input.readlines():
 			needToAppend = 1
@@ -83,6 +98,7 @@ for htmFile in cur_pwd_list:
 			if(len(mid3_data) < 2):
 				continue
 			mid4_data = mid3_data[1].replace("\t", "", -1)
+
 			last_data = str(mid4_data).replace(removalWord, "", -1)
 			print("last_data = " + last_data)
 			if len(keyArray) < int(row):
