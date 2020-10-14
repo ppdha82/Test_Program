@@ -45,15 +45,20 @@ for htmFile in cur_pwd_list:
 		for data in input.readlines():
 			if "charset" in repr(data) and not "RES_COMMON_CHARSET" in repr(data):
 				print("charset data = " + str(data))
+				# 문자열 중 "charset="과 일치하는 문자열 찾기 (없다면 어떻게??)
 				charsetPosition = str(data).find("charset=")
 				print("position = " + str(charsetPosition) +"; string = " + str(data)[charsetPosition:])
+				# 문자열 중 "\""을 구분자로 문자열 분리함
 				charsetSplit = str(data)[charsetPosition:].split("\"")
 				print("charsetSplit = " + str(charsetSplit))
 				index = 0
 				for string in charsetSplit:
+					# 분리된 문자열 중에 "charset=" 을 포함하는 경우를 찾아서
 					if "charset=" in string:
+						# 분리된 문자열이 "charset="과 일치한다면 그 다음 문자열을 모두 대문자로 치환함
 						if len(string) == len("charset="):
 							charset = charsetSplit[index + 1].upper()
+						# 분리된 문자열이 "charset="을 포함하되 일치하지 않는다면 "charset="을 제거함
 						else:
 							charset = string.replace("charset=", "", -1).upper()
 						break
@@ -70,6 +75,7 @@ for htmFile in cur_pwd_list:
 			print("removalWord = " + removalWord)
 		idx += 1
 
+	# COMMON_CHARSET 을 찾아 문서의 encoding 찾기
 	with open(dir + "/" + htmFile, "rb") as input:
 		for data in input.readlines():
 			foundIndex = str(data).find("COMMON_CHARSET")
@@ -101,6 +107,7 @@ for htmFile in cur_pwd_list:
 
 			last_data = str(mid4_data).replace(removalWord, "", -1)
 			print("last_data = " + last_data)
+			# buffer size 보다 라인 수가 작을 경우 buffer size 증가
 			if len(keyArray) < int(row):
 				keyArray.append(last_data)
 				print("Enter = " + last_data + "(" + str(len(keyArray) - 1) + ")")
@@ -112,9 +119,11 @@ for htmFile in cur_pwd_list:
 						needToAppend = 0
 					idx += 1
 			print("len(keyArray) = " + str(len(keyArray)))
-			if needToAppend == 1:
-				pos = str(column + row)
-				sheet[pos] = last_data
+			###
+			#if needToAppend == 1:
+			pos = str(column + row)
+			sheet[pos] = last_data
+			###
 			next_pos = str(next_column) + str(row)
 			sheet[next_pos] = mid2_data[1]
 			print("mid2_data[1] = " + str(mid2_data[1]))
