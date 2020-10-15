@@ -1,35 +1,9 @@
 #include "jansson.h"
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
-int test_file_write(const char *filename, char *data)
-{
-	/* file write / read test code */
-	FILE *fp = NULL;
-
-	fp = fopen(filename, "w");
-	fwrite(data, 1, strlen(data) + 1, fp);
-	fclose(fp);
-	fp = NULL;
-
-	return 0;
-}
-
-int test_file_read(const char *filename)
-{
-	FILE *fp = NULL;
-	char buffer[1024];
-
-	fp = fopen(filename, "r");
-	fread(buffer, 1, sizeof(buffer), fp);
-	printf("[%s:%d] buffer = %s\n", __FILE__, __LINE__, buffer);
-	fclose(fp);
-	fp = NULL;
-
-	return 0;
-}
-
-int test_json(json_t *result)
+int make_sample_json(json_t *result)
 {
 	/* jansson test code */
 	enum
@@ -49,34 +23,110 @@ int test_json(json_t *result)
 	return 0;
 }
 
+json_t* load_json_data_from(const char* filename)
+{
+	json_error_t error;
+
+	json_t *jData = json_load_file(filename, JSON_DECODE_ANY, &error);
+	printf("[%s:%d] error = %d\n", __FILE__, __LINE__, json_error_code(&error));
+	printf("[%s:%d] jData = %s\n", __FILE__, __LINE__, json_dumps(jData, JSON_ENCODE_ANY));
+
+	return jData;
+}
+
+int write_text_by_json(const char *filename, json_t* writeData)
+{
+	json_dump_file(writeData, filename, JSON_ENCODE_ANY);
+	return 0;
+}
+
+int add_json_data(json_t *jData, const char* key)
+{
+	int jSize = json_object_size(jData);
+	if(jSize >= 16) {
+		printf("[%s:%d] can't add any more\n", __FILE__, __LINE__);
+		return -1;
+	}
+
+	json_t* jID;
+	// avoid to duplicate key
+	jID = json_object_get(jData, key);
+	if(jID != NULL) {
+		printf("[%s:%d] add already key(%s)\n", __FILE__, __LINE__, key);
+		int value = json_integer_value(jID);
+		value++;
+		value %= 5;
+		json_object_set(jData, key, json_integer(value));
+	}
+	else {
+		json_object_set_new(jData, key, json_integer(0));
+	}
+
+	return 0;
+}
+
+int init_json_data(json_t *jData, const char* key)
+{
+	json_t* jID;
+	// avoid to duplicate key
+	jID = json_object_get(jData, key);
+	if(jID != NULL) {
+		printf("[%s:%d] add already key(%s)\n", __FILE__, __LINE__, key);
+		int value = json_integer_value(jID);
+		value++;
+		value %= 5;
+		json_object_set(jData, key, json_integer(value));
+	}
+	else {
+		json_object_set_new(jData, key, json_integer(0));
+	}
+
+	return 0;
+}
+
+int remove_json_data(json_t *jData, const char* key)
+{
+	int jSize = json_object_size(jData);
+	if(jSize <= 0) {
+		printf("[%s:%d] can't remove any more\n", __FILE__, __LINE__);
+		return -1;
+	}
+
+	json_t *jID;
+	jID = json_object_get(jData, key);
+	if(jID == NULL) {
+		printf("[%s:%d] Not found key(%s)\n", __FILE__, __LINE__, key);
+
+		return -1;
+	}
+
+	json_object_del(jData, key);
+}
+
 int main(int argc, char **argv)
 {
-	const char *txtFilename = "test.txt";
 	const char *jsonFilename = "test.json";
 
-	char buffer[1024];
+	if(access(jsonFilename, F_OK) != 0) {
+		/* test fill json type */
+		json_t *result = json_object();
+		make_sample_json(result);
 
-	/* test file write */
-	snprintf(buffer, sizeof(buffer), "%s\0", "hello file write test!!!!");
-	test_file_write(txtFilename, buffer);
+		/* test file write json data */
+		write_text_by_json(jsonFilename, result);
+	}
 
-	/* test file write */
-	memset(buffer, 0, sizeof(buffer));
-	test_file_read(txtFilename);
-
-	/* test fill json type */
-	json_t *result = json_object();
-	test_json(result);
-
-	/* test file write json data */
-	memset(buffer, 0, sizeof(buffer));
-	snprintf(buffer, sizeof(buffer), "%s\0", json_dumps(result, JSON_ENCODE_ANY));
-	printf("[%s:%d] buffer = %s\n", __FILE__, __LINE__, buffer);
-	test_file_write(jsonFilename, buffer);
-
-	/* test file read json data */
-	memset(buffer, 0, sizeof(buffer));
-	test_file_read(jsonFilename);
+	/* load json data from file */
+	json_t* jData = json_object();
+	jData = load_json_data_from(jsonFilename);
+	printf("[%s:%d] Alive Check (jData = %s)\n", __FILE__, __LINE__, json_dumps(jData, JSON_ENCODE_ANY));
+	add_json_data(jData, "admin");
+	printf("[%s:%d] Alive Check (jData = %s)\n", __FILE__, __LINE__, json_dumps(jData, JSON_ENCODE_ANY));
+	remove_json_data(jData, "test1");
+	printf("[%s:%d] Alive Check (jData = %s)\n", __FILE__, __LINE__, json_dumps(jData, JSON_ENCODE_ANY));
+	add_json_data(jData, "test1");
+	printf("[%s:%d] Alive Check (jData = %s)\n", __FILE__, __LINE__, json_dumps(jData, JSON_ENCODE_ANY));
+	write_text_by_json(jsonFilename, jData);
 
 	return 0;
 }
