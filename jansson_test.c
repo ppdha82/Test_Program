@@ -71,14 +71,10 @@ int init_json_data(json_t *jData, const char* key)
 	// avoid to duplicate key
 	jID = json_object_get(jData, key);
 	if(jID != NULL) {
-		printf("[%s:%d] add already key(%s)\n", __FILE__, __LINE__, key);
-		int value = json_integer_value(jID);
-		value++;
-		value %= 5;
-		json_object_set(jData, key, json_integer(value));
+		json_object_set(jData, key, json_integer(0));
 	}
 	else {
-		json_object_set_new(jData, key, json_integer(0));
+		printf("[%s:%d] Not found key(%s)\n", __FILE__, __LINE__, key);
 	}
 
 	return 0;
