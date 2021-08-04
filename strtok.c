@@ -32,13 +32,8 @@ int print_help(int argc, char** argv)
 	return 0;
 }
 
-int main (int argc, char** argv)
+void test_code_1(char** argv)
 {
-	if(argc != 3) {
-		return print_help(argc, argv);
-	}
-
-#if 1
 	char buf[1024];
 	int tokenCount = 0;
 	char* tmp_pos = buf;
@@ -53,7 +48,10 @@ int main (int argc, char** argv)
 		tokenCount++;
 	}
 	printf("[%s:%d] (%d) tmp_pos = %s; buf = %s\n", __FILE__, __LINE__, tokenCount, tmp_pos, buf);
-#else
+}
+
+void test_code_2(void)
+{
 	//char input[24] = "192.168.0.148";
 	char input[24] = "192.168.0.148.50200";
 	char buf[24];
@@ -78,6 +76,36 @@ int main (int argc, char** argv)
 		}
 		dot_cnt++;
 	}
+}
+
+void test_code_3(void)
+{
+	int i;
+	const char* test_str = "001ff87ffff87ffff87ffff87ffff87ffff87ffff87ffff87ffff83ffff83ffff83ffff83ffff83ffff83e0000000000000000000000";
+	char* p = (char *)test_str;
+	enum { STR_OFFSET = 6, };
+	char buf[STR_OFFSET];
+	int size = strlen(test_str) / STR_OFFSET;
+
+	printf("[%s:%d] size = %d\n", __FILE__, __LINE__, size);
+	for(i = 0;i < size;i++) {
+		strncpy(buf, p, STR_OFFSET);
+		printf("[%s:%d] [i = %d] p = 0x%lx(0x%s)\n", __FILE__, __LINE__, i, strtol(buf, NULL, 16), buf);
+		p += sizeof(char) * STR_OFFSET;
+	}
+}
+
+int main (int argc, char** argv)
+{
+	if(argc != 3) {
+		return print_help(argc, argv);
+	}
+
+#if 0
+	test_code_1(argv);
+	test_code_2();
 #endif
+	test_code_3();
+
 	return 0;
 }
