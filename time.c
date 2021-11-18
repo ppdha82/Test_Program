@@ -21,6 +21,8 @@
 #include <time.h>
 #include <stdio.h>
 
+#include "debug_print.h"
+
 int main (void)
 {
 	struct tm tm;
@@ -31,7 +33,7 @@ int main (void)
 	t = now.tv_sec;
 	localtime_r (&t, &tm);
 
-	printf ("[%s:%d] year %04d month %02d day %02d time %02d:%02d:%02d.%03d\n", __FILE__, __LINE__,
-	tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, now.tv_usec / 1000);
+	DBG_R("year %04d month %02d day %02d time %02d:%02d:%02d.%03ld; wday = %d; yday = %d; isdst = %d\n", \
+	tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, now.tv_usec / 1000, tm.tm_wday, tm.tm_yday, tm.tm_isdst);
 	return 0;
 }
