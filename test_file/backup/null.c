@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  system.c
+ *       Filename:  null.c
  *
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  2020년 04월 22일 19시 49분 43초
+ *        Created:  2018년 11월 02일 22시 49분 37초
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,15 +16,27 @@
  * =====================================================================================
  */
 
-#include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
 
-int main(int argc, char **argv)
+int main (void)
 {
-    int i = 0;
-	int retval;
-    retval = system("curl");
-    printf("Exit Status %d\n", retval);
+	char temp[16] = "";
+
+	if (temp == NULL)
+	{
+		printf ("temp is NULL\n");
+	}
+	else
+	{
+		printf ("temp is not NULL\n");
+	}
+	if ("" == NULL)
+	{
+		printf ("\"\" is NULL\n");
+	}
+	else
+	{
+		printf ("\"\" is not NULL\n");
+	}
 	return 0;
 }

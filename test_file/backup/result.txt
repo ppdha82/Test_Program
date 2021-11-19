@@ -1,0 +1,5 @@
+total 20
+-rw-rw-r-- 1 ppdha82 ppdha82   67  9월  7 16:47 load.sh
+-rwxrwxr-x 1 ppdha82 ppdha82 9432  9월  3 19:17 main
+-rw-rw-r-- 1 ppdha82 ppdha82  314  9월  3 19:17 main.cpp
+-rw-rw-r-- 1 ppdha82 ppdha82    0  9월  7 16:50 result.txt
