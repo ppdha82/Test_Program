@@ -1,16 +1,32 @@
 # Author: ppdha82 <ppdha82@focushns.com>
 
-TARGET=time
-MAIN_FILE=$(TARGET).c
+TOP_DIR=$(PWD)
+COMPILER=C
+TARGET=analysis_ai_metadata
 
-C_COMPILER=gcc
+ifeq ($(COMPILER), C)
+COMPILER=gcc
+FLAG=-D'__DEBUG_ON__'
+SRC_DIR=c_source
+EXT_NAME=c
+else
+ifeq ($(COMPILER), CPP)
+COMPILER=g++
+FLAG=-D'__DEBUG_ON__'
+SRC_DIR=cpp_source
+EXT_NAME=cpp
+endif
+endif
+MAIN_FILE=$(TOP_DIR)/$(SRC_DIR)/$(TARGET).$(EXT_NAME)
 
-TARGET_DIR=./
-TARGET_LIB_DIR=./
+TARGET_DIR=$(TOP_DIR)
+TARGET_LIB_DIR=$(TOP_DIR)
 
-C_FLAG=-D'__DEBUG_ON__'
 
-all: clean $(TARGET)
+INC_DIR=-I$(TOP_DIR)/include
+
+all: $(TARGET)
+	@echo all $(TARGET) $(MAIN_FILE) $(FLAG) $(INC_DIR)
 	@echo "finish $@"
 
 install:
@@ -21,13 +37,13 @@ install:
 	@echo Complete copying files
 
 $(TARGET):
-	@echo linking...
-	$(C_COMPILER) -o $(TARGET) $(MAIN_FILE) $(C_FLAG)
+	@echo linking... $(MAIN_FILE)
+	$(COMPILER) -o $(TARGET) $(MAIN_FILE) $(FLAG) $(INC_DIR)
 	chmod 755 $@
 	@echo =========== build end ===========
 
 clean:
 	@echo $@
-	@echo Removing: $(TARGET) lib$(TARGET).so
+	@echo Removing: $(TARGET) lib$(2).so
 	@rm -f $(TARGET) lib$(TARGET).so
 

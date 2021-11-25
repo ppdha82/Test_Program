@@ -11,6 +11,7 @@
 #define _C_WHITE 	"\033[37m"
 #define _C_END 		"\033[0m"
 #define _C_YELLOWRED	"\033[1;33;41m"
+#define _C_WHITEBLUE	"\033[1;37;44m"
 
 #define debug_printf(color, fmt, arg...) \
 	do { \
@@ -18,19 +19,22 @@
 	} while(0)
 
 #if !defined (__DEBUG_ON__)
-#define DBG(fmt, arg...)
-#define DBG_R(fmt, arg...)
-#define DBG_G(fmt, arg...)
-#define DBG_B(fmt, arg...)
-#define DBG_Y(fmt, arg...)
-#define DBG_C(fmt, arg...)
+#define _DBG(fmt, arg...)
+#define _DBG_R(fmt, arg...)
+#define _DBG_G(fmt, arg...)
+#define _DBG_B(fmt, arg...)
+#define _DBG_Y(fmt, arg...)
+#define _DBG_C(fmt, arg...)
 #else	/* __DEBUG_ON__ */
-#define DBG(fmt, arg...) debug_printf(_C_END, fmt, ##arg)
-#define DBG_R(fmt, arg...) debug_printf(_C_RED, fmt, ##arg)
-#define DBG_G(fmt, arg...) debug_printf(_C_GREEN, fmt, ##arg)
-#define DBG_B(fmt, arg...) debug_printf(_C_BLUE, fmt, ##arg)
-#define DBG_Y(fmt, arg...) debug_printf(_C_YELLOW, fmt, ##arg)
-#define DBG_C(fmt, arg...) debug_printf(_C_CYAN, fmt, ##arg)
+#define _DBG(fmt, arg...) debug_printf(_C_END, fmt, ##arg)
+#define _DBG_R(fmt, arg...) debug_printf(_C_RED, fmt, ##arg)
+#define _DBG_G(fmt, arg...) debug_printf(_C_GREEN, fmt, ##arg)
+#define _DBG_B(fmt, arg...) debug_printf(_C_BLUE, fmt, ##arg)
+#define _DBG_Y(fmt, arg...) debug_printf(_C_YELLOW, fmt, ##arg)
+#define _DBG_C(fmt, arg...) debug_printf(_C_CYAN, fmt, ##arg)
 #endif	/* __DEBUG_ON__ */
+
+#define _ERR(fmt, arg...) debug_printf(_C_YELLOWRED, fmt, ##arg)
+#define _REL_OUT(fmt, arg...) debug_printf(_C_END, fmt, ##arg)
 
 #endif	/* __DEBUG_PRINT_H__ */
