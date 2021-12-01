@@ -3,6 +3,7 @@
 TOP_DIR=$(PWD)
 COMPILER=C
 TARGET=analysis_ai_metadata
+#TARGET=dirent
 
 ifeq ($(COMPILER), C)
 COMPILER=gcc

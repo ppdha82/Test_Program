@@ -37,7 +37,9 @@ int main(int argc, char** argv)
 	char buf[BUF_SIZE];
 	char filename[STR_SIZE];
 	char jpegFilename[STR_SIZE];
+	char jsonFilename[STR_SIZE];
 	char cmd[CMD_SIZE];
+	int metaCount = 0;
 	int fileSize = 0;
 	char* buff = NULL;
 	char* bigBuffer = NULL;
@@ -48,8 +50,10 @@ int main(int argc, char** argv)
 	char *jpegBuf = NULL;
 	int* pInt = NULL;
 	FILE *fp = NULL;
+	FILE *jsonFp = NULL;
 	FILE *jpegFp = NULL;
 	int writeSize = 0;
+	int jsonSize = 0;
 
 	snprintf(filename, STR_SIZE, "./%s", argv[1]);
 	_DBG_G("filename = %s\n", filename);
@@ -97,6 +101,7 @@ int main(int argc, char** argv)
 	// XEVENT_META_S: Header
 	_DBG_B("version = %d\n", *pInt);
 	_DBG_B("meta_count = %d\n", *(pInt + 1));
+	metaCount = *(pInt + 1);
 	// XEVENT_META_ITEM_S: JSON
 	_DBG_B("meta_type = %d\n", *(pInt + 2));
 	_DBG_B("meta_size = %d\n", *(pInt + 3));
@@ -114,24 +119,10 @@ int main(int argc, char** argv)
 	}
 	memcpy(jsonBuf, buf1, metaSize);
 	_DBG_R("jsonBuf = %s\n", jsonBuf);
-
-	buf1 += metaSize;
-	// XEVENT_META_ITEM_S: JPEG
-	pInt = (int*)buf1;
-	_DBG_B("meta_type = %d\n", *(pInt));
-	_DBG_B("meta_size = %d\n", *(pInt + 1));
-	metaSize = *(pInt + 1);
-	buf1 = (char*)(pInt + 2);
-
-	i = 0;
-	snprintf(jpegFilename, STR_SIZE, "%s_%d.jpg", filename, i);
-	jpegFp = fopen(jpegFilename, "wb");
-	if(jpegFp == NULL) {
-		_ERR("Failed to open file(%s)\n", jpegFilename);
-		if(jsonBuf != NULL) {
-			free(jsonBuf);
-			jsonBuf = NULL;
-		}
+	snprintf(jsonFilename, STR_SIZE, "%s_%d.json", filename, i);
+	jsonFp = fopen(jsonFilename, "wb");
+	if(jsonFp == NULL) {
+		_ERR("Failed to open file(%s)\n", jsonFilename);
 
 		if(bigBuffer != NULL) {
 			free(bigBuffer);
@@ -140,26 +131,60 @@ int main(int argc, char** argv)
 		fclose(fp);
 		return -1;
 	}
-	jpegBuf = (char*)malloc(metaSize);
-	if(jpegBuf == NULL) {
-		_ERR("Failed to allocate memory for jpeg Dump\n");
-		if(jsonBuf != NULL) {
-			free(jsonBuf);
-			jsonBuf = NULL;
-		}
 
-		if(bigBuffer != NULL) {
-			free(bigBuffer);
-			bigBuffer = NULL;
-		}
-		fclose(jpegFp);
-		fclose(fp);
-		return -1;
-	}
-	memcpy(jpegBuf, buf1, metaSize);
-	writeSize = fwrite(jpegBuf, metaSize, 1, jpegFp);
+	jsonSize = strlen(jsonBuf);
+	writeSize = fwrite(jsonBuf, jsonSize, 1, jsonFp);
 	if(writeSize <= 0) {
-		_ERR("Failed to write jpegBuf to jpegFp(%s)\n", jpegFilename);
+		_ERR("Failed to write jsonFp to jsonFp(%s)\n", jsonFilename);
+	}
+
+	if(jsonFp != NULL) {
+		fclose(jsonFp);
+	}
+
+	if(jsonBuf != NULL) {
+		free(jsonBuf);
+		jsonBuf = NULL;
+	}
+
+	for(i = 0;i < metaCount - 1;i++) {
+		buf1 += metaSize;
+		// XEVENT_META_ITEM_S: JPEG
+		pInt = (int*)buf1;
+		_DBG_B("meta_type = %d\n", *(pInt));
+		_DBG_B("meta_size = %d\n", *(pInt + 1));
+		metaSize = *(pInt + 1);
+		buf1 = (char*)(pInt + 2);
+
+		snprintf(jpegFilename, STR_SIZE, "%s_%d.jpg", filename, i);
+		jpegFp = fopen(jpegFilename, "wb");
+		if(jpegFp == NULL) {
+			_ERR("Failed to open file(%s)\n", jpegFilename);
+
+			if(bigBuffer != NULL) {
+				free(bigBuffer);
+				bigBuffer = NULL;
+			}
+			fclose(fp);
+			return -1;
+		}
+		jpegBuf = (char*)malloc(metaSize);
+		if(jpegBuf == NULL) {
+			_ERR("Failed to allocate memory for jpeg Dump\n");
+
+			if(bigBuffer != NULL) {
+				free(bigBuffer);
+				bigBuffer = NULL;
+			}
+			fclose(jpegFp);
+			fclose(fp);
+			return -1;
+		}
+		memcpy(jpegBuf, buf1, metaSize);
+		writeSize = fwrite(jpegBuf, metaSize, 1, jpegFp);
+		if(writeSize <= 0) {
+			_ERR("Failed to write jpegBuf to jpegFp(%s)\n", jpegFilename);
+		}
 	}
 
 	fclose(fp);
