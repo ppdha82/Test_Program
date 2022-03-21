@@ -16,6 +16,11 @@ enum {
 };
 
 enum {
+	NOT_FOUND_ACCOUNT,
+	FOUND_ACCOUNT,
+};
+
+enum {
 	ERROR_CNT_MAX = 5,
 };
 
@@ -121,7 +126,7 @@ int compareRestrictedLogin(json_t* jsonData, time_t *timestamp)
 		oldTimestamp = json_integer_value(jTimestamp);
 		if(oldTimestamp > 0) {
 			if(oldTimestamp + 300 > *timestamp) {
-				_DBG_C("restricting login (oldTimestamp: %ld; timestamp: %ld)\n", oldTimestamp, *timestamp);
+				_DBG_C("restricting login (oldTimestamp: %ld; timestamp: %ld; diff = %ld)\n", oldTimestamp, *timestamp, *timestamp - oldTimestamp);
 				return 1;
 			}
 		}
@@ -157,6 +162,8 @@ void recordTimestamp(json_t* jsonData, time_t* timestamp)
 	_DBG_C("YYYY/MM/DD-hh:mm:ss = %s\n", strTmp);
 	json_object_set_new(jsonData, "timestamp_tm", json_string(strTmp));
 }
+
+int findAccount(const char* username);
 
 int login_fail_proc(char* username)
 {
@@ -284,8 +291,15 @@ int login_fail_proc(char* username)
 	}
 
 	if(action == UPDATE) {
-		_DBG_C("write json data to file\n");
-		write_json_to_file(NULL, jLoginFailList);
+		ret = findAccount(username);
+		if(ret == NOT_FOUND_ACCOUNT) {
+			_DBG_C("username is not registered\n");
+			return -1;
+		}
+		else {
+			_DBG_C("write json data to file\n");
+			write_json_to_file(NULL, jLoginFailList);
+		}
 	}
 
 	json_decref(jLoginFailList);
@@ -392,6 +406,7 @@ int login_success_proc(char* username)
 				}
 			}
 
+			time(&timestamp);
 			json_object_set_new(jValue, "count", json_integer(0));
 			recordTimestamp(jValue, &timestamp);
 
@@ -402,8 +417,16 @@ int login_success_proc(char* username)
 	}
 
 	if(action == UPDATE) {
-		_DBG_C("write json data to file\n");
-		write_json_to_file(NULL, jLoginFailList);
+		// TODO: filter whether id is registered
+		ret = findAccount(username);
+		if(ret == NOT_FOUND_ACCOUNT) {
+			_DBG_C("username is not registered\n");
+			return -1;
+		}
+		else {
+			_DBG_C("write json data to file\n");
+			write_json_to_file(NULL, jLoginFailList);
+		}
 	}
 
 	json_decref(jLoginFailList);
@@ -475,19 +498,20 @@ int findAccount(const char* username)
 	char *idCutPtr = NULL;
 	char idCutBuf[ID_BUF_SIZE];
 	FILE *fp = NULL;
+	int bufSize = 0;
 	int fileSize = 0;
 	int readSize = 0;
 	int cutCount = 0;
 	int readCutSize = 0;
 	int idSize = 0;
-	int found = -1;
+	int found = NOT_FOUND_ACCOUNT;
 	int cmpSize = 0;
 	int usernameSize = 0;
 
 	fp = fopen(HTDIGEST_FILE, "r");
 	if(fp == NULL) {
 		_DBG_R("fp is NULL(%s)\n", HTDIGEST_FILE);
-		return -1;
+		return NOT_FOUND_ACCOUNT;
 	}
 	fseek(fp, 0, SEEK_END);
 	fileSize = ftell(fp);
@@ -495,23 +519,29 @@ int findAccount(const char* username)
 		readBigBuf = (char*)malloc(fileSize);
 		if(readBigBuf != NULL) {
 			readBuf = readBigBuf;
+			bufSize = fileSize;
 		}
 		else {
 			_DBG_R("Failed to create readBigBuffer (%d)\n", fileSize);
 			fclose(fp);
-			return -1;
+			return NOT_FOUND_ACCOUNT;
 		}
 	}
 	else {
 		readBuf = readSmallBuf;
+		bufSize = ACCOUNT_BUF_SIZE;
+		_DBG_G("readSmallBuf is assigned to readBuf\n");
 	}
+	memset(readBuf, 0, bufSize);
 
-	_DBG_G("fileSize = %d\n", fileSize);
+	_DBG_G("fileSize = %d; bufSize = %d\n", fileSize, bufSize);
 	fseek(fp, 0, SEEK_SET);
 	readSize = fread(readBuf, 1, fileSize, fp);
 	_DBG_G("read_file(%d) = %s\n", readSize, readBuf);
 
-	usernameSize = strlen(username);
+	if(username != NULL) {
+		usernameSize = strlen(username);
+	}
 	_DBG_G("readBuf = %s\n", readBuf);
 	readCutPtr = strtok(readBuf, "\n");
 	while(readCutPtr != NULL) {
@@ -526,16 +556,16 @@ int findAccount(const char* username)
 			idSize++;
 			idCutPtr++;
 		}
+
 		strncpy(idCutBuf, readCutPtr, idSize);
 		if(username == NULL) {	// SHOW_ACCOUNT_LIST
 			_DBG_G("idSize[%d] = %s(%d)\n", cutCount, idCutBuf, idSize);
-
 		}
 		else {	// CHECK_ACCOUNT
 			cmpSize = idSize > usernameSize ? idSize : usernameSize;
 			_DBG_G("idSize[%d] = %s(%d); cmpSize = %d; usernameSize = %d\n", cutCount, idCutBuf, idSize, cmpSize, usernameSize);
 			if(strncmp(username, idCutBuf, cmpSize) == 0) {
-				found = 0;
+				found = FOUND_ACCOUNT;
 				_DBG_G("Found same username[%d]: %s; idCutBuf = %s\n", cutCount, username, idCutBuf);
 				break;
 			}
@@ -576,74 +606,7 @@ int findSameAccount(void)
 
 void showAccount(void)
 {
-	enum {
-		ACCOUNT_BUF_SIZE = 1024,
-		ID_BUF_SIZE = 32,
-	};
-	char *readBigBuf = NULL;
-	char *readBuf = NULL;
-	char readSmallBuf[ACCOUNT_BUF_SIZE];
-	char *readCutPtr = NULL;
-	char *idCutPtr = NULL;
-	char idCutBuf[ID_BUF_SIZE];
-	FILE *fp = NULL;
-	int fileSize = 0;
-	int readSize = 0;
-	int cutCount = 0;
-	int readCutSize = 0;
-	int idSize = 0;
-
-	fp = fopen(HTDIGEST_FILE, "r");
-	if(fp == NULL) {
-		_DBG_R("fp is NULL(%s)\n", HTDIGEST_FILE);
-		return;
-	}
-	fseek(fp, 0, SEEK_END);
-	fileSize = ftell(fp);
-	if(fileSize > ACCOUNT_BUF_SIZE) {
-		readBigBuf = (char*)malloc(fileSize);
-		if(readBigBuf != NULL) {
-			readBuf = readBigBuf;
-		}
-		else {
-			_DBG_R("Failed to create readBigBuffer (%d)\n", fileSize);
-			fclose(fp);
-			return;
-		}
-	}
-	else {
-		readBuf = readSmallBuf;
-	}
-
-	_DBG_G("fileSize = %d\n", fileSize);
-	fseek(fp, 0, SEEK_SET);
-	readSize = fread(readBuf, 1, fileSize, fp);
-	_DBG_G("read_file(%d) = %s\n", readSize, readBuf);
-
-	_DBG_G("readBuf = %s\n", readBuf);
-	readCutPtr = strtok(readBuf, "\n");
-	while(readCutPtr != NULL) {
-		memset(idCutBuf, 0, ID_BUF_SIZE);
-		readCutSize = 0;
-		cutCount++;
-		readCutSize = strlen(readCutPtr);
-		_DBG_G("readCutPtr[%d] = %s(%d)\n", cutCount, readCutPtr, readCutSize);
-		idCutPtr = readCutPtr;
-		idSize = 0;
-		while(*idCutPtr != ':') {
-			idSize++;
-			idCutPtr++;
-		}
-		strncpy(idCutBuf, readCutPtr, idSize);
-		_DBG_G("idSize[%d] = %s(%d)\n", cutCount, idCutBuf, idSize);
-		readCutPtr = strtok(NULL, "\n");
-	}
-
-	if(readBigBuf != NULL) {
-		free(readBigBuf);
-		readBigBuf = NULL;
-	}
-	fclose(fp);
+	findAccount(NULL);
 }
 
 int main(int argc, char** argv)
