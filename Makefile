@@ -1,19 +1,23 @@
 # Author: ppdha82 <ppdha82@focushns.com>
 
 TOP_DIR=$(PWD)
-COMPILER=C
-TARGET=analysis_ai_metadata
+COMPILER_TYPE=C
+TARGET=test_jansson
+#TARGET=analysis_ai_metadata
 #TARGET=dirent
 
-ifeq ($(COMPILER), C)
+ifeq ($(COMPILER_TYPE), C)
 COMPILER=gcc
 FLAG=-D'__DEBUG_ON__'
+FLAG+=-lpthread
+FLAG+=-ljansson -Llib
 SRC_DIR=c_source
 EXT_NAME=c
 else
-ifeq ($(COMPILER), CPP)
+ifeq ($(COMPILER_TYPE), CPP)
 COMPILER=g++
 FLAG=-D'__DEBUG_ON__'
+FLAG+=-lpthread
 SRC_DIR=cpp_source
 EXT_NAME=cpp
 endif
