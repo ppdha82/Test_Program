@@ -33,6 +33,7 @@ const char* command[COMMAND_MAX] = {
 	"quit",
 };
 
+const char* HTDIGEST_FILE = "./lighttpd-htdigest.user";
 const char* loginFilename = "./loginFail.json";
 const char* rootKey = "restrictList";
 
@@ -56,8 +57,20 @@ json_t *load_data_from_json(const char *filename)
 
 	json_error_t error;
 	json_t *jData = json_load_file(filename, JSON_DECODE_ANY, &error);
+	json_t* jSub = NULL;
 	// _DBG_Y("[JSON] error = %d\n", json_error_code(&error));
 	// _DBG_Y("[JSON] jData = %s\n", json_dumps(jData, JSON_ENCODE_ANY));
+	// TODO: initialize json data { restrictList : [ { } ] }
+	if(jData == NULL) {
+		_DBG_G("Failed to load json (%s)\n", filename);
+		jData = json_object();
+		jSub = json_array();
+		json_object_set_new(jData, rootKey, jSub);
+	}
+
+	if(jData != NULL) {
+		_DBG_G("jData = %s\n", json_dumps(jData, JSON_ENCODE_ANY));
+	}
 
 	return jData;
 }
@@ -163,7 +176,129 @@ void recordTimestamp(json_t* jsonData, time_t* timestamp)
 	json_object_set_new(jsonData, "timestamp_tm", json_string(strTmp));
 }
 
-int findAccount(const char* username);
+int findAccount(const char* username)
+{
+	enum {
+		ACCOUNT_BUF_SIZE = 1024,
+		ID_BUF_SIZE = 32,
+	};
+	char *readBigBuf = NULL;
+	char *readBuf = NULL;
+	char readSmallBuf[ACCOUNT_BUF_SIZE];
+	char *readCutPtr = NULL;
+	char *idCutPtr = NULL;
+	char idCutBuf[ID_BUF_SIZE];
+	FILE *fp = NULL;
+	int bufSize = 0;
+	int fileSize = 0;
+	int readSize = 0;
+	int cutCount = 0;
+	int readCutSize = 0;
+	int idSize = 0;
+	int found = NOT_FOUND_ACCOUNT;
+	int cmpSize = 0;
+	int usernameSize = 0;
+
+	fp = fopen(HTDIGEST_FILE, "r");
+	if(fp == NULL) {
+		_DBG_R("fp is NULL(%s)\n", HTDIGEST_FILE);
+		return NOT_FOUND_ACCOUNT;
+	}
+	fseek(fp, 0, SEEK_END);
+	fileSize = ftell(fp);
+	if(fileSize > ACCOUNT_BUF_SIZE) {
+		readBigBuf = (char*)malloc(fileSize);
+		if(readBigBuf != NULL) {
+			readBuf = readBigBuf;
+			bufSize = fileSize;
+		}
+		else {
+			_DBG_R("Failed to create readBigBuffer (%d)\n", fileSize);
+			fclose(fp);
+			return NOT_FOUND_ACCOUNT;
+		}
+	}
+	else {
+		readBuf = readSmallBuf;
+		bufSize = ACCOUNT_BUF_SIZE;
+		_DBG_G("readSmallBuf is assigned to readBuf\n");
+	}
+	memset(readBuf, 0, bufSize);
+
+	_DBG_G("fileSize = %d; bufSize = %d\n", fileSize, bufSize);
+	fseek(fp, 0, SEEK_SET);
+	readSize = fread(readBuf, 1, fileSize, fp);
+	_DBG_G("read_file(%d) = %s\n", readSize, readBuf);
+
+	if(username != NULL) {
+		usernameSize = strlen(username);
+	}
+	_DBG_G("readBuf = %s\n", readBuf);
+	readCutPtr = strtok(readBuf, "\n");
+	while(readCutPtr != NULL) {
+		memset(idCutBuf, 0, ID_BUF_SIZE);
+		readCutSize = 0;
+		cutCount++;
+		readCutSize = strlen(readCutPtr);
+		_DBG_G("readCutPtr[%d] = %s(%d)\n", cutCount, readCutPtr, readCutSize);
+		idCutPtr = readCutPtr;
+		idSize = 0;
+		while(*idCutPtr != ':') {
+			idSize++;
+			idCutPtr++;
+		}
+
+		strncpy(idCutBuf, readCutPtr, idSize);
+		if(username == NULL) {	// SHOW_ACCOUNT_LIST
+			_DBG_G("idSize[%d] = %s(%d)\n", cutCount, idCutBuf, idSize);
+		}
+		else {	// CHECK_ACCOUNT
+			cmpSize = idSize > usernameSize ? idSize : usernameSize;
+			_DBG_G("idSize[%d] = %s(%d); cmpSize = %d; usernameSize = %d\n", cutCount, idCutBuf, idSize, cmpSize, usernameSize);
+			if(strncmp(username, idCutBuf, cmpSize) == 0) {
+				found = FOUND_ACCOUNT;
+				_DBG_G("Found same username[%d]: %s; idCutBuf = %s\n", cutCount, username, idCutBuf);
+				break;
+			}
+		}
+		readCutPtr = strtok(NULL, "\n");
+	}
+
+	if(readBigBuf != NULL) {
+		free(readBigBuf);
+		readBigBuf = NULL;
+	}
+	fclose(fp);
+	return found;
+}
+
+int findSameAccount(void)
+{
+	enum {
+		USERNAME_BUF_SIZE = 64,
+	};
+	char username[USERNAME_BUF_SIZE];
+	int username_len = 0;
+	int ret = 0;
+
+	_DBG_C("enter username: ");
+	fgets(username, USERNAME_BUF_SIZE, stdin);
+	username_len = strlen(username) - 1;
+	if(username_len <= 0) {
+		_DBG_C("username is empty\n");
+		return -1;
+	}
+	username[username_len] = 0;		// fgets 에 의한 enter 입력 제거
+	ret = findAccount(username);
+	_DBG_R("ret = %d\n", ret);
+
+	return ret;
+}
+
+void showAccount(void)
+{
+	findAccount(NULL);
+}
 
 int login_fail_proc(char* username)
 {
@@ -481,132 +616,6 @@ void showList(void)
 	_DBG_C("jLoginFailList = %s\n", json_dumps(jLoginFailList, JSON_ENCODE_ANY));
 
 	json_decref(jLoginFailList);
-}
-
-const char* HTDIGEST_FILE = "./lighttpd-htdigest.user";
-
-int findAccount(const char* username)
-{
-	enum {
-		ACCOUNT_BUF_SIZE = 1024,
-		ID_BUF_SIZE = 32,
-	};
-	char *readBigBuf = NULL;
-	char *readBuf = NULL;
-	char readSmallBuf[ACCOUNT_BUF_SIZE];
-	char *readCutPtr = NULL;
-	char *idCutPtr = NULL;
-	char idCutBuf[ID_BUF_SIZE];
-	FILE *fp = NULL;
-	int bufSize = 0;
-	int fileSize = 0;
-	int readSize = 0;
-	int cutCount = 0;
-	int readCutSize = 0;
-	int idSize = 0;
-	int found = NOT_FOUND_ACCOUNT;
-	int cmpSize = 0;
-	int usernameSize = 0;
-
-	fp = fopen(HTDIGEST_FILE, "r");
-	if(fp == NULL) {
-		_DBG_R("fp is NULL(%s)\n", HTDIGEST_FILE);
-		return NOT_FOUND_ACCOUNT;
-	}
-	fseek(fp, 0, SEEK_END);
-	fileSize = ftell(fp);
-	if(fileSize > ACCOUNT_BUF_SIZE) {
-		readBigBuf = (char*)malloc(fileSize);
-		if(readBigBuf != NULL) {
-			readBuf = readBigBuf;
-			bufSize = fileSize;
-		}
-		else {
-			_DBG_R("Failed to create readBigBuffer (%d)\n", fileSize);
-			fclose(fp);
-			return NOT_FOUND_ACCOUNT;
-		}
-	}
-	else {
-		readBuf = readSmallBuf;
-		bufSize = ACCOUNT_BUF_SIZE;
-		_DBG_G("readSmallBuf is assigned to readBuf\n");
-	}
-	memset(readBuf, 0, bufSize);
-
-	_DBG_G("fileSize = %d; bufSize = %d\n", fileSize, bufSize);
-	fseek(fp, 0, SEEK_SET);
-	readSize = fread(readBuf, 1, fileSize, fp);
-	_DBG_G("read_file(%d) = %s\n", readSize, readBuf);
-
-	if(username != NULL) {
-		usernameSize = strlen(username);
-	}
-	_DBG_G("readBuf = %s\n", readBuf);
-	readCutPtr = strtok(readBuf, "\n");
-	while(readCutPtr != NULL) {
-		memset(idCutBuf, 0, ID_BUF_SIZE);
-		readCutSize = 0;
-		cutCount++;
-		readCutSize = strlen(readCutPtr);
-		_DBG_G("readCutPtr[%d] = %s(%d)\n", cutCount, readCutPtr, readCutSize);
-		idCutPtr = readCutPtr;
-		idSize = 0;
-		while(*idCutPtr != ':') {
-			idSize++;
-			idCutPtr++;
-		}
-
-		strncpy(idCutBuf, readCutPtr, idSize);
-		if(username == NULL) {	// SHOW_ACCOUNT_LIST
-			_DBG_G("idSize[%d] = %s(%d)\n", cutCount, idCutBuf, idSize);
-		}
-		else {	// CHECK_ACCOUNT
-			cmpSize = idSize > usernameSize ? idSize : usernameSize;
-			_DBG_G("idSize[%d] = %s(%d); cmpSize = %d; usernameSize = %d\n", cutCount, idCutBuf, idSize, cmpSize, usernameSize);
-			if(strncmp(username, idCutBuf, cmpSize) == 0) {
-				found = FOUND_ACCOUNT;
-				_DBG_G("Found same username[%d]: %s; idCutBuf = %s\n", cutCount, username, idCutBuf);
-				break;
-			}
-		}
-		readCutPtr = strtok(NULL, "\n");
-	}
-
-	if(readBigBuf != NULL) {
-		free(readBigBuf);
-		readBigBuf = NULL;
-	}
-	fclose(fp);
-	return found;
-}
-
-int findSameAccount(void)
-{
-	enum {
-		USERNAME_BUF_SIZE = 64,
-	};
-	char username[USERNAME_BUF_SIZE];
-	int username_len = 0;
-	int ret = 0;
-
-	_DBG_C("enter username: ");
-	fgets(username, USERNAME_BUF_SIZE, stdin);
-	username_len = strlen(username) - 1;
-	if(username_len <= 0) {
-		_DBG_C("username is empty\n");
-		return -1;
-	}
-	username[username_len] = 0;		// fgets 에 의한 enter 입력 제거
-	ret = findAccount(username);
-	_DBG_R("ret = %d\n", ret);
-
-	return ret;
-}
-
-void showAccount(void)
-{
-	findAccount(NULL);
 }
 
 int main(int argc, char** argv)
