@@ -462,17 +462,17 @@ int login_fail_proc(json_t* jUserArray, char* username)
 				break;
 			}
 		}
-	}
 
-	if(foundUser == NOT_FOUND_ACCOUNT) {
-		if(findAccount(username) == FOUND_ACCOUNT) {
-			jUserAdd = json_object();
-			time(&timestamp);
-			json_object_set_new(jUserAdd, "username", json_string(username));
-			json_object_set_new(jUserAdd, "count", json_integer(1));
-			// TODO: timestamp value should be current time
-			recordTimestamp(jUserAdd, &timestamp);
-			json_array_append_new(jUserArray, jUserAdd);
+		if(foundUser == NOT_FOUND_ACCOUNT) {
+			if(findAccount(username) == FOUND_ACCOUNT) {
+				jUserAdd = json_object();
+				time(&timestamp);
+				json_object_set_new(jUserAdd, "username", json_string(username));
+				json_object_set_new(jUserAdd, "count", json_integer(1));
+				// TODO: timestamp value should be current time
+				recordTimestamp(jUserAdd, &timestamp);
+				json_array_append_new(jUserArray, jUserAdd);
+			}
 		}
 	}
 
