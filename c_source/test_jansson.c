@@ -376,6 +376,7 @@ int login_fail_proc(json_t* jUserArray, char* username)
 	int cmpSize = 0;
 	int count_tmp = 0;
 	time_t timestamp = 0;
+	int foundUser = NOT_FOUND_ACCOUNT;
 
 	if(username == NULL) {
 		_DBG_R("username is NULL\n");
@@ -457,8 +458,21 @@ int login_fail_proc(json_t* jUserArray, char* username)
 				recordTimestamp(jValue, &timestamp);
 
 				_DBG_C("[%d] jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
+				foundUser = FOUND_ACCOUNT;
 				break;
 			}
+		}
+	}
+
+	if(foundUser == NOT_FOUND_ACCOUNT) {
+		if(findAccount(username) == FOUND_ACCOUNT) {
+			jUserAdd = json_object();
+			time(&timestamp);
+			json_object_set_new(jUserAdd, "username", json_string(username));
+			json_object_set_new(jUserAdd, "count", json_integer(1));
+			// TODO: timestamp value should be current time
+			recordTimestamp(jUserAdd, &timestamp);
+			json_array_append_new(jUserArray, jUserAdd);
 		}
 	}
 
