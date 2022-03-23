@@ -8,6 +8,7 @@
 enum {
 	LOGIN_FAIL,
 	LOGIN_SUCCESS,
+	FIND_USER,
 	SHOW_LOGIN_LIST,
 	SHOW_ACCOUNT_LIST,
 	CHECK_ACCOUNT,
@@ -27,6 +28,7 @@ enum {
 const char* command[COMMAND_MAX] = {
 	"fail",
 	"success",
+	"finduser",
 	"showlogin",
 	"showaccount",
 	"checkaccount",
@@ -81,6 +83,7 @@ void print_help(void)
 	_DBG_R(" command list\n");
 	_DBG_R(" %s <= login fail\n", command[LOGIN_FAIL]);
 	_DBG_R(" %s <= login success\n", command[LOGIN_SUCCESS]);
+	_DBG_R(" %s <= find same username in LoginFailList\n", command[FIND_USER]);
 	_DBG_R(" %s <= show current restrict list\n", command[SHOW_LOGIN_LIST]);
 	_DBG_R(" %s <= show account list\n", command[SHOW_ACCOUNT_LIST]);
 	_DBG_R(" %s <= check same username with account\n", command[CHECK_ACCOUNT]);
@@ -89,13 +92,8 @@ void print_help(void)
 }
 
 enum {
-	NONE,
-	UPDATE,
-};
-
-enum {
-	USER_ADD,
-	USER_KEEP,
+	USER_NONE,
+	USER_UPDATE,
 };
 
 json_t* existRootKey(json_t* jsonData)
@@ -114,6 +112,69 @@ json_t* existRootKey(json_t* jsonData)
 		return NULL;
 	}
 	return jRoot;
+}
+
+json_t* findUsername(json_t* jsonData, const char* username)
+{
+	if(jsonData == NULL || username == NULL) {
+		if(jsonData == NULL) {
+			_DBG_R("jsonData is NULL\n");
+		}
+		if(username == NULL) {
+			_DBG_R("username is NULL\n");
+		}
+		else if(strlen(username) <= 0) {
+			_DBG_R("Invalid username(%s)\n", username);
+		}
+		return NULL;
+	}
+
+	json_t* jUserAdd = NULL;
+	json_t* jValue = NULL;
+	json_t* jTmp = NULL;
+	json_t* jCount = NULL;
+	const char* cTmp = NULL;
+	int index = 0;
+	int cmpSize = 0;
+	int tmpSize = 0;
+	int userSize = 0;
+
+	if(json_array_size(jsonData) == 0) {
+		_DBG_R("jsonData array size is 0\n");
+		return NULL;
+	}
+	else {
+		userSize = strlen(username);
+		// find key username for loop
+		json_array_foreach(jsonData, index, jValue) {
+			_DBG_C("index = %d; jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
+			jTmp = json_object_get(jValue, "username");
+			if(jTmp == NULL) {
+				_DBG_R("[%d] jTmp is NULL\n", index);
+				continue;
+			}
+
+			cTmp = json_string_value(jTmp);
+			if(cTmp == NULL) {
+				_DBG_R("[%d] cTmp is NULL (jTmp is not char type)\n", index);
+				continue;
+			}
+
+			tmpSize = strlen(cTmp);
+			if(tmpSize <= 0) {
+				_DBG_R("[%d] Invalid cTmp(%s)\n", index, cTmp);
+				continue;
+			}
+
+			cmpSize = tmpSize > userSize ? tmpSize:userSize;
+			// find same username in restrictList
+			if(strncmp(cTmp, username, cmpSize) == 0) {
+				// found username in loginFailList
+				return jValue;
+			}
+		}
+	}
+	return NULL;
 }
 
 int compareRestrictedLogin(json_t* jsonData, time_t *timestamp)
@@ -300,11 +361,9 @@ void showAccount(void)
 	findAccount(NULL);
 }
 
-int login_fail_proc(char* username)
+int login_fail_proc(json_t* jUserArray, char* username)
 {
 	_DBG_C("username = %s\n", username);
-	json_t* jLoginFailList = NULL;
-	json_t* jUserArray = NULL;
 	json_t* jValue = NULL;
 	json_t* jTmp = NULL;
 	json_t* jCount = NULL;
@@ -316,8 +375,6 @@ int login_fail_proc(char* username)
 	int tmpSize = 0;
 	int cmpSize = 0;
 	int count_tmp = 0;
-	int action = NONE;
-	int userAction = USER_ADD;
 	time_t timestamp = 0;
 
 	if(username == NULL) {
@@ -331,91 +388,8 @@ int login_fail_proc(char* username)
 		return -1;
 	}
 
-	// load json file
-	jLoginFailList = load_data_from_json(NULL);
-	if(jLoginFailList == NULL) {
-		// empty or not found json file 
-		_DBG_R("jLoginFailList is NULL\n");
-		// TODO: generate empty file & record fail count
-		return -1;
-	}
-
-	// find key "restrictList"
-	jUserArray = existRootKey(jLoginFailList);
-	if(jUserArray == NULL) {
-		_DBG_R("jUserArray is NULL\n");
-		json_decref(jLoginFailList);
-		return -1;
-	}
-
-	// find key username for loop
-	json_array_foreach(jUserArray, index, jValue) {
-		_DBG_C("index = %d; jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
-		jTmp = json_object_get(jValue, "username");
-		if(jTmp == NULL) {
-			_DBG_R("[%d] jTmp is NULL\n", index);
-			continue;
-		}
-
-		cTmp = json_string_value(jTmp);
-		if(cTmp == NULL) {
-			_DBG_R("[%d] cTmp is NULL (jTmp is not char type)\n", index);
-			continue;
-		}
-
-		tmpSize = strlen(cTmp);
-		if(tmpSize <= 0) {
-			_DBG_R("[%d] Invalid cTmp(%s)\n", index, cTmp);
-			continue;
-		}
-
-		cmpSize = tmpSize > userSize ? tmpSize:userSize;
-		// find same username in restrictList
-		if(strncmp(cTmp, username, cmpSize) == 0) {
-			// find key "count"
-			jCount = json_object_get(jValue, "count");
-			if(jCount == NULL) {
-				_DBG_R("[%d] jTmp is NULL\n", index);
-				continue;
-			}
-			count_tmp = json_integer_value(jCount);
-			if(count_tmp < 0) {
-				count_tmp = 0;
-			}
-
-			time(&timestamp);
-			_DBG_C("timestamp = %ld\n", timestamp);
-			if(count_tmp >= ERROR_CNT_MAX) {
-				// TODO: check timestamp for restricting login
-				_DBG_C("[%d] count is over %d\n", index, ERROR_CNT_MAX);
-				// check whether "count" value is over 5
-				ret = compareRestrictedLogin(jValue, &timestamp);
-				if(ret == 1) {
-					json_decref(jLoginFailList);
-					return 1;
-				}
-				else {
-					count_tmp = 0;
-				}
-			}
-			else {
-				// check whether "count" value should increase
-				_DBG_C("[%d] count should increase (%d => %d)\n", index, count_tmp, count_tmp + 1);
-				count_tmp++;
-			}
-			json_object_set_new(jValue, "count", json_integer(count_tmp));
-			recordTimestamp(jValue, &timestamp);
-
-			_DBG_C("[%d] jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
-			action = UPDATE;
-			userAction = USER_KEEP;
-			break;
-		}
-	}
-
-	if(userAction == USER_ADD) {
+	if(json_array_size(jUserArray) == 0) {
 		// USER_ADD: not found same username
-		action = UPDATE;
 		jUserAdd = json_object();
 		time(&timestamp);
 		json_object_set_new(jUserAdd, "username", json_string(username));
@@ -424,32 +398,80 @@ int login_fail_proc(char* username)
 		recordTimestamp(jUserAdd, &timestamp);
 		json_array_append_new(jUserArray, jUserAdd);
 	}
+	else {
+		// find key username for loop
+		json_array_foreach(jUserArray, index, jValue) {
+			_DBG_C("index = %d; jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
+			jTmp = json_object_get(jValue, "username");
+			if(jTmp == NULL) {
+				_DBG_R("[%d] jTmp is NULL\n", index);
+				continue;
+			}
 
-	if(action == UPDATE) {
-		ret = findAccount(username);
-		if(ret == NOT_FOUND_ACCOUNT) {
-			_DBG_C("username is not registered\n");
-			return -1;
-		}
-		else {
-			_DBG_C("write json data to file\n");
-			write_json_to_file(NULL, jLoginFailList);
+			cTmp = json_string_value(jTmp);
+			if(cTmp == NULL) {
+				_DBG_R("[%d] cTmp is NULL (jTmp is not char type)\n", index);
+				continue;
+			}
+
+			tmpSize = strlen(cTmp);
+			if(tmpSize <= 0) {
+				_DBG_R("[%d] Invalid cTmp(%s)\n", index, cTmp);
+				continue;
+			}
+
+			cmpSize = tmpSize > userSize ? tmpSize:userSize;
+			// find same username in restrictList
+			if(strncmp(cTmp, username, cmpSize) == 0) {
+				// find key "count"
+				jCount = json_object_get(jValue, "count");
+				if(jCount == NULL) {
+					_DBG_R("[%d] jTmp is NULL\n", index);
+					continue;
+				}
+				count_tmp = json_integer_value(jCount);
+				if(count_tmp < 0) {
+					count_tmp = 0;
+				}
+
+				time(&timestamp);
+				_DBG_C("timestamp = %ld\n", timestamp);
+				if(count_tmp >= ERROR_CNT_MAX) {
+					// TODO: check timestamp for restricting login
+					_DBG_C("[%d] count is over %d\n", index, ERROR_CNT_MAX);
+					// check whether "count" value is over 5
+					ret = compareRestrictedLogin(jValue, &timestamp);
+					if(ret == 1) {
+						return USER_NONE;
+					}
+					else {
+						count_tmp = 1;
+					}
+				}
+				else {
+					// check whether "count" value should increase
+					_DBG_C("[%d] count should increase (%d => %d)\n", index, count_tmp, count_tmp + 1);
+					count_tmp++;
+				}
+				json_object_set_new(jValue, "count", json_integer(count_tmp));
+				recordTimestamp(jValue, &timestamp);
+
+				_DBG_C("[%d] jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
+				break;
+			}
 		}
 	}
 
-	json_decref(jLoginFailList);
-
-	return ret;
+	_DBG_C("jUserArray = %s\n", json_dumps(jUserArray, JSON_ENCODE_ANY));
+	return USER_UPDATE;
 }
 
-int login_success_proc(char* username)
+int login_success_proc(json_t* jUserArray, char* username)
 {
 	enum {
 		TMP_BUF_SIZE = 32,
 	};
 	_DBG_C("username = %s\n", username);
-	json_t* jLoginFailList = NULL;
-	json_t* jUserArray = NULL;
 	json_t* jValue = NULL;
 	json_t* jTmp = NULL;
 	json_t* jCount = NULL;
@@ -458,7 +480,7 @@ int login_success_proc(char* username)
 	int userSize = 0;
 	int tmpSize = 0;
 	int cmpSize = 0;
-	int action = NONE;
+	int userAction = USER_NONE;
 	int count_tmp = 0;
 	time_t timestamp = 0;
 	struct tm* tm_timestamp = NULL;
@@ -476,6 +498,134 @@ int login_success_proc(char* username)
 		return -1;
 	}
 
+	if(json_array_size(jUserArray) == 0) {
+		_DBG_R("jUserArray size is 0\n");
+		return -1;
+	}
+	else {
+		// find key username for loop
+		json_array_foreach(jUserArray, index, jValue) {
+			_DBG_C("index = %d; jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
+			jTmp = json_object_get(jValue, "username");
+			if(jTmp == NULL) {
+				_DBG_R("[%d] jTmp is NULL\n", index);
+				continue;
+			}
+
+			cTmp = json_string_value(jTmp);
+			if(cTmp == NULL) {
+				_DBG_R("[%d] cTmp is NULL (jTmp is not char type)\n", index);
+				continue;
+			}
+
+			tmpSize = strlen(cTmp);
+			if(tmpSize <= 0) {
+				_DBG_R("[%d] Invalid cTmp(%s)\n", index, cTmp);
+				continue;
+			}
+
+			cmpSize = tmpSize > userSize ? tmpSize:userSize;
+			// find same username in restrictList
+			if(strncmp(cTmp, username, cmpSize) == 0) {
+				// find key "count"
+				jCount = json_object_get(jValue, "count");
+				if(jCount == NULL) {
+					_DBG_R("[%d] jTmp is NULL\n", index);
+					continue;
+				}
+
+				// TODO: check timestamp for restricting login
+				count_tmp = json_integer_value(jCount);
+				if(count_tmp == ERROR_CNT_MAX) {
+					time(&timestamp);
+					ret = compareRestrictedLogin(jValue, &timestamp);
+					if(ret == 1) {
+						return USER_NONE;
+					}
+				}
+
+				time(&timestamp);
+				json_object_set_new(jValue, "count", json_integer(0));
+				recordTimestamp(jValue, &timestamp);
+
+				_DBG_C("[%d] jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
+				userAction = USER_UPDATE;
+				break;
+			}
+		}
+	}
+
+	return userAction;
+}
+
+int isRestrictedTimestamp(json_t* jsonData, const char* username)
+{
+	if(jsonData == NULL || username == NULL) {
+		if(jsonData == NULL) {
+			_DBG_R("jsonData is NULL\n");
+		}
+		if(username == NULL) {
+			_DBG_R("username is NULL\n");
+		}
+		else if(strlen(username) <= 0) {
+			_DBG_R("Invalid username(%s)\n", username);
+		}
+		return -1;
+	}
+	json_t* jResult = NULL;
+	json_t* jCount = NULL;
+	time_t timestamp = 0;
+	int ret = 0;
+	int count_tmp = 0;
+
+	_DBG_C("username = %s\n", username);
+	jResult = findUsername(jsonData, username);
+	if(jResult == NULL) {
+		return 0;
+	}
+	_DBG_C("jResult = %s\n", json_dumps(jResult, JSON_ENCODE_ANY));
+	jCount = json_object_get(jResult, "count");
+	if(jCount == NULL) {
+		_DBG_R("jTmp is NULL\n");
+		return -1;
+	}
+
+	// TODO: check timestamp for restricting login
+	count_tmp = json_integer_value(jCount);
+	if(count_tmp == ERROR_CNT_MAX) {
+		time(&timestamp);
+		ret = compareRestrictedLogin(jResult, &timestamp);
+		if(ret == 1) {
+			_DBG_R("In restricted timestamp\n");
+			return -1;
+		}
+	}
+
+	return 0;
+}
+
+int login_proc(int command_index)
+{
+	enum {
+		USERNAME_BUF_SIZE = 64,
+	};
+	char username[USERNAME_BUF_SIZE];
+	int username_len = 0;
+	int ret = 0;
+	int userAction = USER_NONE;
+	json_t* jLoginFailList = NULL;
+	json_t* jUserArray = NULL;
+	json_t* jResult = NULL;
+
+	_DBG_C("enter username: ");
+	fgets(username, USERNAME_BUF_SIZE, stdin);
+	username_len = strlen(username) - 1;
+	if(username_len <= 0) {
+		_DBG_C("username is empty\n");
+		return -1;
+	}
+	username[username_len] = 0;		// fgets 에 의한 enter 입력 제거
+
 	// load json file
 	jLoginFailList = load_data_from_json(NULL);
 	if(jLoginFailList == NULL) {
@@ -493,70 +643,39 @@ int login_success_proc(char* username)
 		return -1;
 	}
 
-	// find key username for loop
-	json_array_foreach(jUserArray, index, jValue) {
-		_DBG_C("index = %d; jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
-		jTmp = json_object_get(jValue, "username");
-		if(jTmp == NULL) {
-			_DBG_R("[%d] jTmp is NULL\n", index);
-			continue;
-		}
-
-		cTmp = json_string_value(jTmp);
-		if(cTmp == NULL) {
-			_DBG_R("[%d] cTmp is NULL (jTmp is not char type)\n", index);
-			continue;
-		}
-
-		tmpSize = strlen(cTmp);
-		if(tmpSize <= 0) {
-			_DBG_R("[%d] Invalid cTmp(%s)\n", index, cTmp);
-			continue;
-		}
-
-		cmpSize = tmpSize > userSize ? tmpSize:userSize;
-		// find same username in restrictList
-		if(strncmp(cTmp, username, cmpSize) == 0) {
-			// find key "count"
-			jCount = json_object_get(jValue, "count");
-			if(jCount == NULL) {
-				_DBG_R("[%d] jTmp is NULL\n", index);
-				continue;
+	switch(command_index) {
+		case LOGIN_FAIL:
+			// 접속 제한 가능 시간인지 확인
+			ret = isRestrictedTimestamp(jUserArray, username);
+			if(ret < 0) {
+				_DBG_R("In restricted time. Do not anything.\n");
+				break;
 			}
-
-			// TODO: check timestamp for restricting login
-			jCount = json_object_get(jValue, "count");
-			if(jCount == NULL) {
-				_DBG_R("[%d] jTmp is NULL\n", index);
-			}
-			else {
-				count_tmp = json_integer_value(jCount);
-				if(count_tmp == ERROR_CNT_MAX) {
-					time(&timestamp);
-					ret = compareRestrictedLogin(jValue, &timestamp);
-					if(ret == 1) {
-						json_decref(jLoginFailList);
-						return 1;
-					}
-				}
-			}
-
-			time(&timestamp);
-			json_object_set_new(jValue, "count", json_integer(0));
-			recordTimestamp(jValue, &timestamp);
-
-			_DBG_C("[%d] jValue = %s\n", index, json_dumps(jValue, JSON_ENCODE_ANY));
-			action = UPDATE;
+			userAction = login_fail_proc(jUserArray, username);
 			break;
-		}
+		case LOGIN_SUCCESS:
+			// 접속 제한 가능 시간인지 확인
+			ret = isRestrictedTimestamp(jUserArray, username);
+			if(ret < 0) {
+				_DBG_R("In restricted time. Do not anything.\n");
+				break;
+			}
+			userAction = login_success_proc(jUserArray, username);
+			break;
+		case FIND_USER:
+			jResult = findUsername(jUserArray, username);
+			_DBG_C("[FIND_USER] jResult = %s\n", json_dumps(jResult, JSON_ENCODE_ANY));
+			break;
+		default:
+			_DBG_C("Invalid index(%d)\n", command_index);
+			return -1;
 	}
 
-	if(action == UPDATE) {
-		// TODO: filter whether id is registered
+	if(userAction == USER_UPDATE) {
 		ret = findAccount(username);
 		if(ret == NOT_FOUND_ACCOUNT) {
 			_DBG_C("username is not registered\n");
-			return -1;
+			ret = -1;
 		}
 		else {
 			_DBG_C("write json data to file\n");
@@ -565,39 +684,6 @@ int login_success_proc(char* username)
 	}
 
 	json_decref(jLoginFailList);
-
-	return ret;
-}
-
-int login_proc(int command_index)
-{
-	enum {
-		USERNAME_BUF_SIZE = 64,
-	};
-	char username[USERNAME_BUF_SIZE];
-	int username_len = 0;
-	int ret = 0;
-
-	_DBG_C("enter username: ");
-	fgets(username, USERNAME_BUF_SIZE, stdin);
-	username_len = strlen(username) - 1;
-	if(username_len <= 0) {
-		_DBG_C("username is empty\n");
-		return -1;
-	}
-	username[username_len] = 0;		// fgets 에 의한 enter 입력 제거
-
-	switch(command_index) {
-		case LOGIN_FAIL:
-			ret = login_fail_proc(username);
-			break;
-		case LOGIN_SUCCESS:
-			ret = login_success_proc(username);
-			break;
-		default:
-			_DBG_C("Invalid index(%d)\n", command_index);
-			return -1;
-	}
 
 	return ret;
 }
@@ -656,6 +742,10 @@ int main(int argc, char** argv)
 				break;
 			case LOGIN_SUCCESS:
 				_DBG_C("RUN LOGIN_SUCCESS\n");
+				ret = login_proc(idx);
+				break;
+			case FIND_USER:
+				_DBG_C("RUN FIND_USER\n");
 				ret = login_proc(idx);
 				break;
 			case SHOW_LOGIN_LIST:
