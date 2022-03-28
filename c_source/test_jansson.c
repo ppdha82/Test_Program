@@ -35,14 +35,19 @@ const char* command[COMMAND_MAX] = {
 	"quit",
 };
 
+#if defined(ARM_TARGET)
+const char* HTDIGEST_FILE = "/tmp/lighttpd-htdigest.user";
+const char* LOGIN_FILENAME = "/tmp/lighttpd/loginFail.json";
+#else
 const char* HTDIGEST_FILE = "./lighttpd-htdigest.user";
-const char* loginFilename = "./loginFail.json";
-const char* rootKey = "restrictList";
+const char* LOGIN_FILENAME = "./loginFail.json";
+#endif
+const char* ROOT_KEY = "restrictList";
 
 int write_json_to_file(const char *filename, json_t* writeData)
 {
 	if(filename == NULL) {
-		filename = loginFilename;
+		filename = LOGIN_FILENAME;
 	}
 
 	_DBG_R("[WRITE-jsonData] = %s\n", json_dumps(writeData, JSON_ENCODE_ANY));
@@ -54,7 +59,7 @@ int write_json_to_file(const char *filename, json_t* writeData)
 json_t *load_data_from_json(const char *filename)
 {
 	if (filename == NULL) {
-		filename = loginFilename;
+		filename = LOGIN_FILENAME;
 	}
 
 	json_error_t error;
@@ -67,7 +72,7 @@ json_t *load_data_from_json(const char *filename)
 		_DBG_G("Failed to load json (%s)\n", filename);
 		jData = json_object();
 		jSub = json_array();
-		json_object_set_new(jData, rootKey, jSub);
+		json_object_set_new(jData, ROOT_KEY, jSub);
 	}
 
 	if(jData != NULL) {
@@ -104,7 +109,7 @@ json_t* existRootKey(json_t* jsonData)
 	}
 
 	json_t* jRoot = NULL;
-	jRoot = json_object_get(jsonData, rootKey);
+	jRoot = json_object_get(jsonData, ROOT_KEY);
 
 	// check whether jUserArray is array type
 	if(json_is_array(jRoot) == JSON_FALSE) {
@@ -541,23 +546,6 @@ int login_success_proc(json_t* jUserArray, char* username)
 			cmpSize = tmpSize > userSize ? tmpSize:userSize;
 			// find same username in restrictList
 			if(strncmp(cTmp, username, cmpSize) == 0) {
-				// find key "count"
-				jCount = json_object_get(jValue, "count");
-				if(jCount == NULL) {
-					_DBG_R("[%d] jTmp is NULL\n", index);
-					continue;
-				}
-
-				// TODO: check timestamp for restricting login
-				count_tmp = json_integer_value(jCount);
-				if(count_tmp == ERROR_CNT_MAX) {
-					time(&timestamp);
-					ret = compareRestrictedLogin(jValue, &timestamp);
-					if(ret == 1) {
-						return USER_NONE;
-					}
-				}
-
 				time(&timestamp);
 				json_object_set_new(jValue, "count", json_integer(0));
 				recordTimestamp(jValue, &timestamp);
@@ -601,7 +589,7 @@ int isRestrictedTimestamp(json_t* jsonData, const char* username)
 	jCount = json_object_get(jResult, "count");
 	if(jCount == NULL) {
 		_DBG_R("jTmp is NULL\n");
-		return -1;
+		return 0;
 	}
 
 	// TODO: check timestamp for restricting login

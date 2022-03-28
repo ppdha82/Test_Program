@@ -2,15 +2,25 @@
 
 TOP_DIR=$(PWD)
 COMPILER_TYPE=C
+# PLATFORM=X86
+PLATFORM=ARM
 TARGET=test_jansson
 #TARGET=analysis_ai_metadata
 #TARGET=dirent
 
 ifeq ($(COMPILER_TYPE), C)
+ifeq ($(PLATFORM), X86)
 COMPILER=gcc
+else
+COMPILER=arm-hisiv500-linux-gcc
+endif	# X86
 FLAG=-D'__DEBUG_ON__'
 FLAG+=-lpthread
+ifeq ($(PLATFORM), X86)
 FLAG+=-ljansson -Llib
+else
+FLAG+=-ljansson -Llib/arm -lm -DARM_TARGET
+endif	# X86
 SRC_DIR=c_source
 EXT_NAME=c
 else
@@ -26,7 +36,6 @@ MAIN_FILE=$(TOP_DIR)/$(SRC_DIR)/$(TARGET).$(EXT_NAME)
 
 TARGET_DIR=$(TOP_DIR)
 TARGET_LIB_DIR=$(TOP_DIR)
-
 
 INC_DIR=-I$(TOP_DIR)/include
 
