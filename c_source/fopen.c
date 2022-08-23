@@ -18,10 +18,13 @@
 
 
 #include <stdio.h>
+#include <string.h>
 #define ONVIF_SETUP_FILE	"test.txt"
 
 #include <fcntl.h>
 #include <unistd.h>
+
+#include "debug_print.h"
 
 int write_debug(const char* file, int line, const char* log)
 {
@@ -117,7 +120,7 @@ int _load_onvif_setup_file(int* isExist)
 	if (_fp == NULL)
 	{
 		write_debug(__FILE__, __LINE__, "Failed to open xml file");
-		return NULL;
+		return -1;
 	}
 	write_debug (__FILE__, __LINE__, "Here I am");
 	return -1;
@@ -127,10 +130,29 @@ int _load_onvif_setup_file(int* isExist)
 	return 0;
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
 	FILE *pf;
-	pf = fopen("myfile.txt", "r+");
+	int filename_len = 0;
+
+	if(argc != 2) {
+		_DBG_R("Few argument (count: %d)\n", argc);
+		return -1;
+	}
+
+	if(argv[1] == NULL) {
+		_DBG_R("Filename is NULL\n");
+		return -1;
+	}
+	filename_len = strlen(argv[1]);
+	if(filename_len <= 0) {
+		_DBG_R("Invalid filename(%s)\n", argv[1]);
+		return -1;
+	}
+
+	_DBG_C("Filename = %s\n", argv[1]);
+	// pf = fopen("myfile.txt", "r+");
+	pf = fopen(argv[1], "r+");
 	if (pf != NULL)
 	{
 		fputs("fopen example", pf);
@@ -140,7 +162,7 @@ int main(void)
 	int a = -1;
 	int result = -1;
 	result = _load_onvif_setup_file(&a);
-	printf ("result = %d\n", result);
+	_DBG_Y("result = %d\n", result);
 
 	return 0;
 }

@@ -18,20 +18,20 @@
 		fprintf(stderr, color "%s:%s:%d>" _C_END " " fmt , __FILE__, __func__, __LINE__, ##arg); \
 	} while(0)
 
-#if !defined (__DEBUG_ON__)
-#define _DBG(fmt, arg...)
-#define _DBG_R(fmt, arg...)
-#define _DBG_G(fmt, arg...)
-#define _DBG_B(fmt, arg...)
-#define _DBG_Y(fmt, arg...)
-#define _DBG_C(fmt, arg...)
-#else	/* __DEBUG_ON__ */
+#if defined (__DEBUG_ON__)
 #define _DBG(fmt, arg...) debug_printf(_C_END, fmt, ##arg)
 #define _DBG_R(fmt, arg...) debug_printf(_C_RED, fmt, ##arg)
 #define _DBG_G(fmt, arg...) debug_printf(_C_GREEN, fmt, ##arg)
 #define _DBG_B(fmt, arg...) debug_printf(_C_BLUE, fmt, ##arg)
 #define _DBG_Y(fmt, arg...) debug_printf(_C_YELLOW, fmt, ##arg)
 #define _DBG_C(fmt, arg...) debug_printf(_C_CYAN, fmt, ##arg)
+#else	/* __DEBUG_ON__ */
+#define _DBG(fmt, arg...)
+#define _DBG_R(fmt, arg...)
+#define _DBG_G(fmt, arg...)
+#define _DBG_B(fmt, arg...)
+#define _DBG_Y(fmt, arg...)
+#define _DBG_C(fmt, arg...)
 #endif	/* __DEBUG_ON__ */
 
 #define _ERR(fmt, arg...) debug_printf(_C_YELLOWRED, fmt, ##arg)

@@ -2,8 +2,8 @@
 
 TOP_DIR=$(PWD)
 COMPILER_TYPE=C
-# PLATFORM=X86
-PLATFORM=ARM
+PLATFORM=X86
+#PLATFORM=ARM
 TARGET=test_jansson
 #TARGET=analysis_ai_metadata
 #TARGET=dirent
@@ -38,6 +38,13 @@ TARGET_DIR=$(TOP_DIR)
 TARGET_LIB_DIR=$(TOP_DIR)
 
 INC_DIR=-I$(TOP_DIR)/include
+
+fopen:
+	@echo build $@
+	SRC_DIR=c_source/
+	$(COMPILER) -o $(SRC_DIR)/$@ $(SRC_DIR)/$@.c $(INC_DIR) $(FLAG)
+	ls -l $(SRC_DIR)/$@
+	@echo finish $@
 
 all: $(TARGET)
 	@echo all $(TARGET) $(MAIN_FILE) $(FLAG) $(INC_DIR)
