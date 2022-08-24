@@ -8,29 +8,20 @@ TARGET=test_jansson
 #TARGET=analysis_ai_metadata
 #TARGET=dirent
 
+FLAG=-D'__DEBUG_ON__'
+CFLAG=-D'__DEBUG_ON__'
+
 ifeq ($(COMPILER_TYPE), C)
-ifeq ($(PLATFORM), X86)
-COMPILER=gcc
-else
-COMPILER=arm-hisiv500-linux-gcc
-endif	# X86
-FLAG=-D'__DEBUG_ON__'
-FLAG+=-lpthread
-ifeq ($(PLATFORM), X86)
-FLAG+=-ljansson -Llib
-else
-FLAG+=-ljansson -Llib/arm -lm -DARM_TARGET
-endif	# X86
 SRC_DIR=c_source
-EXT_NAME=c
-else
-ifeq ($(COMPILER_TYPE), CPP)
-COMPILER=g++
-FLAG=-D'__DEBUG_ON__'
+COMPILER=gcc
 FLAG+=-lpthread
-SRC_DIR=cpp_source
-EXT_NAME=cpp
+EXT_NAME=c
 endif
+ifeq ($(COMPILER_TYPE), CPP)
+SRC_DIR=cpp_source
+COMPILER=g++
+FLAG+=-lpthread
+EXT_NAME=cpp
 endif
 MAIN_FILE=$(TOP_DIR)/$(SRC_DIR)/$(TARGET).$(EXT_NAME)
 
@@ -42,7 +33,7 @@ INC_DIR=-I$(TOP_DIR)/include
 fopen:
 	@echo build $@
 	SRC_DIR=c_source/
-	$(COMPILER) -o $(SRC_DIR)/$@ $(SRC_DIR)/$@.c $(INC_DIR) $(FLAG)
+	$(COMPILER) -o $(SRC_DIR)/$@ $(SRC_DIR)/$@.c $(INC_DIR) $(CFLAG)
 	ls -l $(SRC_DIR)/$@
 	@echo finish $@
 
