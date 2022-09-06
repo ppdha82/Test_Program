@@ -1,7 +1,8 @@
 # Author: ppdha82 <ppdha82@focushns.com>
 
 TOP_DIR=$(PWD)
-COMPILER_TYPE=C
+# COMPILER_TYPE=C
+COMPILER_TYPE=CPP
 PLATFORM=X86
 #PLATFORM=ARM
 TARGET=test_jansson
@@ -35,6 +36,13 @@ fopen:
 	SRC_DIR=c_source/
 	$(COMPILER) -o $(SRC_DIR)/$@ $(SRC_DIR)/$@.c $(INC_DIR) $(CFLAG)
 	ls -l $(SRC_DIR)/$@
+	@echo finish $@
+
+baekjoon:
+	@echo build $@
+	SRC_DIR=c_source/
+	$(COMPILER) -o $(SRC_DIR)/$@_1000 $(SRC_DIR)/$@_1000.cpp $(INC_DIR) $(CFLAG)
+	ls -l $(SRC_DIR)/$@_1000
 	@echo finish $@
 
 all: $(TARGET)
