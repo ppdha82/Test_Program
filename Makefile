@@ -15,15 +15,14 @@ CFLAG=-D'__DEBUG_ON__'
 ifeq ($(COMPILER_TYPE), C)
 SRC_DIR=c_source
 COMPILER=gcc
-FLAG+=-lpthread
 EXT_NAME=c
 endif
 ifeq ($(COMPILER_TYPE), CPP)
 SRC_DIR=cpp_source
 COMPILER=g++
-FLAG+=-lpthread
 EXT_NAME=cpp
 endif
+FLAG+=-lpthread
 MAIN_FILE=$(TOP_DIR)/$(SRC_DIR)/$(TARGET).$(EXT_NAME)
 
 TARGET_DIR=$(TOP_DIR)
@@ -34,14 +33,14 @@ INC_DIR=-I$(TOP_DIR)/include
 fopen:
 	@echo build $@
 	SRC_DIR=c_source/
-	$(COMPILER) -o $(SRC_DIR)/$@ $(SRC_DIR)/$@.c $(INC_DIR) $(CFLAG)
+	$(COMPILER) -o $(SRC_DIR)/$@ $(SRC_DIR)/$@.$(EXT_NAME) $(INC_DIR) $(CFLAG)
 	ls -l $(SRC_DIR)/$@
 	@echo finish $@
 
 baekjoon:
 	@echo build $@
 	SRC_DIR=c_source/
-	$(COMPILER) -o $(SRC_DIR)/$@_1000 $(SRC_DIR)/$@_1000.cpp $(INC_DIR) $(CFLAG)
+	$(COMPILER) -o $(SRC_DIR)/$@_1000 $(SRC_DIR)/$@_1000.$(EXT_NAME) $(INC_DIR) $(CFLAG)
 	ls -l $(SRC_DIR)/$@_1000
 	@echo finish $@
 
