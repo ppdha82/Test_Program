@@ -29,6 +29,7 @@ TARGET_DIR=$(TOP_DIR)
 TARGET_LIB_DIR=$(TOP_DIR)
 
 INC_DIR=-I$(TOP_DIR)/include
+BAEKJOON_NO=10869
 
 fopen:
 	@echo build $@
@@ -40,8 +41,8 @@ fopen:
 baekjoon:
 	@echo build $@
 	SRC_DIR=c_source/
-	$(COMPILER) -o $(SRC_DIR)/$@_1000 $(SRC_DIR)/$@_1000.$(EXT_NAME) $(INC_DIR) $(CFLAG)
-	ls -l $(SRC_DIR)/$@_1000
+	$(COMPILER) -o $(SRC_DIR)/$@_$(BAEKJOON_NO) $(SRC_DIR)/$@_$(BAEKJOON_NO).$(EXT_NAME) $(INC_DIR) $(CFLAG)
+	ls -l $(SRC_DIR)/$@_$(BAEKJOON_NO)
 	@echo finish $@
 
 all: $(TARGET)
