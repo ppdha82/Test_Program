@@ -14,12 +14,12 @@ CFLAG=-D'__DEBUG_ON__'
 
 ifeq ($(COMPILER_TYPE), C)
 SRC_DIR=c_source
-COMPILER=gcc
+COMPILER=ccdv gcc
 EXT_NAME=c
 endif
 ifeq ($(COMPILER_TYPE), CPP)
 SRC_DIR=cpp_source
-COMPILER=g++
+COMPILER=ccdv g++
 EXT_NAME=cpp
 endif
 FLAG+=-lpthread
