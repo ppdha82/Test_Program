@@ -27,22 +27,27 @@ MAIN_FILE=$(TOP_DIR)/$(SRC_DIR)/$(TARGET).$(EXT_NAME)
 
 TARGET_DIR=$(TOP_DIR)
 TARGET_LIB_DIR=$(TOP_DIR)
+OUTPUT_DIR=output
+RM=rm
 
 INC_DIR=-I$(TOP_DIR)/include
-BAEKJOON_NO=10869
+BAEKJOON_NO=10950
 
 fopen:
 	@echo build $@
-	SRC_DIR=c_source/
-	$(COMPILER) -o $(SRC_DIR)/$@ $(SRC_DIR)/$@.$(EXT_NAME) $(INC_DIR) $(CFLAG)
-	ls -l $(SRC_DIR)/$@
+	$(COMPILER) -o $(OUTPUT_DIR)/$@ $(SRC_DIR)/$@.$(EXT_NAME) $(INC_DIR) $(CFLAG)
+	ls -l $(OUTPUT_DIR)/$@
+	@echo finish $@
+
+baekjoon_clean:
+	@echo $@
+	$(RM) $(OUTPUT_DIR)/baekjoon_*
 	@echo finish $@
 
 baekjoon:
 	@echo build $@
-	SRC_DIR=c_source/
-	$(COMPILER) -o $(SRC_DIR)/$@_$(BAEKJOON_NO) $(SRC_DIR)/$@_$(BAEKJOON_NO).$(EXT_NAME) $(INC_DIR) $(CFLAG)
-	ls -l $(SRC_DIR)/$@_$(BAEKJOON_NO)
+	$(COMPILER) -o $(OUTPUT_DIR)/$@_$(BAEKJOON_NO) $(SRC_DIR)/$@_$(BAEKJOON_NO).$(EXT_NAME) $(INC_DIR) $(CFLAG)
+	ls -l $(OUTPUT_DIR)/$@_$(BAEKJOON_NO)
 	@echo finish $@
 
 all: $(TARGET)
