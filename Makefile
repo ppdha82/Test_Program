@@ -30,8 +30,11 @@ TARGET_LIB_DIR=$(TOP_DIR)
 OUTPUT_DIR=output
 RM=rm
 
+CPP_STRING_FLAG=-std=c++0x
+CPP_FLAG=-D'__DEBUG_ON__'
+CPP_FLAG+=$(CPP_STRING_FLAG)
 INC_DIR=-I$(TOP_DIR)/include
-BAEKJOON_NO=10950
+BAEKJOON_NO=10989
 
 fopen:
 	@echo build $@
@@ -46,7 +49,7 @@ baekjoon_clean:
 
 baekjoon:
 	@echo build $@
-	$(COMPILER) -o $(OUTPUT_DIR)/$@_$(BAEKJOON_NO) $(SRC_DIR)/$@_$(BAEKJOON_NO).$(EXT_NAME) $(INC_DIR) $(CFLAG)
+	$(COMPILER) -o $(OUTPUT_DIR)/$@_$(BAEKJOON_NO) $(SRC_DIR)/$@_$(BAEKJOON_NO).$(EXT_NAME) $(INC_DIR) $(CPP_FLAG)
 	ls -l $(OUTPUT_DIR)/$@_$(BAEKJOON_NO)
 	@echo finish $@
 
