@@ -36,6 +36,18 @@ CPP_FLAG+=$(CPP_STRING_FLAG)
 INC_DIR=-I$(TOP_DIR)/include
 BAEKJOON_NO=10989
 
+OPENCV_OPT=$(shell pkg-config opencv4 --libs --cflags)
+
+opencv:
+	@echo build $@
+	g++ -o $(OUTPUT_DIR)/$@ $(SRC_DIR)/opencv_test.cpp $(OPENCV_OPT)
+	@echo finish $@
+
+opencv_clean:
+	@echo run $@
+	rm -rf $(OUTPUT_DIR)/opencv 
+	@echo finish $@
+
 fopen:
 	@echo build $@
 	$(COMPILER) -o $(OUTPUT_DIR)/$@ $(SRC_DIR)/$@.$(EXT_NAME) $(INC_DIR) $(CFLAG)
@@ -70,7 +82,7 @@ $(TARGET):
 	chmod 755 $@
 	@echo =========== build end ===========
 
-clean:
+clean: opencv_clean
 	@echo $@
 	@echo Removing: $(TARGET) lib$(2).so
 	@rm -f $(TARGET) lib$(TARGET).so
