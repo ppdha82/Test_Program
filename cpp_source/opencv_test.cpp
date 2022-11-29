@@ -132,7 +132,7 @@ int main(int argc, char** argv)
 			case 'm':
 				//mode = atoi(optarg);
 				options.view_mode = atoi(optarg);
-				printf("[%s:%d] mode = %d\n", __FILE__, __LINE__, options.mode);
+				printf("[%s:%d] mode = %d\n", __FILE__, __LINE__, options.view_mode);
 				break;
 
 			default:
