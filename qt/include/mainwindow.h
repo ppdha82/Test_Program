@@ -48,6 +48,8 @@ public:
     virtual ~MainWindow();
 
     void setupUi(QWidget *);
+    void removeSshKeyfile();
+    void generateSshKeyfile();
 
     Ui::MainWindow *getMainWindow();
 
@@ -58,6 +60,7 @@ public slots:
 
 private:
     QPushButton testButton;
+    QProcess *pProc_;
     Ui::MainWindow *ui;
 };
 
