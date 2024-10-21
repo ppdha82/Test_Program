@@ -1,48 +1,66 @@
-import cv2
-'''
-image = cv2.imread("1080p.bmp", cv2.IMREAD_ANYCOLOR)
-cv2.imshow("1080p", image)
-'''
-import numpy as np
+#!/usr/bin/env python3
+import csv
+import os
 
-class VideoCaptureYUV:
-    def __init__(self, filename, size):
-        self.height, self.width = size
-        self.frame_len = (int)(self.width * self.height * 3 / 2)
-        self.f = open(filename, 'rb')
-        self.shape = (int(self.height*1.5), self.width)
+OEM_PATH = "./_define/model_spec/"
+OEM_WHOLE_PATH_NAME = ""
+a_list = []
+model_count = 0
 
-    def read_raw(self):
-        try:
-            raw = self.f.read(self.frame_len)
-            yuv = np.frombuffer(raw, dtype=np.uint8)
-            yuv = yuv.reshape(self.shape)
-        except Exception as e:
-            print(str(e))
-            return False, None
-        return True, yuv
+def makeDirectory(row):
+	try:
+		OEM_NAME = a_list[row][0]
+		print("OEM_NAME = ", OEM_NAME)
+		global OEM_WHOLE_PATH_NAME
+		OEM_WHOLE_PATH_NAME = OEM_PATH + OEM_NAME
+		print("OEM_WHOLE_PATH_NAME = ", OEM_WHOLE_PATH_NAME)
+		if not(os.path.isdir(OEM_WHOLE_PATH_NAME)):
+			os.makedirs(OEM_WHOLE_PATH_NAME)
+	except OSError as e:
+		if e.error != errno.EEXIST:
+			print("Failed to create directory")
+			raise
 
-    def read(self):
-        ret, yuv = self.read_raw()
-        if not ret:
-            return ret, yuv
-        bgr = cv2.cvtColor(yuv, cv2.COLOR_YUV2BGR_NV12)
-        return ret, bgr
+def gen_file(row):
+	print("OEM_WHOLE_PATH_NAME = ", OEM_WHOLE_PATH_NAME)
+	sValue = OEM_WHOLE_PATH_NAME + str("/") + a_list[row][1]
+	print("sValue = ", sValue)
+	return open(sValue, 'w')
 
-if __name__ == "__main__":
-    filename = "sample_hd.yuv"
-    size = (720, 1280)
-    cap = VideoCaptureYUV(filename, size)
+def main():
+	csvFilename = "./FOCUS_DEFINE_MODEL_TEST.csv"
 
-    while 1:
-        ret, frame = cap.read()
-        if ret:
-            cv2.imshow("frame", frame)
-            cv2.waitKey(0)
-        else:
-            break
+	workfile = open(csvFilename, 'r', encoding='utf-8')
+	rdCsv = csv.reader(workfile)
 
-'''
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-'''
+	for line in rdCsv:
+		global model_count
+		model_count += 1
+		a_list.append(line)
+		print("line = ", line)
+
+	#print("a_list[0][0] = ", a_list[0][0], "; a_list[1][1] = ", a_list[1][1])
+	workfile.close()
+
+	index = 1
+
+	while index < model_count:
+		makeDirectory(index)
+		print("RUN gen_file1(" + str(index) + ")")
+		ini_file = gen_file(index)
+		print("RUN gen_file2")
+
+		''' ARCH, SENSOR_TYPE, IPDEVICE_TYPE, SUB_MODEL, SENSOR, CDS_MODE, IR_PWM, SUPPORT_H265, SUPPORT_MFZ, SUPPORT_PIRIS, ALPUC, USE_LPR, DDNS, DTON, NTOD '''
+		columnIndex = 0
+		keyLen = len(a_list[index - 1]) - 2
+		print("keyLen = ", keyLen)
+		while columnIndex < keyLen:
+			valueIndex = columnIndex + 2
+			if(ini_file.writable()):
+				data = a_list[0][valueIndex] + '=' + a_list[index][valueIndex] + '\n'
+				ini_file.write(data)
+			print("a_list[", columnIndex, "] = " + a_list[index][valueIndex] + "; key = " + a_list[0][valueIndex])
+			columnIndex += 1
+		index += 1
+
+main()
