@@ -5,6 +5,9 @@
 #include <QPushButton>
 #include <QProcess>
 #include <QDir>
+#include <QGridLayout>
+#include <QLayout>
+#include <QLabel>
 
 class QMSound : public QWidget
 {
@@ -47,21 +50,31 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
 
-    void setupUi(QWidget *);
-    void removeSshKeyfile();
-    void generateSshKeyfile();
-
     Ui::MainWindow *getMainWindow();
 
 signals:
     
 public slots:
     void testclick();
+    void saveMessage();
+    void touchReceive();
+    void touchStore();
+    void loadMessage();
+    void clearMessage();
 
 private:
+    void setupUi(QMainWindow *);
+    void removeSshKeyfile();
+    void generateSshKeyfile();
+    void connectWidgetEvent();
+    QLayout* setupTestCommandUILayout(QWidget*);
+
     QPushButton testButton;
-    QProcess *pProc_;
+    // QProcess *pProc_;
     Ui::MainWindow *ui;
+
+    QGridLayout *pGridlayout_;
+    QGridLayout *layoutTestCommand;
 };
 
 #endif // __MAINWINDOW_H__
