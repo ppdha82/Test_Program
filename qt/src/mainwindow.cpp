@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     // pProc_ = new QProcess(parent);
-    pGridlayout_ = new QGridLayout(ui->centralWidget);
 
     setupUi(this);
     connectWidgetEvent();
@@ -39,28 +38,7 @@ void MainWindow::setupUi(QMainWindow *w)
     testButton.setText("test");
     testButton.setGeometry(50, 40, 75, 30);
 
-    layoutTestCommand = new QGridLayout();
-    layoutTestCommand->setVerticalSpacing(0);
-    layoutTestCommand->setHorizontalSpacing(0);
-    layoutTestCommand->setContentsMargins(15, 0, 0, 0);
-
-    layoutTestCommand->addWidget(new QLabel("Request"), 0, 0, 1, 1, Qt::AlignCenter);
-    layoutTestCommand->addWidget(new QLabel("Response"), 0, 1, 1, 1, Qt::AlignCenter);
-    layoutTestCommand->addWidget(new QLabel("Code"), 0, 2, 1, 1, Qt::AlignCenter);
-    layoutTestCommand->addWidget(new QLabel("Ch"), 0, 3, 1, 1, Qt::AlignCenter);
-
-    layoutTestCommand->addWidget(new QLabel("Request Data: "), 2, 0, 1, 2, Qt::AlignRight);
-    layoutTestCommand->addWidget(new QLabel("Response Data: "), 3, 0, 1, 1, Qt::AlignRight);
-
-    // pGridlayout_->addWidget(tablewidget_DIO,3, 0, 1, -1);
-    setupTestCommandUILayout(ui->centralWidget);
-    pGridlayout_->addLayout(layoutTestCommand, 3, 10, 1, -1, Qt::AlignRight);
-    // pGridlayout_->addWidget(tablewidget_ETC,4, 0, 1, -1);
-
-    // pGridlayout_->setRowStretch(0, 100);
-    // pGridlayout_->setRowStretch(1, 10);
-
-    ui->centralWidget->setLayout(pGridlayout_);
+    setupTestCommandUILayout(ui->gridLayout);
 }
 
 void MainWindow::connectWidgetEvent()
@@ -68,16 +46,51 @@ void MainWindow::connectWidgetEvent()
     connect(&testButton, SIGNAL(clicked()), this, SLOT(testclick()));
 }
 
-QLayout* MainWindow::setupTestCommandUILayout(QWidget *w)
+void MainWindow::setupTestCommandUILayout(QGridLayout *grid)
 {
-    layoutTestCommand = new QGridLayout(w);
+    // setStyleSheet
+    QString StyleSheetDefault = "QLabel { background-color: %1; width: 1px; margin: 0px; text-align: center;}";
+    QString StyleSheetGreen = StyleSheetDefault.arg("green");
+    QString StyleSheetYellow = StyleSheetDefault.arg("yellow");
+    QString StyleSheetRed = StyleSheetDefault.arg("red");
+    int count = 0;
+
+    Request = new QLabel(QString("Request_%1").arg(count++));
+    Response = new QLabel(QString("Response_%1").arg(count++));
+    Code = new QLabel(QString("Code_%1").arg(count++));
+    Ch = new QLabel(QString("Ch_%1").arg(count++));
+    RequestData = new QLabel(QString("Request Data: _%1").arg(count++));
+    ResponseData = new QLabel(QString("Response Data: _%1").arg(count++));
+    testButton2 = new QPushButton(QString("pushbutton_test_test_test_%1").arg(count++));
+
+    Request->setStyleSheet(StyleSheetGreen);
+    Response->setStyleSheet(StyleSheetYellow);
+    Code->setStyleSheet(StyleSheetRed);
+    Ch->setStyleSheet(StyleSheetGreen);
+    RequestData->setStyleSheet(StyleSheetYellow);
+    ResponseData->setStyleSheet(StyleSheetRed);
+    testButton2->setStyleSheet(StyleSheetRed);
+
+    QRect rect = Request->geometry();
+    QSize size(200, 100);
+    rect.setSize(size);
+    Request->setFrameRect(rect);
+    Request->setFrameShape(QFrame::Box);
+    Response->setFrameShape(QFrame::Panel);
+    Code->setFrameShape(QFrame::StyledPanel);
+    Ch->setFrameShape(QFrame::HLine);
+    RequestData->setFrameShape(QFrame::VLine);
+    ResponseData->setFrameShape(QFrame::WinPanel);
+
+    layoutTestCommand = grid;
+
     layoutTestCommand->setVerticalSpacing(0);
     layoutTestCommand->setHorizontalSpacing(0);
-    layoutTestCommand->setContentsMargins(15, 0, 0, 0);
+    layoutTestCommand->setContentsMargins(15, 0, 15, 15);
 
-    // combConvertData = new QComboBox();
-    // combConvertData->addItems(QStringList() << "Dec" << "Hex");
-    // combConvertData->setObjectName("DataConvert");
+    combConvertData = new QComboBox();
+    combConvertData->addItems(QStringList() << "Dec" << "Hex");
+    combConvertData->setObjectName("DataConvert");
 
     // spinCode = new ShortHexSpinBox();
     // spinCode->setPrefix("0x");
@@ -102,21 +115,21 @@ QLayout* MainWindow::setupTestCommandUILayout(QWidget *w)
     // pubtnSend->setObjectName("Send");
     // pubtnSend->setFixedWidth(60);
 
-    layoutTestCommand->addWidget(new QLabel("Request"), 0, 0, 1, 1, Qt::AlignCenter);
-    layoutTestCommand->addWidget(new QLabel("Response"), 0, 1, 1, 1, Qt::AlignCenter);
-    layoutTestCommand->addWidget(new QLabel("Code"), 0, 2, 1, 1, Qt::AlignCenter);
-    layoutTestCommand->addWidget(new QLabel("Ch"), 0, 3, 1, 1, Qt::AlignCenter);
+    layoutTestCommand->addWidget(Request, 1, 0, 1, 1, Qt::AlignCenter);
+    layoutTestCommand->addWidget(Response, 1, 1, 1, 1, Qt::AlignCenter);
+    layoutTestCommand->addWidget(Code, 1, 2, 1, 1, Qt::AlignCenter);
+    layoutTestCommand->addWidget(Ch, 1, 3, 1, 1, Qt::AlignCenter);
+    layoutTestCommand->addWidget(testButton2, 2, 3, 1, 3, Qt::AlignCenter);
+
+    layoutTestCommand->addWidget(RequestData, 3, 0, 1, 3, Qt::AlignCenter);
+    layoutTestCommand->addWidget(combConvertData, 3, 3, 1, -1, Qt::AlignLeft);
+    layoutTestCommand->addWidget(ResponseData, 4, 0, 1, 1, Qt::AlignCenter);
 
     // layoutTestCommand->addWidget(spinCode, 1, 2, 1, 1, Qt::AlignRight);
     // layoutTestCommand->addWidget(spinChannel, 1, 3, 1, 1, Qt::AlignLeft);
-    layoutTestCommand->addWidget(new QLabel("Request Data: "), 2, 0, 1, 2, Qt::AlignRight);
     // layoutTestCommand->addWidget(spinValue, 2, 2, 1, 1, Qt::AlignLeft);
     // layoutTestCommand->addWidget(pubtnSend, 2, 3, 1, 1, Qt::AlignLeft);
-    layoutTestCommand->addWidget(new QLabel("Response Data: "), 3, 0, 1, 1, Qt::AlignRight);
     // layoutTestCommand->addWidget(LineEditRecievedValue, 3, 1, 1, 2, Qt::AlignLeft);
-    // layoutTestCommand->addWidget(combConvertData, 3, 3, 1, -1, Qt::AlignLeft);
-
-    return layoutTestCommand;
 }
 
 void MainWindow::removeSshKeyfile()
@@ -193,12 +206,29 @@ void MainWindow::testclick()
 
 void MainWindow::saveMessage()
 {
+#if defined(__DEBUG_ON__)
+    qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] Enter" << __func__;
+#endif  /* __DEBUG_ON__ */
+    QString StyleSheetDefault = "QLabel { background-color: %1; width: 1px; margin: 0px; text-align: center;}";
+    QString StyleSheetGreen = StyleSheetDefault.arg("green");
+    static int count = 0;
 
+    QString strRequest = QString("Request_%1").arg(count++);
+    if (Request == NULL) {
+        Request = new QLabel(strRequest);
+    }
+    else {
+        Request->setText(strRequest);
+    }
+    Request->setStyleSheet(StyleSheetGreen);
+    layoutTestCommand->addWidget(Request, 1, 0, 1, 1, Qt::AlignCenter);
 }
 
 void MainWindow::touchReceive()
 {
-
+#if defined(__DEBUG_ON__)
+    qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] Enter" << __func__;
+#endif  /* __DEBUG_ON__ */
 }
 
 void MainWindow::touchStore()
@@ -210,10 +240,29 @@ void MainWindow::touchStore()
 
 void MainWindow::loadMessage()
 {
-
+#if defined(__DEBUG_ON__)
+    qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] Enter" << __func__;
+#endif  /* __DEBUG_ON__ */
 }
 
 void MainWindow::clearMessage()
 {
-
+#if defined(__DEBUG_ON__)
+    qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] Enter" << __func__;
+#endif  /* __DEBUG_ON__ */
+#if defined(__DEBUG_ON__)
+    QRect rect;
+    for (int i = 0;i < layoutTestCommand->rowCount();i++) {
+        qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] i[" << i << "/" << layoutTestCommand->rowCount() << "]";
+        for (int j = 0;j < layoutTestCommand->columnCount();j++) {
+            qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] i[" << j << "/" << layoutTestCommand->columnCount() << "]";
+            if (layoutTestCommand->itemAtPosition(i, j) == NULL) {
+                qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] layoutTestCommand->itemAtPosition(" << i << "," << j << ") NULL";
+                continue;
+            }
+            rect = layoutTestCommand->itemAtPosition(i, j)->geometry();
+            qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] layoutTestCommand(" << i << "," << j << ")->geometry()[" << rect << "] w[" << rect.width() << "] h[" << rect.height() << "]";
+        }
+    }
+#endif  /* __DEBUG_ON__ */
 }

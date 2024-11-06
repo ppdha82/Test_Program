@@ -8,6 +8,7 @@
 #include <QGridLayout>
 #include <QLayout>
 #include <QLabel>
+#include <QComboBox>
 
 class QMSound : public QWidget
 {
@@ -67,14 +68,21 @@ private:
     void removeSshKeyfile();
     void generateSshKeyfile();
     void connectWidgetEvent();
-    QLayout* setupTestCommandUILayout(QWidget*);
+    void setupTestCommandUILayout(QGridLayout*);
 
     QPushButton testButton;
     // QProcess *pProc_;
     Ui::MainWindow *ui;
 
-    QGridLayout *pGridlayout_;
     QGridLayout *layoutTestCommand;
+    QPushButton *testButton2;
+    QLabel *Request;
+    QLabel *Response;
+    QLabel *Code;
+    QLabel *Ch;
+    QLabel *RequestData;
+    QLabel *ResponseData;
+    QComboBox *combConvertData;
 };
 
 #endif // __MAINWINDOW_H__
