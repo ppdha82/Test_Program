@@ -34,7 +34,7 @@ CPP_STRING_FLAG=-std=c++0x
 CPP_FLAG=-D'__DEBUG_ON__'
 CPP_FLAG+=$(CPP_STRING_FLAG)
 INC_DIR=-I$(TOP_DIR)/include
-BAEKJOON_NO=10989
+BAEKJOON_NO=5597
 
 OPENCV_OPT=$(shell pkg-config opencv4 --libs --cflags)
 
