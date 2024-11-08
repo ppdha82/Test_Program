@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QProcess>
+#include <QThread>
 #include <QDir>
 #include <QGridLayout>
 #include <QLayout>
@@ -36,6 +37,18 @@ public:
 private:
     QProcess *pProc_;
     QString homePath_;
+};
+
+class QMThread : public QThread
+{
+    Q_OBJECT
+
+public:
+    explicit QMThread(QObject *parent = 0);
+
+    void customSleep();
+
+private:
 };
 
 namespace Ui

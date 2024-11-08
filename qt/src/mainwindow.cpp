@@ -44,6 +44,14 @@ void MainWindow::setupUi(QMainWindow *w)
 void MainWindow::connectWidgetEvent()
 {
     connect(&testButton, SIGNAL(clicked()), this, SLOT(testclick()));
+
+    onPing.setParent(w);
+    onPing.setText("Ping");
+    onPing.setGeometry(150, 100, 80, 50);
+    onPing.setCheckable(true);
+    connect(&onPing, SIGNAL(clicked()), this, SLOT(onClickPing()));
+
+    connect(&proc1, SIGNAL(started()), this, SLOT(onPingStarted()));
 }
 
 void MainWindow::setupTestCommandUILayout(QGridLayout *grid)
@@ -147,13 +155,11 @@ void MainWindow::removeSshKeyfile()
         if (proc1.waitForFinished(1000)) {
             QByteArray output = proc1.readAllStandardOutput();
 #if defined(__DEBUG_ON__)
-            qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] " << "proc1.state()[" << proc1.state() << "]";
             qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] " << "command output:" << output;
 #endif  /* __DEBUG_ON__ */
         }
         else {
 #if defined(__DEBUG_ON__)
-            qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] " << "proc1.state()[" << proc1.state() << "]";
             qDebug() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Failed to run proc1";
 #endif  /* __DEBUG_ON__ */
         }

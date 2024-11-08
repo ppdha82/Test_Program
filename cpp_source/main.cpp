@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdio>
+#include <climits>
 
 int main(void)
 {
@@ -12,6 +13,7 @@ int main(void)
 		return -1;
 	}
 	std::cout << A - B << std::endl;
+	std::cout << "INT_MAX[" << INT_MAX << "] INT_MIN[" << INT_MIN << "]\n";
 
 	return 0;
 }
