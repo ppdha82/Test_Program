@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/xsd">
+        <file>test.xsd</file>
+    </qresource>
+</RCC>

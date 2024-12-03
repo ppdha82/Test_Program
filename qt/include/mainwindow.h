@@ -11,6 +11,8 @@
 #include <QLabel>
 #include <QComboBox>
 
+#include "include/settings.h"
+
 class QMSound : public QWidget
 {
     Q_OBJECT
@@ -83,6 +85,7 @@ private:
     void connectWidgetEvent();
     void setupTestCommandUILayout(QGridLayout*);
 
+    Settings *settings;
     QPushButton testButton;
     // QProcess *pProc_;
     Ui::MainWindow *ui;

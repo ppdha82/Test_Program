@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Version -->
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="QMonitoring.xsd">
+    <DeviceList>
+        <Device RefreshTime="100" IP="192.168.38.121" ID="Master_R">
+            <Motor JLimit_Min="-65" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="600" F_Comp="0.015" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="30" Pos_IGain="0" Cur_Ki="1909.02" LQR_MaxVolt="20" Limit_Cur="3" Pos_PGain="0" JLimit_Max="35" Cur_Kp="1.32822" Tooltip="WAIST" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="1" G_Comp="0" Ch="0" Limit_Accel="300" Madv="-28708" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="1000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-48" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="600" F_Comp="0.043" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="30" Pos_IGain="0" Cur_Ki="2500" LQR_MaxVolt="20" Limit_Cur="3" Pos_PGain="0" JLimit_Max="39.5" Cur_Kp="1.32822" Tooltip="ELBOW" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="0.7" G_Comp="0" Ch="1" Limit_Accel="300" Madv="-28517" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="990" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-55" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="600" F_Comp="0.035" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="30" Pos_IGain="0" Cur_Ki="3000" LQR_MaxVolt="20" Limit_Cur="3" Pos_PGain="0" JLimit_Max="35" Cur_Kp="1.32822" Tooltip="SHOULDER" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="0.5" G_Comp="0" Ch="2" Limit_Accel="300" Madv="28850" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="1000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-55" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="3000" F_Comp="0.005" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="400" Pos_IGain="1e-05" Cur_Ki="2000" LQR_MaxVolt="24" Limit_Cur="0.68" Pos_PGain="25" JLimit_Max="147" Cur_Kp="15" Tooltip="LOWER.L" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="24" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="0" Pos_DGain="2e-05" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="0.5" G_Comp="0" Ch="3" Limit_Accel="800" Madv="-47308.8" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="400" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-125" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="3000" F_Comp="0.021" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="100" Pos_IGain="0" Cur_Ki="10000" LQR_MaxVolt="20" Limit_Cur="0.33" Pos_PGain="10" JLimit_Max="85" Cur_Kp="20" Tooltip="MIDDLE.L" Cur_Kff="0.6" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="15" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="1.5" G_Comp="0" Ch="4" Limit_Accel="200" Madv="69529.6" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="4800" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-68" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="3000" F_Comp="0.02" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="100" Pos_IGain="0" Cur_Ki="3200" LQR_MaxVolt="20" Limit_Cur="0.18" Pos_PGain="10" JLimit_Max="45" Cur_Kp="55" Tooltip="UPPER.L" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="15" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="1" G_Comp="0" Ch="5" Limit_Accel="200" Madv="-59596.8" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="2250" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-100005" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="3000" F_Comp="0.005" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="100" Pos_IGain="0.001" Cur_Ki="5500" LQR_MaxVolt="20" Limit_Cur="0.18" Pos_PGain="20" JLimit_Max="100005" Cur_Kp="50" Tooltip="HANDLE" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="100000" Pos_DGain="0.003" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="0.1" G_Comp="0" Ch="6" Limit_Accel="200" Madv="31040" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="450" PID_LPF_Cur="0"/>
+            <AIn Ch="0" m="0.3064" swTh="3" fitGain="18404.5000" Tooltip="Grip Hall Sensor0" k1="1.695416" swRef="2886" fitOffset="2466.0000" k2="-0.000705" k3="0.00000006561350" b="1732.1400" tau1="0.001" tau2="0.0080" fitSwRef="2985"/>
+            <AIn Ch="1" Tooltip="Grip Hall Sensor1"/>
+            <AIn Ch="2" Tooltip="Grip Angle Radian"/>
+            <AIn Ch="3" Tooltip="Grip Angle Degree"/>
+            <DIn Ch="0" Tooltip="Finger Clutch"/>
+            <DOut Ch="0" Tooltip="Shoulder Brake Release"/>
+            <DOut Ch="1" Tooltip="Elbow Clutch Release"/>
+            <Abs Ch="0" Madv="4096" Tooltip="WAIST" MotorCh="0" Home="123" JointType="REVOLUTE"/>
+            <Abs Ch="1" Madv="4096" Tooltip="ELBOW" MotorCh="1" Home="3292" JointType="REVOLUTE"/>
+            <Abs Ch="2" Madv="-4096" Tooltip="SHOULDER" MotorCh="2" Home="2003" JointType="REVOLUTE"/>
+            <Abs Ch="3" Madv="-4096" Tooltip="LOWER.L" MotorCh="3" Home="2643" JointType="REVOLUTE"/>
+            <Abs Ch="4" Madv="4096" Tooltip="MIDDLE.L" MotorCh="4" Home="664" JointType="REVOLUTE"/>
+            <Abs Ch="5" Madv="-4096" Tooltip="UPPER.L" MotorCh="5" Home="1114" JointType="REVOLUTE"/>
+            <Abs Ch="6" Madv="-4096" Tooltip="HANDLE" MotorCh="6" Home="278" JointType="REVOLUTE"/>
+        </Device>
+        <Device RefreshTime="100" IP="192.168.38.61" ID="Master_L">
+            <Motor JLimit_Min="-35" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="600" F_Comp="0.017" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="30" Pos_IGain="0" Cur_Ki="1909.02" LQR_MaxVolt="20" Limit_Cur="3" Pos_PGain="0" JLimit_Max="65" Cur_Kp="1.32822" Tooltip="WAIST" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="1" G_Comp="0" Ch="0" Limit_Accel="300" Madv="-28708" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="1000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-48" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="600" F_Comp="0.043" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="30" Pos_IGain="0" Cur_Ki="2500" LQR_MaxVolt="20" Limit_Cur="3" Pos_PGain="0" JLimit_Max="39.5" Cur_Kp="1.32822" Tooltip="ELBOW" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="0.7" G_Comp="0" Ch="1" Limit_Accel="300" Madv="-28517" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="1200" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-55" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="600" F_Comp="0.035" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="30" Pos_IGain="0" Cur_Ki="3000" LQR_MaxVolt="20" Limit_Cur="3" Pos_PGain="0" JLimit_Max="35" Cur_Kp="1.32822" Tooltip="SHOULDER" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="0.5" G_Comp="0" Ch="2" Limit_Accel="300" Madv="28850" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="1000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-147" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="3000" F_Comp="0.005" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="400" Pos_IGain="1e-05" Cur_Ki="2000" LQR_MaxVolt="24" Limit_Cur="0.68" Pos_PGain="45" JLimit_Max="55" Cur_Kp="15" Tooltip="LOWER.L" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="24" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="0" Pos_DGain="2e-05" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="0.5" G_Comp="0" Ch="3" Limit_Accel="800" Madv="-47308.8" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="400" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-125" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="3000" F_Comp="0.02" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="100" Pos_IGain="0" Cur_Ki="10000" LQR_MaxVolt="20" Limit_Cur="0.33" Pos_PGain="10" JLimit_Max="85" Cur_Kp="20" Tooltip="MIDDLE.L" Cur_Kff="0.6" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="15" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="1.5" G_Comp="0" Ch="4" Limit_Accel="200" Madv="-69529.6" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="4800" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-45" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="3000" F_Comp="0.02" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="100" Pos_IGain="0" Cur_Ki="3200" LQR_MaxVolt="20" Limit_Cur="0.18" Pos_PGain="10" JLimit_Max="68" Cur_Kp="55" Tooltip="UPPER.L" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="15" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="1" G_Comp="0" Ch="5" Limit_Accel="200" Madv="-59596.8" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="2250" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-100005" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.02" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="3000" F_Comp="0.006" CUR_LPF_Cur="0" LQR_LPF_Cur="0.08" MaxJump_Range="0" Limit_Vel="100" Pos_IGain="0.001" Cur_Ki="5500" LQR_MaxVolt="20" Limit_Cur="0.18" Pos_PGain="20" JLimit_Max="100005" Cur_Kp="50" Tooltip="HANDLE" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="20" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="100000" Pos_DGain="0.003" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.001" LQR_Vel="0.1" G_Comp="0" Ch="6" Limit_Accel="200" Madv="31040" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.2" LQR_Pos="450" PID_LPF_Cur="0"/>
+            <AIn Ch="0" m="0.3194" swTh="3" fitGain="21960.5000" Tooltip="Grip Hall Sensor0" k1="2.019340" swRef="2930" fitOffset="2442.4000" k2="-0.000894" k3="0.00000009523200" b="1717.2200" tau1="0.001" tau2="0.0080" fitSwRef="3064"/>
+            <AIn Ch="1" Tooltip="Grip Hall Sensor1"/>
+            <AIn Ch="2" Tooltip="Grip Angle Radian"/>
+            <AIn Ch="3" Tooltip="Grip Angle Degree"/>
+            <DIn Ch="0" Tooltip="Finger Clutch"/>
+            <DOut Ch="0" Tooltip="Shoulder Brake Release"/>
+            <DOut Ch="1" Tooltip="Elbow Brake Release"/>
+            <Abs Ch="0" Madv="4096" Tooltip="WAIST" MotorCh="0" Home="3397" JointType="REVOLUTE"/>
+            <Abs Ch="1" Madv="4096" Tooltip="ELBOW" MotorCh="1" Home="4095" JointType="REVOLUTE"/>
+            <Abs Ch="2" Madv="-4096" Tooltip="SHOULDER" MotorCh="2" Home="4095" JointType="REVOLUTE"/>
+            <Abs Ch="3" Madv="-4096" Tooltip="LOWER.L" MotorCh="3" Home="4095" JointType="REVOLUTE"/>
+            <Abs Ch="4" Madv="-4096" Tooltip="MIDDLE.L" MotorCh="4" Home="4095" JointType="REVOLUTE"/>
+            <Abs Ch="5" Madv="-4096" Tooltip="UPPER.L" MotorCh="5" Home="4095" JointType="REVOLUTE"/>
+            <Abs Ch="6" Madv="-4096" Tooltip="HANDLE" MotorCh="6" Home="4095" JointType="REVOLUTE"/>
+        </Device>
+        <Device RefreshTime="100" IP="192.168.38.181" ID="Slave_A">
+            <Motor JLimit_Min="-160" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.05" LQR_LPF_Vel="0.05" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="200" F_Comp="0.12" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="50" Pos_IGain="0" Cur_Ki="4000" LQR_MaxVolt="40" Limit_Cur="2.3" Pos_PGain="0" JLimit_Max="160" Cur_Kp="8" Tooltip="YAW" Cur_Kff="0" Stiffness_Current="2.3" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="20" Pos_DGain="0" Stiffness_Constant="3000" Stall_Ratio="340" UnderCurrent_CurRatio="0.1" LQR_Vel="2.5" G_Comp="-0.72" Ch="0" Limit_Accel="250" Madv="1.6384e+06" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="-0.035" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.05" LQR_Pos="5000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-65" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.05" LQR_LPF_Vel="0.05" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="200" F_Comp="0.1" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="50" Pos_IGain="0" Cur_Ki="3800" LQR_MaxVolt="40" Limit_Cur="2.3" Pos_PGain="0" JLimit_Max="85" Cur_Kp="8" Tooltip="PITCH" Cur_Kff="0" Stiffness_Current="3" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="16" Pos_DGain="0" Stiffness_Constant="3000" Stall_Ratio="340" UnderCurrent_CurRatio="0.1" LQR_Vel="4.5" G_Comp="1.0504" Ch="1" Limit_Accel="250" Madv="-2.05671e+06" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0.0383" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.05" LQR_Pos="4500" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-50" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.015" LQR_LPF_Vel="0.015" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="300" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="210" Pos_IGain="0.001" Cur_Ki="4800" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="1.1" JLimit_Max="275" Cur_Kp="16" Tooltip="SLIDE" Cur_Kff="0" Stiffness_Current="0.68" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="10" Pos_DGain="0.0015" Stiffness_Constant="200" Stall_Ratio="400" UnderCurrent_CurRatio="0.1" LQR_Vel="0.001" G_Comp="0.02" Ch="2" Limit_Accel="840" Madv="-7770.19" JointType="PRISMATIC" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0.03" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.015" LQR_Pos="22" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="FINGER" Cur_Kff="0.1" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="40" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="3" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="PID" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="560" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="ROLL" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="25" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="4" Limit_Accel="4150" Madv="122880" JointType="INSTRUMENT" MCtl="PID" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="400" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-95" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="95" Cur_Kp="17" Tooltip="WRIST" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="25" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="5" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="PID" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="400" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="THUMB" Cur_Kff="0.1" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="40" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="6" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="PID" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="560" PID_LPF_Cur="0"/>
+            <AIn Ch="0" Tooltip="Inst.Adapt/Inst"/>
+            <AIn Ch="1" Tooltip=""/>
+            <AIn Ch="2" Tooltip=""/>
+            <DIn Ch="0" Tooltip="Port Clutch"/>
+            <DIn Ch="1" Tooltip="Arm Clutch"/>
+            <DIn Ch="2" Tooltip=""/>
+            <DIn Ch="3" Tooltip="Cannular Button"/>
+            <DIn Ch="4" Tooltip="Instrument Adapter(A2D)"/>
+            <DIn Ch="5" Tooltip="Instrument(A2D)"/>
+            <DOut Ch="0" Tooltip="Passive LED Green"/>
+            <DOut Ch="1" Tooltip="Passive LED Yellow"/>
+            <DOut Ch="2" Tooltip="Passive LED Red"/>
+            <DOut Ch="3" Tooltip="Yaw Clutch"/>
+            <DOut Ch="4" Tooltip="Slide LED Magenta"/>
+            <DOut Ch="5" Tooltip="Slide LED Green"/>
+            <DOut Ch="6" Tooltip="Slide LED White"/>
+            <DOut Ch="7"/>
+            <DOut Ch="8" Tooltip="Pitch/Slide Clutch"/>
+            <Abs Ch="0" Madv="119.069767442" Tooltip="P1" HomeExt="0" Home="0" JointType="PRISMATIC"/>
+            <Abs Ch="1" Madv="-4096" Tooltip="P2" Home="0" JointType="REVOLUTE"/>
+            <Abs Ch="2" Madv="-4096" Tooltip="P3" Home="0" JointType="REVOLUTE"/>
+            <Abs Ch="3" Madv="4096" Tooltip="P4" Home="3076" JointType="REVOLUTE"/>
+            <Abs Ch="4" Madv="4096" Tooltip="YAW" MotorCh="0" Home="2119" JointType="REVOLUTE"/>
+            <Abs Ch="5" Madv="4096" Tooltip="PITCH" MotorCh="1" Home="3203" JointType="REVOLUTE"/>
+            <Abs Ch="6" Madv="88.8022" Tooltip="SLIDE" MotorCh="2" Home="1145" JointType="PRISMATIC"/>
+            <Abs Ch="7" Madv="4096" Tooltip="FINGER" MotorCh="3" Home="1014" JointType="INSTRUMENT"/>
+            <Abs Ch="8" Madv="4096" Tooltip="ROLL" MotorCh="4" Home="2087" JointType="INSTRUMENT"/>
+            <Abs Ch="9" Madv="4096" Tooltip="WRIST" MotorCh="5" Home="2076" JointType="INSTRUMENT"/>
+            <Abs Ch="10" Madv="4096" Tooltip="THUMB" MotorCh="6" Home="1815" JointType="INSTRUMENT"/>
+        </Device>
+        <Device RefreshTime="100" IP="192.168.38.182" ID="Slave_B">
+            <Motor JLimit_Min="-160" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.05" LQR_LPF_Vel="0.05" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="200" F_Comp="0.12" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="50" Pos_IGain="0" Cur_Ki="4000" LQR_MaxVolt="40" Limit_Cur="2.3" Pos_PGain="0" JLimit_Max="160" Cur_Kp="8" Tooltip="YAW" Cur_Kff="0" Stiffness_Current="2.3" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="20" Pos_DGain="0" Stiffness_Constant="3000" Stall_Ratio="340" UnderCurrent_CurRatio="0.1" LQR_Vel="2.5" G_Comp="-0.72" Ch="0" Limit_Accel="250" Madv="1.6384e+06" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="-0.03" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.05" LQR_Pos="5000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-65" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.05" LQR_LPF_Vel="0.05" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="200" F_Comp="0.1" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="50" Pos_IGain="0" Cur_Ki="3800" LQR_MaxVolt="40" Limit_Cur="2.3" Pos_PGain="0" JLimit_Max="85" Cur_Kp="8" Tooltip="PITCH" Cur_Kff="0" Stiffness_Current="3" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="16" Pos_DGain="0" Stiffness_Constant="3000" Stall_Ratio="340" UnderCurrent_CurRatio="0.1" LQR_Vel="5" G_Comp="0.9949" Ch="1" Limit_Accel="250" Madv="-2.05671e+06" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0.0559" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.05" LQR_Pos="4500" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-50" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.015" LQR_LPF_Vel="0.015" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="300" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="210" Pos_IGain="0.001" Cur_Ki="4800" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="1.1" JLimit_Max="275" Cur_Kp="16" Tooltip="SLIDE" Cur_Kff="0" Stiffness_Current="0.68" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0.0015" Stiffness_Constant="200" Stall_Ratio="400" UnderCurrent_CurRatio="0.1" LQR_Vel="0.001" G_Comp="0.02" Ch="2" Limit_Accel="840" Madv="-7770.19" JointType="PRISMATIC" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0.04" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.015" LQR_Pos="22" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="FINGER" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="40" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="3" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="560" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="ROLL" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="25" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="4" Limit_Accel="4150" Madv="122880" JointType="INSTRUMENT" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="400" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-95" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="95" Cur_Kp="17" Tooltip="WRIST" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="25" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="5" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="400" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="THUMB" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="40" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="6" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="580" PID_LPF_Cur="0"/>
+            <AIn Ch="0" Tooltip="Inst.Adapt/Inst"/>
+            <AIn Ch="1" Tooltip=""/>
+            <AIn Ch="2" Tooltip=""/>
+            <DIn Ch="0" Tooltip="Port Clutch"/>
+            <DIn Ch="1" Tooltip="Arm Clutch"/>
+            <DIn Ch="2" Tooltip=""/>
+            <DIn Ch="3" Tooltip="Cannular Button"/>
+            <DIn Ch="4" Tooltip="Instrument Adapter(A2D)"/>
+            <DIn Ch="5" Tooltip="Instrument(A2D)"/>
+            <DOut Ch="0" Tooltip="Passive LED Green"/>
+            <DOut Ch="1" Tooltip="Passive LED Yellow"/>
+            <DOut Ch="2" Tooltip="Passive LED Red"/>
+            <DOut Ch="3" Tooltip="Yaw Clutch"/>
+            <DOut Ch="4" Tooltip="Slide LED Magenta"/>
+            <DOut Ch="5" Tooltip="Slide LED Green"/>
+            <DOut Ch="6" Tooltip="Slide LED White"/>
+            <DOut Ch="7"/>
+            <DOut Ch="8" Tooltip="Pitch/Slide Clutch"/>
+            <Abs Ch="0" Madv="119.069767442" Tooltip="P1" HomeExt="87991" Home="0" JointType="PRISMATIC"/>
+            <Abs Ch="1" Madv="-4096" Tooltip="P2" Home="2397" JointType="REVOLUTE"/>
+            <Abs Ch="2" Madv="-4096" Tooltip="P3" Home="655" JointType="REVOLUTE"/>
+            <Abs Ch="3" Madv="4096" Tooltip="P4" Home="3280" JointType="REVOLUTE"/>
+            <Abs Ch="4" Madv="4096" Tooltip="YAW" MotorCh="0" Home="1916" JointType="REVOLUTE"/>
+            <Abs Ch="5" Madv="4096" Tooltip="PITCH" MotorCh="1" Home="3558" JointType="REVOLUTE"/>
+            <Abs Ch="6" Madv="88.8022" Tooltip="SLIDE" MotorCh="2" Home="1289" JointType="PRISMATIC"/>
+            <Abs Ch="7" Madv="4096" Tooltip="FINGER" MotorCh="3" Home="136" JointType="INSTRUMENT"/>
+            <Abs Ch="8" Madv="4096" Tooltip="ROLL" MotorCh="4" Home="2734" JointType="INSTRUMENT"/>
+            <Abs Ch="9" Madv="4096" Tooltip="WRIST" MotorCh="5" Home="3082" JointType="INSTRUMENT"/>
+            <Abs Ch="10" Madv="4096" Tooltip="THUMB" MotorCh="6" Home="2235" JointType="INSTRUMENT"/>
+        </Device>
+        <Device RefreshTime="100" IP="192.168.38.183" ID="Slave_C">
+            <Motor JLimit_Min="-145" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.05" LQR_LPF_Vel="0.05" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="200" F_Comp="0.15" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="40" Pos_IGain="0" Cur_Ki="3600" LQR_MaxVolt="40" Limit_Cur="2.3" Pos_PGain="0" JLimit_Max="145" Cur_Kp="2" Tooltip="YAW" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="5" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="340" UnderCurrent_CurRatio="0.1" LQR_Vel="2.5" G_Comp="-0.35" Ch="0" Limit_Accel="600" Madv="2.4576e+06" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="-0.037" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.05" LQR_Pos="3000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-63" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.05" LQR_LPF_Vel="0.05" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="200" F_Comp="-0.05" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="40" Pos_IGain="0" Cur_Ki="3800" LQR_MaxVolt="40" Limit_Cur="2.3" Pos_PGain="0" JLimit_Max="73" Cur_Kp="1.6" Tooltip="PITCH" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="340" UnderCurrent_CurRatio="0.1" LQR_Vel="2.5" G_Comp="0.8515" Ch="1" Limit_Accel="600" Madv="-3.22999e+06" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0.0627" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.05" LQR_Pos="2600" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-50" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.015" LQR_LPF_Vel="0.015" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="200" F_Comp="0.015" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="120" Pos_IGain="0.001" Cur_Ki="27000" LQR_MaxVolt="40" Limit_Cur="0.4" Pos_PGain="10" JLimit_Max="225" Cur_Kp="6" Tooltip="SLIDE" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="6" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.9" G_Comp="0.01" Ch="2" Limit_Accel="240" Madv="-54522" JointType="PRISMATIC" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.015" LQR_Pos="58.5" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-98" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="300" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="250" Pos_IGain="0.001" Cur_Ki="30000" LQR_MaxVolt="40" Limit_Cur="0.18" Pos_PGain="6" JLimit_Max="98" Cur_Kp="2.5" Tooltip="ROLL" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="50" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="400" UnderCurrent_CurRatio="0.1" LQR_Vel="0.5" G_Comp="0" Ch="3" Limit_Accel="1600" Madv="270336" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="2000" PID_LPF_Cur="0"/>
+            <AIn Ch="0" Tooltip=""/>
+            <AIn Ch="1" Tooltip=""/>
+            <AIn Ch="11" Tooltip=""/>
+            <DIn Ch="0" Tooltip="Port Clutch"/>
+            <DIn Ch="1" Tooltip="Arm Clutch"/>
+            <DIn Ch="2" Tooltip="Metal Sensor"/>
+            <DIn Ch="3" Tooltip="Cannular Button"/>
+            <DIn Ch="4" Tooltip=""/>
+            <DOut Ch="0" Tooltip="Passive LED Green"/>
+            <DOut Ch="1" Tooltip="Passive LED Yellow"/>
+            <DOut Ch="2" Tooltip="Passive LED Red"/>
+            <DOut Ch="3" Tooltip="Yaw Clutch"/>
+            <DOut Ch="4" Tooltip="Slide LED Magenta"/>
+            <DOut Ch="5" Tooltip="Slide LED Green"/>
+            <DOut Ch="6"/>
+            <DOut Ch="7"/>
+            <DOut Ch="8" Tooltip="Pitch/Slide Clutch"/>
+            <Abs Ch="0" Madv="119.069767442" Tooltip="P1" HomeExt="20678" Home="0" JointType="PRISMATIC"/>
+            <Abs Ch="1" Madv="-4096" Tooltip="P2" Home="1006" JointType="REVOLUTE"/>
+            <Abs Ch="2" Madv="-4096" Tooltip="P3" Home="2769" JointType="REVOLUTE"/>
+            <Abs Ch="3" Madv="-4096" Tooltip="P4" Home="2823" JointType="REVOLUTE"/>
+            <Abs Ch="4" Madv="4096" Tooltip="YAW" MotorCh="0" Home="1495" JointType="REVOLUTE"/>
+            <Abs Ch="5" Madv="4096" Tooltip="PITCH" MotorCh="1" Home="1630" JointType="REVOLUTE"/>
+            <Abs Ch="6" Madv="-57.1909" Tooltip="SLIDE" MotorCh="2" Home="3026" JointType="PRISMATIC"/>
+            <Abs Ch="7" Madv="6144" Tooltip="ROLL" MotorCh="3" Home="2004" JointType="REVOLUTE"/>
+        </Device>
+        <Device RefreshTime="100" IP="192.168.38.184" ID="Slave_D">
+            <Motor JLimit_Min="-160" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.05" LQR_LPF_Vel="0.05" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="400" F_Comp="0.1" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="50" Pos_IGain="0" Cur_Ki="4000" LQR_MaxVolt="40" Limit_Cur="2.3" Pos_PGain="0" JLimit_Max="160" Cur_Kp="6.5" Tooltip="YAW" Cur_Kff="0" Stiffness_Current="2.3" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="20" Pos_DGain="0" Stiffness_Constant="3000" Stall_Ratio="340" UnderCurrent_CurRatio="0.1" LQR_Vel="2.5" G_Comp="-1.08" Ch="0" Limit_Accel="250" Madv="1.6384e+06" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="-0.04" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.05" LQR_Pos="5000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-65" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.05" LQR_LPF_Vel="0.05" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="400" F_Comp="0.1" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="50" Pos_IGain="0" Cur_Ki="3800" LQR_MaxVolt="40" Limit_Cur="2.3" Pos_PGain="0" JLimit_Max="85" Cur_Kp="6.5" Tooltip="PITCH" Cur_Kff="0" Stiffness_Current="3" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="16" Pos_DGain="0" Stiffness_Constant="3000" Stall_Ratio="340" UnderCurrent_CurRatio="0.1" LQR_Vel="2.8" G_Comp="0.7" Ch="1" Limit_Accel="250" Madv="-2.05671e+06" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="-0.01" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.05" LQR_Pos="4000" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-50" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.015" LQR_LPF_Vel="0.015" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="300" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="210" Pos_IGain="0.001" Cur_Ki="4800" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="1.1" JLimit_Max="275" Cur_Kp="16" Tooltip="SLIDE" Cur_Kff="0" Stiffness_Current="0.68" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="8" Pos_DGain="0.0015" Stiffness_Constant="200" Stall_Ratio="400" UnderCurrent_CurRatio="0.1" LQR_Vel="0.001" G_Comp="0.03" Ch="2" Limit_Accel="840" Madv="-7770.19" JointType="PRISMATIC" MCtl="LQR" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0.018" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.015" LQR_Pos="20" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="FINGER" Cur_Kff="0.1" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="40" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="3" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="PID" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="560" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="ROLL" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="25" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="4" Limit_Accel="4150" Madv="122880" JointType="INSTRUMENT" MCtl="PID" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="400" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-95" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="95" Cur_Kp="17" Tooltip="WRIST" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="25" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="5" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="PID" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="400" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="-170" UnderCurrent_VoltRatio="100" CUR_LPF_Vel="0.1" LQR_LPF_Vel="0.12" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="500" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="830" Pos_IGain="0.02" Cur_Ki="3400" LQR_MaxVolt="40" Limit_Cur="0.68" Pos_PGain="70" JLimit_Max="170" Cur_Kp="17" Tooltip="THUMB" Cur_Kff="0.1" Stiffness_Current="0" Cur_MaxVolt="40" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="40" Pos_DGain="0.01" Stiffness_Constant="0" Stall_Ratio="500" UnderCurrent_CurRatio="0.1" LQR_Vel="0.1" G_Comp="0" Ch="6" Limit_Accel="4150" Madv="-122880" JointType="INSTRUMENT" MCtl="PID" Limit_TrjGap="0" Vel_IGain="0" Vel_PGain="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0.1" LQR_Pos="550" PID_LPF_Cur="0"/>
+            <AIn Ch="0" Tooltip="Inst.Adapt/Inst"/>
+            <AIn Ch="1" Tooltip=""/>
+            <AIn Ch="2" Tooltip=""/>
+            <DIn Ch="0" Tooltip="Port Clutch"/>
+            <DIn Ch="1" Tooltip="Arm Clutch"/>
+            <DIn Ch="2" Tooltip=""/>
+            <DIn Ch="3" Tooltip="Cannular Button"/>
+            <DIn Ch="4" Tooltip="Instrument Adapter(A2D)"/>
+            <DIn Ch="5" Tooltip="Instrument(A2D)"/>
+            <DOut Ch="0" Tooltip="Passive LED Green"/>
+            <DOut Ch="1" Tooltip="Passive LED Yellow"/>
+            <DOut Ch="2" Tooltip="Passive LED Red"/>
+            <DOut Ch="3" Tooltip="Yaw Clutch"/>
+            <DOut Ch="4" Tooltip="Slide LED Magenta"/>
+            <DOut Ch="5" Tooltip="Slide LED Green"/>
+            <DOut Ch="6"/>
+            <DOut Ch="7"/>
+            <DOut Ch="8" Tooltip="Pitch/Slide Clutch"/>
+            <Abs Ch="0" Madv="119.069767442" Tooltip="P1" HomeExt="52083" Home="0" JointType="PRISMATIC"/>
+            <Abs Ch="1" Madv="-4096" Tooltip="P2" Home="3165" JointType="REVOLUTE"/>
+            <Abs Ch="2" Madv="4096" Tooltip="P3" Home="901" JointType="REVOLUTE"/>
+            <Abs Ch="3" Madv="-4096" Tooltip="P4" Home="1274" JointType="REVOLUTE"/>
+            <Abs Ch="4" Madv="4096" Tooltip="P5" Home="3711" JointType="REVOLUTE"/>
+            <Abs Ch="5" Madv="4096" Tooltip="YAW" MotorCh="0" Home="3936" JointType="REVOLUTE"/>
+            <Abs Ch="6" Madv="4096" Tooltip="PITCH" MotorCh="1" Home="854" JointType="REVOLUTE"/>
+            <Abs Ch="7" Madv="88.8022" Tooltip="SLIDE" MotorCh="2" Home="2628" JointType="PRISMATIC"/>
+            <Abs Ch="8" Madv="4096" Tooltip="FINGER" MotorCh="3" Home="643" JointType="INSTRUMENT"/>
+            <Abs Ch="9" Madv="4096" Tooltip="ROLL" MotorCh="4" Home="3486" JointType="INSTRUMENT"/>
+            <Abs Ch="10" Madv="4096" Tooltip="WRIST" MotorCh="5" Home="446" JointType="INSTRUMENT"/>
+            <Abs Ch="11" Madv="4096" Tooltip="THUMB" MotorCh="6" Home="1371" JointType="INSTRUMENT"/>
+        </Device>
+        <Device RefreshTime="100" IP="192.168.38.8" ID="Mobile">
+            <Motor JLimit_Min="0" UnderCurrent_VoltRatio="50" CUR_LPF_Vel="0" LQR_LPF_Vel="0" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="0" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="0" Pos_IGain="0" Cur_Ki="0" LQR_MaxVolt="0" Limit_Cur="0" Pos_PGain="0" JLimit_Max="0" Cur_Kp="0" Tooltip="Left Wheel" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="0" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="0" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="0" UnderCurrent_CurRatio="10" LQR_Vel="0" G_Comp="0" Ch="0" Limit_Accel="0" Madv="0" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="8" PID_LPF_Vel="0" LQR_Pos="0" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="0" UnderCurrent_VoltRatio="50" CUR_LPF_Vel="0" LQR_LPF_Vel="0" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="0" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="0" Pos_IGain="0" Cur_Ki="0" LQR_MaxVolt="0" Limit_Cur="0" Pos_PGain="0" JLimit_Max="0" Cur_Kp="0" Tooltip="Right Wheel" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="0" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="0" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="0" UnderCurrent_CurRatio="10" LQR_Vel="0" G_Comp="0" Ch="1" Limit_Accel="0" Madv="0" JointType="INSTRUMENT" MCtl="LQR" Limit_TrjGap="0" Trj="PAV" G_Offset="0" LQR_Cur="0" Cap="1" PID_LPF_Vel="0" LQR_Pos="0" PID_LPF_Cur="0"/>
+            <Abs Ch="0" Madv="4096" Tooltip="Direction" Home="0"/>
+            <Abs Ch="1" Madv="4096" Tooltip="Lever Left" Home="0"/>
+            <Abs Ch="2" Madv="-4096" Tooltip="Lever Right" Home="0"/>
+            <AIn Ch="0" Tooltip="Battery"/>
+            <AIn Ch="1" Tooltip="Foot Pos0"/>
+            <AIn Ch="2" Tooltip="Foot Pos1"/>
+            <AOut Ch="0"/>
+            <DIn Ch="0"/>
+            <DIn Ch="1"/>
+            <DIn Ch="2" Tooltip="Charger State0"/>
+            <DIn Ch="3" Tooltip="Charger State1"/>
+            <DIn Ch="4" Tooltip="Power Button"/>
+            <DIn Ch="5" Tooltip="Enable Switch Left"/>
+            <DIn Ch="6" Tooltip="Enable Switch Right"/>
+            <DIn Ch="7" Tooltip="Battery On"/>
+            <DOut Ch="0"/>
+            <DOut Ch="1" Tooltip="Tower LED1"/>
+            <DOut Ch="2" Tooltip="Tower LED2"/>
+            <DOut Ch="3" Tooltip="Tower LED3"/>
+            <DOut Ch="4" Tooltip="Motor Brake Left"/>
+            <DOut Ch="5" Tooltip="Motor Brake Right"/>
+            <DOut Ch="6" Tooltip="Wheel Brake"/>
+            <DOut Ch="7" Tooltip="Wheel Brake"/>
+            <DOut Ch="8" Tooltip="Battery LED 00"/>
+            <DOut Ch="9" Tooltip="Battery LED 01"/>
+            <DOut Ch="10" Tooltip="Battery LED 10"/>
+            <DOut Ch="11" Tooltip="Battery LED 11"/>
+            <DOut Ch="12" Tooltip="Battery LED 20"/>
+            <DOut Ch="13" Tooltip="Battery LED 21"/>
+            <DOut Ch="14" Tooltip="Battery LED 30"/>
+            <DOut Ch="15" Tooltip="Battery LED 31"/>
+            <DOut Ch="16" Tooltip="Power LED 0"/>
+            <DOut Ch="17" Tooltip="Power LED 1"/>
+            <DOut Ch="18" Tooltip="FW LED0"/>
+            <DOut Ch="19" Tooltip="FW LED1"/>
+            <DOut Ch="20" Tooltip="BK LED0"/>
+            <DOut Ch="21" Tooltip="BK LED1"/>
+            <DOut Ch="22" Tooltip="Foot LED Right"/>
+            <DOut Ch="23" Tooltip="Foot LED Left"/>
+            <DOut Ch="24" Tooltip="Battery Charger Reset"/>
+            <DOut Ch="25" Tooltip="Infinite Power On"/>
+            <DOut Ch="26" Tooltip="HUB Power On"/>
+            <DOut Ch="27" Tooltip="Passive Brake Power On"/>
+            <DOut Ch="28"/>
+            <DOut Ch="31" Tooltip="Boot LED Off"/>
+        </Device>
+        <Device RefreshTime="5" CommType="TCP" IP="192.168.38.10" ID="Vision">
+            <DIn Ch="0" Tooltip="Power Button"/>
+            <DIn Ch="1"/>
+            <DIn Ch="2" Tooltip="Vision PC Boot Complete"/>
+            <DIn Ch="3" Tooltip="Log PC Boot Complete"/>
+            <DOut Ch="0"/>
+            <DOut Ch="1" Tooltip="Power Button LED"/>
+            <DOut Ch="2" Tooltip="Vision PC Power On"/>
+            <DOut Ch="3" Tooltip="Camera Light Power On"/>
+            <DOut Ch="4" Tooltip="Camera Unit Power On"/>
+            <DOut Ch="5" Tooltip="Log PC Power On"/>
+            <DOut Ch="6"/>
+            <DOut Ch="7"/>
+            <DOut Ch="8"/>
+            <DOut Ch="9"/>
+            <DOut Ch="10" Tooltip="Monopolar Cut"/>
+            <DOut Ch="11" Tooltip="Monopolar Coag"/>
+            <DOut Ch="12" Tooltip="BiPolar"/>
+        </Device>
+        <Device RefreshTime="100" IP="192.168.38.124" ID="Console">
+            <Motor JLimit_Min="0" UnderCurrent_VoltRatio="50" CUR_LPF_Vel="0" LQR_LPF_Vel="0" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="0" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="0" Pos_IGain="0" Cur_Ki="0" LQR_MaxVolt="0" Limit_Cur="0" Pos_PGain="0" JLimit_Max="0" Cur_Kp="0" Tooltip="Display Up/Down" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="0" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="0" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="0" UnderCurrent_CurRatio="10" LQR_Vel="0" G_Comp="0" Ch="0" Limit_Accel="0" Madv="0" JointType="REVOLUTE" MCtl="LQR" Limit_TrjGap="0" Trj="PAV" G_Offset="0" LQR_Cur="0" PID_LPF_Vel="0" LQR_Pos="0" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="0" UnderCurrent_VoltRatio="50" CUR_LPF_Vel="0" LQR_LPF_Vel="0" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="0" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="0" Pos_IGain="0" Cur_Ki="0" LQR_MaxVolt="0" Limit_Cur="0" Pos_PGain="0" JLimit_Max="0" Cur_Kp="0" Tooltip="Display Tilt" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="0" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="0" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="0" UnderCurrent_CurRatio="10" LQR_Vel="0" G_Comp="0" Ch="1" Limit_Accel="0" Madv="0" JointType="PRISMATIC" MCtl="LQR" Limit_TrjGap="0" Trj="PAV" G_Offset="0" LQR_Cur="0" PID_LPF_Vel="0" LQR_Pos="0" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="0" UnderCurrent_VoltRatio="50" CUR_LPF_Vel="0" LQR_LPF_Vel="0" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="0" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="0" Pos_IGain="0" Cur_Ki="0" LQR_MaxVolt="0" Limit_Cur="0" Pos_PGain="0" JLimit_Max="0" Cur_Kp="0" Tooltip="Armrest" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="0" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="0" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="0" UnderCurrent_CurRatio="10" LQR_Vel="0" G_Comp="0" Ch="2" Limit_Accel="0" Madv="0" JointType="PRISMATIC" MCtl="LQR" Limit_TrjGap="0" Trj="PAV" G_Offset="0" LQR_Cur="0" PID_LPF_Vel="0" LQR_Pos="0" PID_LPF_Cur="0"/>
+            <Motor JLimit_Min="0" UnderCurrent_VoltRatio="50" CUR_LPF_Vel="0" LQR_LPF_Vel="0" SmoothStop_Ratio="1" Cur_Ka="0" Velocity_Ratio="0" F_Comp="0" CUR_LPF_Cur="0" LQR_LPF_Cur="0" MaxJump_Range="0" Limit_Vel="0" Pos_IGain="0" Cur_Ki="0" LQR_MaxVolt="0" Limit_Cur="0" Pos_PGain="0" JLimit_Max="0" Cur_Kp="0" Tooltip="Foot Panel" Cur_Kff="0" Stiffness_Current="0" Cur_MaxVolt="0" LQR_PosInt="0" PTP_Ratio="20" Error_Deg="0" Pos_DGain="0" Stiffness_Constant="0" Stall_Ratio="0" UnderCurrent_CurRatio="10" LQR_Vel="0" G_Comp="0" Ch="3" Limit_Accel="0" Madv="0" JointType="PRISMATIC" MCtl="LQR" Limit_TrjGap="0" Trj="PAV" G_Offset="0" LQR_Cur="0" PID_LPF_Vel="0" LQR_Pos="0" PID_LPF_Cur="0"/>
+            <Abs Ch="0" Madv="67108" Tooltip="Display Up/Down" HomeExt="123" Home="0"/>
+            <Abs Ch="1" Madv="4096" Tooltip="Display Tilt" Home="0"/>
+            <AIn Ch="0" Tooltip="Armrest.L"/>
+            <AIn Ch="1" Tooltip="Armrest.R"/>
+            <AIn Ch="2" Tooltip="Foot Position"/>
+            <AIn Ch="3" Tooltip="Foot None"/>
+            <AIn Ch="4" Tooltip="Foot Mono Cut"/>
+            <AIn Ch="5" Tooltip="Foot Bipolar"/>
+            <AIn Ch="6" Tooltip="Foot Mono Coag"/>
+            <AIn Ch="7" Tooltip="Foot Clutch"/>
+            <AIn Ch="8" Tooltip="Foot Camera"/>
+            <AIn Ch="9" Tooltip="Armrest.L Current"/>
+            <AIn Ch="10" Tooltip="Armrest.R Current"/>
+            <AIn Ch="11" Tooltip="Tilt Current"/>
+            <AIn Ch="13" Tooltip="Revo Sonic Min"/>
+            <AIn Ch="14" Tooltip="Revo Sonic Max"/>
+            <DIn Ch="0" Tooltip="[Button]Start/Stop"/>
+            <DIn Ch="1" Tooltip="[Button]Emergency"/>
+            <DIn Ch="2" Tooltip="[Sensor]Wheel Brake Left"/>
+            <DIn Ch="3" Tooltip="[Sensor]Wheel Brake Right"/>
+            <DIn Ch="4" Tooltip="[Switch]Foot Down(Out)"/>
+            <DIn Ch="5" Tooltip="[Switch]Foot Up(In)"/>
+            <DIn Ch="6" Tooltip="[Switch]Display Down"/>
+            <DIn Ch="7" Tooltip="[Switch]Display Up"/>
+            <DIn Ch="8" Tooltip="[Switch]Display Tilt Down"/>
+            <DIn Ch="9" Tooltip="[Switch]Display Tilt Up"/>
+            <DIn Ch="10" Tooltip="[Switch]Armrest Down"/>
+            <DIn Ch="11" Tooltip="[Switch]Armrest Up"/>
+            <DIn Ch="12"/>
+            <DIn Ch="13"/>
+            <DIn Ch="14" Tooltip="[Sensor]Display Limit Up"/>
+            <DIn Ch="15" Tooltip="[Sensor]Display Limit Down"/>
+            <DIn Ch="16" Tooltip="[Sensor]Armrest Limit Up"/>
+            <DIn Ch="17" Tooltip="[Sensor]Armrest Limit Down"/>
+            <DIn Ch="18" Tooltip="[Sensor]Foot Limit Out"/>
+            <DIn Ch="19" Tooltip="[Sensor]Foot Limit In"/>
+            <DIn Ch="20" Tooltip="[Sensor]Foot Detector Vertical Left"/>
+            <DIn Ch="21" Tooltip="[Sensor]Foot Detector Vertical Right"/>
+            <DIn Ch="22" Tooltip="[Switch]Foot Arm Swap"/>
+            <DIn Ch="23" Tooltip="[Sensor]Head In Right Down"/>
+            <DIn Ch="24" Tooltip="[Sensor]Head In Left Down"/>
+            <DIn Ch="25" Tooltip="[Sensor]Head In Left Up"/>
+            <DIn Ch="26" Tooltip="[Sensor]Head In Right Up"/>
+            <DIn Ch="27"/>
+            <DIn Ch="28"/>
+            <DIn Ch="29" Tooltip="[Sensor]Display Tilt Limit Down"/>
+            <DIn Ch="30" Tooltip="[Sensor]Diaplay Tilt Limit Up"/>
+            <DIn Ch="31" Tooltip="[Sensor]Foot Detector Horizontal"/>
+            <DOut Ch="0"/>
+            <DOut Ch="1"/>
+            <DOut Ch="2" Tooltip="Start/Stop LED"/>
+            <DOut Ch="3" Tooltip="Emergency LED"/>
+            <DOut Ch="4"/>
+            <DOut Ch="5"/>
+            <DOut Ch="6"/>
+            <DOut Ch="7"/>
+            <DOut Ch="8"/>
+            <DOut Ch="9"/>
+            <DOut Ch="10"/>
+            <DOut Ch="11" Tooltip="Display Up/Down Brake Release"/>
+        </Device>
+    </DeviceList>
+</Settings>

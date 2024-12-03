@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:element name="Settings" type="MonitoringSettings"></xsd:element>
+
+	<xsd:complexType name="MonitoringSettings">
+		<xsd:sequence>
+			<xsd:element ref="DeviceList"></xsd:element>
+			<xsd:element ref="DeployList" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+
+	</xsd:complexType>
+
+	<xsd:complexType name="Network">
+		<xsd:attribute name="IP" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="Port" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
+
+    <xsd:element name="DeviceList" type="DeviceListType"></xsd:element>
+    
+    <xsd:complexType name="DeviceType">
+    	<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+    		<xsd:element name="Motor" type="MotorType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    		<xsd:element name="Abs" type="AbsoluteType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    		<xsd:element name="AIn" type="AInType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    		<xsd:element name="AOut" type="AOutType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    		<xsd:element name="DIn" type="DInType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    		<xsd:element name="DOut" type="DOutType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    		<xsd:element name="Enc" type="AbsoluteType" minOccurs="0" maxOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="ID" use="required">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:enumeration value="Master_R"></xsd:enumeration>
+    				<xsd:enumeration value="Master_L"></xsd:enumeration>
+    				<xsd:enumeration value="Slave_A"></xsd:enumeration>
+    				<xsd:enumeration value="Slave_B"></xsd:enumeration>
+    				<xsd:enumeration value="Slave_C"></xsd:enumeration>
+    				<xsd:enumeration value="Slave_D"></xsd:enumeration>
+    				<xsd:enumeration value="Console"></xsd:enumeration>
+    				<xsd:enumeration value="Operation"></xsd:enumeration>
+    				<xsd:enumeration value="Vision"></xsd:enumeration>
+    				<xsd:enumeration value="Overlay"></xsd:enumeration>
+    				<xsd:enumeration value="InstrumentKit"></xsd:enumeration>
+    				<xsd:enumeration value="Mobile"></xsd:enumeration>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attributeGroup ref="Network"></xsd:attributeGroup>
+    	<xsd:attribute name="Disable" type="xsd:boolean">
+    	</xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:element name="IOList" type="IOListType"></xsd:element>
+
+    <xsd:complexType name="DeviceListType">
+    	<xsd:sequence>
+    		<xsd:element name="Device" type="DeviceType" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="Default" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="For" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="IOListType">
+    	<xsd:sequence>
+            <xsd:element name="AnalogIO" type="AnalogIOType" maxOccurs="6"></xsd:element>
+            <xsd:element name="Encoder" type="EncoderType" maxOccurs="21"></xsd:element>
+            <xsd:element name="Actuator" type="ActuatorType" maxOccurs="7"></xsd:element>
+            <xsd:element name="DigitalIO" type="DigitalIOType" minOccurs="1" maxOccurs="21"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:attributeGroup name="Network">
+    	<xsd:attribute name="IP">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:pattern value="\d+.\d+.\d+.\d+"></xsd:pattern>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Port" type="xsd:int"></xsd:attribute>
+    	<xsd:attribute name="CommType">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:enumeration value="TCP"></xsd:enumeration>
+    				<xsd:enumeration value="UDP"></xsd:enumeration>
+    				<xsd:enumeration value="RS232"></xsd:enumeration>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="RefreshTime" type="xsd:int"></xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:complexType name="DInType">
+        <xsd:attributeGroup ref="BasicAttr"></xsd:attributeGroup>
+    </xsd:complexType>
+
+    <xsd:complexType name="DOutType">  
+        <xsd:attributeGroup ref="BasicAttr"></xsd:attributeGroup>
+    </xsd:complexType>
+
+    <xsd:group name="DIO">
+    	<xsd:sequence>
+    		<xsd:element name="DI" type="DInType"></xsd:element>
+    		<xsd:element name="DO" type="DOutType"></xsd:element>
+    	</xsd:sequence>
+    </xsd:group>
+
+    <xsd:complexType name="DigitalIOType">
+    	<xsd:sequence>
+    		<xsd:element name="DOUT" type="DOutType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    		<xsd:element name="DIN" type="DInType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="AOutType">
+        <xsd:attributeGroup ref="BasicAttr"></xsd:attributeGroup>
+    </xsd:complexType>
+
+    <xsd:attributeGroup name="BasicAttr">
+    	<xsd:attribute name="Ch" type="xsd:int" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Model" type="xsd:string" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Mapping" type="xsd:boolean" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Enable" type="xsd:boolean" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Tooltip" type="xsd:string" use="optional"></xsd:attribute>
+    	<xsd:attribute name="MotorCh" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:int">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="6"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Count" type="xsd:int"></xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:complexType name="AInType">
+    	<xsd:attributeGroup ref="BasicAttr"></xsd:attributeGroup>
+    	<xsd:attribute name="tau1" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="tau2" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="m" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="b" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="swRef" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="swTh" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="fitGain" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="fitOffset" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="k1" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="k2" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="k3" type="xsd:double" use="optional"></xsd:attribute>
+    	<xsd:attribute name="fitSwRef" type="xsd:double" use="optional"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="AnalogIOType">
+    	<xsd:sequence>
+    		<xsd:element name="AOUT" type="AOutType" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+    		<xsd:element name="AIN" type="AInType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ActuatorType">
+    	<xsd:sequence>
+    		<xsd:element name="Motor" type="MotorType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="MotorType">
+    	<xsd:attributeGroup ref="BasicAttr"></xsd:attributeGroup>
+    	<xsd:attributeGroup ref="MotorAttr"></xsd:attributeGroup>
+    	<xsd:attribute name="Trj" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="TrjType">
+    				<xsd:enumeration value="PAV"></xsd:enumeration>
+    				<xsd:enumeration value="PTP"></xsd:enumeration>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="MCtl" type="xsd:string" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Cap" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:enumeration value="0.5"></xsd:enumeration>
+    				<xsd:enumeration value="1"></xsd:enumeration>
+    				<xsd:enumeration value="3"></xsd:enumeration>
+    				<xsd:enumeration value="8"></xsd:enumeration>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Madv" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute ref="JointType"></xsd:attribute>
+    	<xsd:attribute name="Error_Deg" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float"></xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="JLimit_Min" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="JLimit_Max" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Stall_Ratio" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float"></xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Velocity_Ratio" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float"></xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="UnderCurrent_CurRatio" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="100"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="UnderCurrent_VoltRatio" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:maxInclusive value="100"></xsd:maxInclusive>
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="MaxJump_Range" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float"></xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="PTP_Ratio" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="100"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="SmoothStop_Ratio" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:maxInclusive value="100"></xsd:maxInclusive>
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Limit_TrjGap" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Stiffness_Constant" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Stiffness_Current" type="xsd:float" use="optional"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="EncoderType">
+    	<xsd:sequence>
+    		<xsd:element name="Absolute" type="AbsoluteType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="AbsoluteType">
+    	<xsd:attributeGroup ref="BasicAttr"></xsd:attributeGroup>
+    	<xsd:attribute name="Home" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:int">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="4095"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute ref="JointType"></xsd:attribute>
+    	<xsd:attribute name="Madv" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="HomeExt" type="xsd:int" use="optional"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:attributeGroup name="MotorAttr">
+    	<xsd:attribute name="Cur_Kp" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Cur_Ki" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Cur_Ka" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Cur_Kff" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Cur_MaxVolt" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="LQR_Pos" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="LQR_Vel" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="LQR_Cur" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="LQR_PosInt" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="LQR_MaxVolt" type="xsd:float"></xsd:attribute>
+    	<xsd:attribute name="Limit_Accel" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Limit_Vel" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Limit_Cur" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Pos_PGain" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Pos_IGain" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Pos_DGain" type="xsd:float" use="optional"></xsd:attribute>
+    	<xsd:attribute name="Vel_PGain" type="xsd:float"></xsd:attribute>
+    	<xsd:attribute name="Vel_IGain" type="xsd:float"></xsd:attribute>
+    	<xsd:attribute name="G_Comp" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="-1.5"></xsd:minInclusive>
+    				<xsd:maxInclusive value="1.5"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="G_Offset" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="-1.0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="1.0"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="F_Comp" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="-1.0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="1.0"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="CUR_LPF_Cur" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:maxInclusive value="1"></xsd:maxInclusive>
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="CUR_LPF_Vel" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="1"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="LQR_LPF_Cur" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="1"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="LQR_LPF_Vel" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="1"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="PID_LPF_Cur" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="1"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="PID_LPF_Vel" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="1"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:simpleType name="TrjType">
+    	<xsd:restriction base="xsd:string"></xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="MCtlType">
+    	<xsd:restriction base="xsd:string"></xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:attributeGroup name="WidgetAttr">
+    	<xsd:attribute name="ID" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="WType" type="WTypeType"></xsd:attribute>
+    	<xsd:attribute name="Pos.x">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="100"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Pos.y">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="100"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Text" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="Image" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="Enable" type="xsd:boolean"></xsd:attribute>
+    	<xsd:attribute name="Width">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="100"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Height">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:float">
+    				<xsd:minInclusive value="0"></xsd:minInclusive>
+    				<xsd:maxInclusive value="100"></xsd:maxInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="Tooltip" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="BGColor" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="FGColor" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="IO">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:pattern value="(AI)?(AO)?(DI)?(DO)?(ABS)?(MO)?(MI)?(CPG)?(CIG)?(PPG)?(VPG)?(VIG)?(CCL)?(MSL)?(ACL)?(DCL)?:\d+"></xsd:pattern>
+    				<xsd:pattern value="COMM:(SET)?(GET)?:.+:\d+:\d+"></xsd:pattern>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="ImageU" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="ImageD" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="Checked" type="xsd:boolean"></xsd:attribute>
+    	<xsd:attribute name="StyleSheet" type="xsd:string"></xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:simpleType name="WTypeType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:enumeration value="PushButton"></xsd:enumeration>
+    		<xsd:enumeration value="CheckBox"></xsd:enumeration>
+    		<xsd:enumeration value="ProgressBar"></xsd:enumeration>
+    		<xsd:enumeration value="Label"></xsd:enumeration>
+    		<xsd:enumeration value="ComboBox"></xsd:enumeration>
+    		<xsd:enumeration value="SpinBox"></xsd:enumeration>
+    		<xsd:enumeration value="DoubleSpinBox"></xsd:enumeration>
+    	</xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="DeployList" type="DeployListType"></xsd:element>
+
+    <xsd:complexType name="DeployListType">
+    	<xsd:sequence>
+    		<xsd:element name="Deploy" type="DeployType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="DeployType">
+    	<xsd:sequence>
+    		<xsd:element ref="Widget" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="ID">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string"></xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attributeGroup ref="Network"></xsd:attributeGroup>
+    </xsd:complexType>
+
+    <xsd:complexType name="WidgetType">
+        <xsd:attributeGroup ref="WidgetAttr"></xsd:attributeGroup>
+    </xsd:complexType>
+
+    <xsd:element name="Deploy" type="WidgetType"></xsd:element>
+
+    <xsd:element name="Widget" type="WidgetType"></xsd:element>
+
+    <xsd:attribute name="JointType">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:enumeration value="PRISMATIC"></xsd:enumeration>
+    			<xsd:enumeration value="REVOLUTE"></xsd:enumeration>
+    			<xsd:enumeration value="INSTRUMENT"></xsd:enumeration>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:attribute>
+
+</xsd:schema>

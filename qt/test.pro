@@ -1,5 +1,5 @@
 
-QT += core gui widgets
+QT += core gui widgets xml xmlpatterns svg
 
 INCLUDERPATH = $$PWD $$files("./include/*.h", true)
 
@@ -7,6 +7,11 @@ HEADERS = $$INCLUDERPATH
 
 SOURCES = test.cpp $$files("./src/*.cpp", true)
 
+!isEmpty(VER_STR){
+    VER_STR = ver\\:1.1.2\\($${VER_STR}\\)
+}
+
+DEFINES += VER=\\\"$${VER_STR}\\\"
 DEFINES += "__DEBUG_ON__"
 
 FORMS    += mainwindow.ui
@@ -18,3 +23,5 @@ ENABLE_QT4 {
 }
 else {
 }
+
+RESOURCES += XSD.qrc
