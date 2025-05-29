@@ -43,6 +43,26 @@ void Settings::connectWidgetEvent()
 
 void Settings::setupUI()
 {
+    tablewidget_Motor = new QTableWidget(Table::ROW, Table::COLUMN_MOTOR);
+    tablewidget_Motor->setHorizontalHeaderLabels(QStringList() << Table::CURRENT_KP_GAIN << Table::CURRENT_KI_GAIN
+                                                 << Table::CURRENT_KA_GAIN << Table::CURRENT_KFF_GAIN
+                                                 << Table::CURRENT_MAX_VOLT_GAIN << Table::LQR_POS_GAIN << Table::LQR_VEL_GAIN
+                                                 << Table::LQR_CURR_GAIN << Table::LQR_POS_INT_GAIN << Table::LQR_MAX_VOLT_GAIN
+                                                 << Table::POS_P_GAIN << Table::POS_I_GAIN << Table::POS_D_GAIN
+                                                 << Table::LIMIT_TRJGAP << Table::LIMIT_ACCEL << Table::LIMIT_VEL
+                                                 << Table::LIMIT_CURR << Table::ERROR_DEG << Table::JLIMIT_MIN << Table::JLIMIT_MAX
+                                                 << Table::STALL_RATIO << Table::VELOCITY_RATIO << Table::ABSOLUTE_HOME
+                                                 << Table::G_COMP << Table::G_OFFSET << Table::F_COMP << Table::MOTOR_MADV
+                                                 << Table::ABSOLUTE_MADV << Table::UNDERCURRENT_CURRATIO << Table::UNDERCURRENT_VOLTRATIO
+                                                 << Table::STIFFNESS_CONSTANT << Table::STIFFNESS_CURRENT << Table::CUR_LPF_CUR << Table::CUR_LPF_VEL
+                                                 << Table::LQR_LPF_CUR << Table::LQR_LPF_VEL << Table::PID_LPF_CUR << Table::PID_LPF_VEL);
+
+    tablewidget_Motor->setVerticalHeaderLabels(QStringList() << STR_ALL << "0" << "1" << "2" << "3" << "4" << "5" << "6");
+    tablewidget_Motor->setAlternatingRowColors(true);
+    tablewidget_Motor->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    tablewidget_Motor->setMinimumHeight(240);
+
+
     lineEdit_Settings_file_Path->setText(QString(VER));
     layout->addWidget(new QLabel(STR_VERSION), 0, 0, 1, 1);
     layout->addWidget(new QLabel(VER), 0, 1, 1, 1);
@@ -53,6 +73,7 @@ void Settings::setupUI()
     layout->addWidget(tablewidget_Device_Settings, 3,0,1,6);
     layout->addWidget(pushbtn_Load, 4,4,1,1);
     layout->addWidget(pushbtn_Save, 4,5,1,1);
+    layout->addWidget(tablewidget_Motor, 5, 0, 7, 0);
 
     tablewidget_Device_Settings->setHorizontalHeaderLabels(QStringList()
                                                          << Table::IP << Table::Port

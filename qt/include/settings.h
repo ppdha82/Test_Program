@@ -35,6 +35,7 @@ private:
     void setupUI();
 
     QComboBox combobox_CommType[Table::LOW_SETTINGS_DEVICES];
+    QTableWidget *tablewidget_Motor;
 
 signals:
     void changed();
