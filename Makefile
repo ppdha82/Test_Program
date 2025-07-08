@@ -5,24 +5,32 @@ TOP_DIR=$(PWD)
 COMPILER_TYPE=CPP
 PLATFORM=X86
 #PLATFORM=ARM
-TARGET=test_jansson
+# TARGET=exam_cstdio
 #TARGET=analysis_ai_metadata
-#TARGET=dirent
+TARGET=memoryManager
+BAEKJOON_NO=5597
 
 FLAG=-D'__DEBUG_ON__'
 CFLAG=-D'__DEBUG_ON__'
+CPP_FLAG=-D'__DEBUG_ON__'
+# CPP_STRING_FLAG=-std=c++0x
+CPP_STRING_FLAG=--std=c++11
+CPP_FLAG+=$(CPP_STRING_FLAG)
+INC_DIR=-I$(TOP_DIR)/include
 
 ifeq ($(COMPILER_TYPE), C)
 SRC_DIR=c_source
 COMPILER=ccdv gcc
 EXT_NAME=c
+FLAG=$(CFLAG)
 endif
 ifeq ($(COMPILER_TYPE), CPP)
 SRC_DIR=cpp_source
 COMPILER=ccdv g++
 EXT_NAME=cpp
+FLAG=$(CPP_FLAG)
 endif
-FLAG+=-lpthread
+#FLAG+=-lpthread
 MAIN_FILE=$(TOP_DIR)/$(SRC_DIR)/$(TARGET).$(EXT_NAME)
 
 TARGET_DIR=$(TOP_DIR)
@@ -30,13 +38,7 @@ TARGET_LIB_DIR=$(TOP_DIR)
 OUTPUT_DIR=output
 RM=rm
 
-CPP_STRING_FLAG=-std=c++0x
-CPP_FLAG=-D'__DEBUG_ON__'
-CPP_FLAG+=$(CPP_STRING_FLAG)
-INC_DIR=-I$(TOP_DIR)/include
-BAEKJOON_NO=5597
-
-OPENCV_OPT=$(shell pkg-config opencv4 --libs --cflags)
+#OPENCV_OPT=$(shell pkg-config opencv4 --libs --cflags)
 
 opencv:
 	@echo build $@
@@ -82,7 +84,7 @@ $(TARGET):
 	chmod 755 $@
 	@echo =========== build end ===========
 
-clean: opencv_clean
+clean:
 	@echo $@
 	@echo Removing: $(TARGET) lib$(2).so
 	@rm -f $(TARGET) lib$(TARGET).so
