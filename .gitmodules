@@ -1,0 +1,6 @@
+[submodule "pymacro"]
+	path = pymacro
+	url = https://github.com/needleworm/pymacro/
+[submodule "python/pymacro"]
+	path = python/pymacro
+	url = https://github.com/needleworm/pymacro/
